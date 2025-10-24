@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_REMOTE_CACHE_SIGNATURE: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE }}
+      TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
       TURBO_REMOTE_CACHE_URL: ${{ secrets.TURBO_REMOTE_CACHE_URL }}
 
     steps:
