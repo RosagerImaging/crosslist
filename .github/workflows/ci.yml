@@ -33,10 +33,10 @@ jobs:
           echo "TURBO_REMOTE_CACHE_URL is set: ${TURBO_REMOTE_CACHE_URL:+true}"
 
       - name: Lint
-        run: npm run lint -- --remote-cache-url=${{ env.TURBO_REMOTE_CACHE_URL }} --remote-cache-token=${{ env.TURBO_TOKEN }} --remote-cache-signature-key=${{ env.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+        run: npm run lint
 
       - name: Type Check
-        run: npm run check-types -- --remote-cache-url=${{ env.TURBO_REMOTE_CACHE_URL }} --remote-cache-token=${{ env.TURBO_TOKEN }} --remote-cache-signature-key=${{ env.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+        run: npm run check-types
 
       - name: Build
-        run: npm run build -- --remote-cache-url=${{ env.TURBO_REMOTE_CACHE_URL }} --remote-cache-token=${{ env.TURBO_TOKEN }} --remote-cache-signature-key=${{ env.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+        run: npm run build
