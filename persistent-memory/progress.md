@@ -8,6 +8,7 @@
 - **2025-10-25**: Updated `@types/node`, `@types/react`, `@types/react-dom`, `eslint-plugin-react-hooks`, and `typescript` packages to their latest versions.
 - **2025-10-25**: Updated `apps/web/postcss.config.js` to use ES module syntax.
 - **2025-10-25**: Updated `apps/web/tailwind.config.js` to use ES module syntax.
+- **2025-10-25**: Removed `--max-warnings 0` flag from the `lint` script in `apps/web/package.json`.
 
 ## Next Steps:
 
