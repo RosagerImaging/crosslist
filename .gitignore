@@ -36,3 +36,16 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+private-secrets
+
+# LLMs
+.gemini
+GEMINI.md
+.claude
+CLAUDE.md
+.roo
+.roomodes
+
+# Repo Management
+.husky
+
