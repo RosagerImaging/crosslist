@@ -10,7 +10,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "version-packages": "changeset version",
-    "publish-packages": "turbo run build && changeset publish",
+    "publish-packages": "npx turbo run build && changeset publish",
     "generate-changeset": "node scripts/generate-changeset-summary.js",
     "prepare": "husky"
   },

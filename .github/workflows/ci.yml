@@ -35,10 +35,10 @@ jobs:
 
 
       - name: Lint
-        run: npm run lint
+        run: npx turbo run lint
 
       - name: Type Check
-        run: npm run check-types
+        run: npx turbo run check-types
 
       - name: Build
-        run: npm run build
+        run: npx turbo run build
