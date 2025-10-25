@@ -1,0 +1,7 @@
+- **Monorepo:** Turborepo with npm workspaces.
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS.
+- **Backend:** Python with FastAPI.
+- **Linting:** ESLint, Prettier.
+- **Testing:** Pytest.
+- **Chrome Extension:** Vanilla TypeScript.
+- **UI:** Shadcn-UI.

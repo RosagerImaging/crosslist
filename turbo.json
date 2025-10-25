@@ -24,27 +24,27 @@
       "outputs": ["packages/*/package.json", "apps/*/package.json"]
     },
     "install:api": {
-      "command": "cd apps/api && poetry install",
+      "run": "cd apps/api && poetry install",
       "outputs": ["apps/api/.venv/**"]
     },
     "lint:api": {
-      "command": "cd apps/api && poetry run ruff check ."
+      "run": "cd apps/api && poetry run ruff check ."
     },
     "test:api": {
-      "command": "cd apps/api && poetry run pytest"
+      "run": "cd apps/api && poetry run pytest"
     },
     "dev:api": {
-      "command": "cd apps/api && poetry run uvicorn main:app --reload",
+      "run": "cd apps/api && poetry run uvicorn main:app --reload",
       "cache": false,
       "persistent": true
     },
     "generate:api-client": {
       "dependsOn": ["dev:api"],
-      "command": "openapi-typescript-codegen --input http://localhost:8000/openapi.json --output packages/api-client/src --client axios"
+      "run": "openapi-typescript-codegen --input http://localhost:8000/openapi.json --output packages/api-client/src --client axios"
     },
     "build:chrome": {
       "dependsOn": ["^build"],
-      "command": "cd apps/chrome-extension && vite build && node scripts/zip-extension.js",
+      "run": "cd apps/chrome-extension && vite build && node scripts/zip-extension.js",
       "outputs": ["apps/chrome-extension/dist/**", "apps/chrome-extension/extension.zip"]
     }
   }

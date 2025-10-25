@@ -1,0 +1,2 @@
+- **Commit Style:** The project uses conventional commits, as indicated by `@commitlint/config-conventional`.
+- **Code Style:** The ESLint configuration is based on a shared config from `@repo/eslint-config`. It uses different configurations for Next.js apps, the Chrome extension, and the API client.

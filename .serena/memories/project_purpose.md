@@ -1,0 +1,1 @@
+The project is an AI Native e-commerce reseller's inventory management system in the form of a web app using autonomous AI agents for each aspect of the process. It includes features like cross-listing, listing optimization, sourcing, promotion, trend analysis, liquidation, and customer service. It also has a Chrome extension to connect to marketplaces.
