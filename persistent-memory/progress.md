@@ -9,6 +9,7 @@
 - **2025-10-25**: Updated `apps/web/postcss.config.js` to use ES module syntax.
 - **2025-10-25**: Updated `apps/web/tailwind.config.js` to use ES module syntax.
 - **2025-10-25**: Removed `--max-warnings 0` flag from the `lint` script in `apps/web/package.json`.
+- **2025-10-25**: Removed `--max-warnings 0` flag from the `lint` script in `apps/docs/package.json`.
 
 ## Next Steps:
 
