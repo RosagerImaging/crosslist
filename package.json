@@ -12,7 +12,13 @@
     "version-packages": "changeset version",
     "publish-packages": "npx turbo run build && changeset publish",
     "generate-changeset": "node scripts/generate-changeset-summary.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "install:api": "cd apps/api && poetry install",
+    "lint:api": "cd apps/api && poetry run ruff check .",
+    "test:api": "cd apps/api && poetry run pytest",
+    "dev:api": "cd apps/api && poetry run uvicorn main:app --reload",
+    "generate:api-client": "openapi-typescript-codegen --input http://localhost:8000/openapi.json --output packages/api-client/src --client axios",
+    "build:chrome": "cd apps/chrome-extension && vite build && node scripts/zip-extension.js"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
