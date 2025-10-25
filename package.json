@@ -11,6 +11,7 @@
     "check-types": "turbo run check-types",
     "version-packages": "changeset version",
     "publish-packages": "turbo run build && changeset publish",
+    "generate-changeset": "node scripts/generate-changeset-summary.js",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -18,10 +19,12 @@
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@eslint/eslintrc": "^3.3.1",
+    "@google/generative-ai": "^0.24.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "openapi-typescript-codegen": "^0.29.0",
     "prettier": "^3.6.2",
+    "prompts": "^2.4.2",
     "turbo": "^2.5.8",
     "typescript": "5.9.2"
   },
