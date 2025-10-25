@@ -11,17 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
-      TURBO_REMOTE_CACHE_URL: ${{ secrets.TURBO_REMOTE_CACHE_URL }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Or your preferred Node.js version
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -29,8 +31,8 @@ jobs:
       - name: Debug Turborepo Environment Variables
         run: |
           echo "TURBO_TOKEN is set: ${TURBO_TOKEN:+true}"
-          echo "TURBO_REMOTE_CACHE_SIGNATURE_KEY is set: ${TURBO_REMOTE_CACHE_SIGNATURE_KEY:+true}"
-          echo "TURBO_REMOTE_CACHE_URL is set: ${TURBO_REMOTE_CACHE_URL:+true}"
+          echo "TURBO_TEAM is set: ${TURBO_TEAM:+true}"
+
 
       - name: Lint
         run: npm run lint
