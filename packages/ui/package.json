@@ -9,7 +9,8 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -17,8 +18,10 @@
     "@types/node": "^24.9.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
     "eslint": "^9.34.0",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "^4.0.4"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "archiver": "^7.0.1"
+    "@vitejs/plugin-react": "^5.1.0",
+    "archiver": "^7.0.1",
+    "vitest": "^4.0.4"
   }
 }
