@@ -28,6 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: typescript, python
+
       - name: Debug Turborepo Environment Variables
         run: |
           echo "TURBO_TOKEN is set: ${TURBO_TOKEN:+true}"
@@ -42,3 +47,15 @@ jobs:
 
       - name: Build
         run: npx turbo run build
+
+      - name: Test
+        run: npx turbo run test
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx turbo run test --filter=e2e
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
