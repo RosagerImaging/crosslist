@@ -21,7 +21,7 @@
     "@vitejs/plugin-react": "^5.1.0",
     "eslint": "^9.34.0",
     "typescript": "5.9.3",
-    "vitest": "^4.0.4"
+    "vitest": "^4.0.5"
   },
   "dependencies": {
     "react": "^19.1.0",
