@@ -28,7 +28,37 @@ jobs:
           persist-credentials: false
 
       - name: Super-linter
-        uses: super-linter/super-linter@v8.2.1 # x-release-please-version
+        uses: super-linter/super-linter@latest # x-release-please-version
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAIL_ON_CONFLICTING_TOOLS_ENABLED: true
+          FAIL_ON_INVALID_GITHUB_ACTIONS_EVENT_CONFIGURATION: true
+          VALIDATE_BASH: true
+          VALIDATE_BASH_EXEC: true
+          VALIDATE_CSS: true
+          VALIDATE_CSS_PRETTIER: true
+          VALIDATE_DOCKERFILE_HADOLINT: true
+          VALIDATE_ENV: true
+          VALIDATE_GIT_MERGE_CONFLICT_MARKERS: true
+          VALIDATE_GITHUB_ACTIONS: true
+          VALIDATE_GITLEAKS: true
+          VALIDATE_GRAPHQL_PRETTIER: true
+          VALIDATE_HTML: true
+          VALIDATE_HTML_PRETTIER: true
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_JAVASCRIPT_PRETTIER: true
+          VALIDATE_XML: true
+          VALIDATE_TYPESCRIPT_PRETTIER: true
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_TSX: true
+          VALIDATE_SQLFLUFF: true
+          VALIDATE_PYTHON_RUFF_FORMAT: true
+          VALIDATE_PYTHON_RUFF: true
+          VALIDATE_PYTHON_MYPY: true
+          VALIDATE_OPENAPI: true
+          VALIDATE_JSX_PRETTIER: true
+          VALIDATE_JSX: true
+          VALIDATE_JSON_PRETTIER: true
+          VALIDATE_JSON: true
+          
