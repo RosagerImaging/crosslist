@@ -29,4 +29,10 @@ export const config = [
   {
     ignores: ["dist/**"],
   },
+  {
+    files: ["**/*.d.ts"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
 ];
