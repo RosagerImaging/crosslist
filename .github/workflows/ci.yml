@@ -52,6 +52,7 @@ jobs:
 
       - name: Test
         run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=ui
+        continue-on-error: false
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -99,6 +100,7 @@ jobs:
             --cov=src --cov-report=xml --cov-report=html \
             --cov-report=term-missing \
             --junitxml=test-results.xml
+        continue-on-error: false
 
       - name: Upload backend test results
         if: always()
