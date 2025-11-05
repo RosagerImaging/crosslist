@@ -1,137 +1,332 @@
-# Turborepo starter
+# Crosslist Project README
 
-This Turborepo starter is maintained by the Turborepo core team.
+This document provides a comprehensive overview of the Crosslist project, including its architecture, file structure, development environment setup, coding best practices, and how to interact with the AI agents (Serena and Archon).
 
-## Using this example
+## Table of Contents
+1.  [Project Overview](#1-project-overview)
+2.  [Architecture](#2-architecture)
+3.  [File Structure](#3-file-structure)
+4.  [Development Environment Setup](#4-development-environment-setup)
+    *   [Serena MCP](#serena-mcp)
+    *   [Archon MCP](#archon-mcp)
+5.  [Coding Best Practices](#5-coding-best-practices)
+6.  [Gotchas](#6-gotchas)
+7.  [RAG Knowledgebase](#7-rag-knowledgebase)
+8.  [Archon Task Management Workflow](#8-archon-task-management-workflow)
 
-Run the following command:
+## 1. Project Overview
 
-```sh
-npx create-turbo@latest
-```
+An AI Native e-commerce reseller's inventory management system in the form of a web app using autonomous AI agents for each aspect of the process. There will be "systems" dedicated to each major step in a reseller's process and each system will be comprised of either a single AI agent or multiple AI agents which will automate the work after the user provides the necessary context/information. All of these systems of agents will be centrally organized and managed in one system hub or control center that will also include an organized accounting of the users entire inventory across all marketplaces. This inventory management hub will act as the central nervous system or the brain of the entire reseller's operation and as such will be where a user can also manage which marketplaces are registered and connected (with login credentials) as well as view detailed business analytics and retrieve/store tax related data and documentation, serving as a truly all encompassing central hub for someone trying to grow an e-commerce reseller business.
 
-## What's inside?
+### AI Agent Systems:
 
-This Turborepo includes the following packages/apps:
+#### "Crosslisting":
 
-### Apps and Packages
+Made up of one AI agent that will be responsible for taking the user's listing from one marketplace (ie. eBay) and recreating it in all other marketplaces that the user has integrated with the central hub (ie. Poshmark, Etsy, etc).
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+#### "Listing Optimizer":
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Made up of multiple AI agents:
 
-### Utilities
+- The first of which will be responsible for optimizing the listing's photos (removing the background, ensuring contrast is sufficient and the item is clearly visible)
+- Another agent will be responsible for auto generating the item's description based on either the SKU from the item's tag or else a picture of the item submitted by the user (or both)
+- Another agent will be responsible for pricing the item based on the current market value and the condition of the item (new with tags, like new, used, etc).
 
-This Turborepo has some additional tools already setup for you:
+**Optional** This listing optimization system will include an optional integration with "Size.ly" - an online system for integrating measurements for clothing and other items commonly sold on used marketplaces such as furniture and many other items. For an additional fee the user would have access to hundreds of templates depending on the type of item being listed which could be automatically included in the listing photos based on the size indicated by the SKU, greatly reducing the rate of returns and increasing buyer confidence leading to more sales and more profits.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+#### "Sourcing"
 
-### Build
+Agent(s) responsible for searching and finding high-demand, profitable products within the user's given niche by analyzing live marketplace data, trends, and competition
 
-To build all apps and packages, run the following command:
+#### "Promotion"
 
-```
-cd my-turborepo
+Agent(s) responsible for sharing listings at peak activity times, sending targeted offers to potential buyers (for example users who "liked" an item), and reciprocating actions from other users such as "following", "liking", and "re-posting"
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+**IMPORTANT** This system will apply primarily to the marketplace Poshmark as taking actions such as liking and following other user's accounts is the primary means of promoting one's self and is an integral part of the platform which other existing subscription crosslisting apps have already created ways to automate - commonly referred to as a "Poshmark Bot". One important aspect of the way this system should function - and how our competition's solutions function - is to replicate human behavior in regards to the amount of times and frequency that these actions are taken, as Poshmark will temporarily restrict accounts that they suspect are using automation software for these tasks. However, unlike other apps which just restrict the frequency to below the threshold for restriction, our system (being AI driven) can actually replicate human behavior and have behavioral differences based on the age and size of the account, making it much more undetectable
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
+#### "Trends"
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Agent(s) responsible for identifying products starting to trend by tracking real-time market data allowing the user to be ahead of the curve regarding demand
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+#### "Liquidation"
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+Agent(s) responsible for discounting stale inventory based on user settings including a heavily discounted option which also sends automated targeted offers to competing resellers per marketplace in the attempt to still gain small marginal profits on the item, or breaking even at a minimum, while passing off the inventory to another account at a price that allows them to profit as well - in effect clearing out old, slow or non-moving inventory that otherwise may turn into costly liabilities for the user
 
-### Develop
+#### "Customer Service"
 
-To develop all apps and packages, run the following command:
+Agent responsible for replying to initial messages from buyers or potential buyers based on user settings (ie. this chatbot system would be highly tune-able with settings that allow the user to input specific commonly received questions or messages that they would like the chatbot to reply to and with specific answers to each question if so desired, or else the chatbot would default to a helpful and patient tone and if unsure of the answer would inform the customer that their query would be forwarded to the user who would reply shortly).
 
-```
-cd my-turborepo
+### Chrome Extension:
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+In order to facilitate the connection to a user's chosen marketplaces, the use of a chrome browser extension may be necessary to be installed on a user's computer and if determined that our overall system/central hub requires this in order for each agenting system to be functional, the onboarding process once a user creates an account in the web app will include a process that walks the user through downloading and installing the chrome extension followed by connecting each desired marketplace and providing the authentication credentials.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+**IMPORTANT** see Vendoo.com, Listperfectly.com, joinflyp.com, and Crosslist.com for examples of the use of a chrome extension for this same function.
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## 2. Architecture
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+Archon is a knowledge management system with AI capabilities, built as a monolithic application with vertical slice organization. The frontend uses React with TanStack Query, while the backend runs FastAPI with multiple service components.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+### Tech Stack
 
-### Remote Caching
+**Frontend**: React 18, TypeScript 5, TanStack Query v5, Tailwind CSS, Vite
+**Backend**: Python 3.12, FastAPI, Supabase, PydanticAI
+**Infrastructure**: Docker, PostgreSQL + pgvector
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Core Modules
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+#### Knowledge Management
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+**Backend**: `python/src/server/services/knowledge_service.py`
+**Frontend**: `archon-ui-main/src/features/knowledge/`
+**Features**: Web crawling, document upload, embeddings, RAG search
 
-```
-cd my-turborepo
+#### Project Management
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+**Backend**: `python/src/server/services/project_*_service.py`
+**Frontend**: `archon-ui-main/src/features/projects/`
+**Features**: Projects, tasks, documents, version history
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
+#### MCP Server
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+**Location**: `python/src/mcp_server/`
+**Purpose**: Exposes tools to AI IDEs (Cursor, Windsurf)
+**Port**: 8051
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+#### AI Agents
+
+**Location**: `python/src/agents/`
+**Purpose**: Document processing, code analysis, project generation
+**Port**: 8052
+
+## 3. File Structure
+
+The project utilizes a monorepo structure managed by Turborepo, organizing different applications and packages within dedicated directories.
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+/crosslist/
+├── apps/                 # Contains individual applications (web, api, chrome-extension, docs, e2e)
+│   ├── api/              # FastAPI backend
+│   ├── chrome-extension/ # Browser extension
+│   ├── docs/             # Next.js documentation site
+│   ├── e2e/              # End-to-end tests
+│   └── web/              # Next.js web application
+├── packages/             # Reusable packages (ui, eslint-config, typescript-config, api-client)
+│   ├── api-client/       # API client for frontend
+│   ├── eslint-config/    # ESLint configurations
+│   ├── typescript-config/# TypeScript configurations
+│   └── ui/               # Reusable UI components
+├── docs/                 # Project documentation (technical decisions, AI docs, notes)
+├── persistent-memory/    # Persistent memory for AI agents (bugs.md, decisions.md)
+├── .gemini/              # Gemini CLI related configurations and extensions
+├── .github/              # GitHub workflows and configurations
+├── .husky/               # Git hooks
+├── .serena/              # Serena MCP configurations
+├── node_modules/         # Node.js dependencies
+├── package.json          # Monorepo package manager configuration
+├── turbo.json            # Turborepo configuration
+└── README.md             # Project README
 ```
 
-## Useful Links
+## 4. Development Environment Setup
 
-Learn more about the power of Turborepo:
+### Serena MCP
+To activate the Serena configuration project, use the following command:
+```bash
+activate_project(project="crosslist")
+```
+This command loads the necessary configurations and memories for Serena to interact with the Crosslist project.
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+### Archon MCP
 
-test
+Archon is a critical component for knowledge management, task tracking, and project organization. It is essential to **ALWAYS** start with Archon MCP server task management.
+
+## 5. Coding Best Practices
+
+This section documents important conventions and solutions to issues encountered during development to ensure consistency and prevent recurring errors.
+
+### Persistent Memory & Error Tracking
+
+To ensure consistent adherence to best practices, prevent recurring errors, and over time compile a library of coding guidelines and best practices specifically tailored to this codebase and my coding style, I will do the following every time, automatically, without any input or prompting from the user:
+
+**EVERY TIME** I complete the Archon task cycle, I will STOP and take a moment to assess if it's appropriate (based on the context of the Archon task cycle) for me to execute all or part of the following task named `Persistent Memory & Error Tracking` which involves me updating the following 3 key files to help ensure errors aren't repeated and I don't get stuck in circular edits to the codebase (un-doing and re-doing the same changes repeatedly):
+
+**Persistent Memory & Error Tracking** In the `persistent-memory` directory at the project root, I will **IMPORTANT** use tools available in Serena MCP - such as `default_api.write_file` or `default_api.replace` - to continuously and autonomously maintain:
+
+-   `bugs.md` A file containing all errors and bugs I encounter throughout the process of building this code base. Below each documented bug I will leave a dedicated space labeled "solution" where I will document the verified solution.
+    **IMPORTANT** I will wait until the solution implemented is 100% verified as working based on one or more of these criteria:
+    -   Passed test - the unit test passes once the error has been resolved and it doesn't introduce any new significant error or break anything equal to or greater than the level of complexity of the original error
+    -   Successful Build - the solution to the error, once implemented, either allows a previously failed build to succeed, or passes an already successful build without causing a warning or new error.
+
+-   `decisions.md` A file containing all architectural decisions that are made with a brief description of the reason they were made and, if there were alternative options being considered, the benefits that outweigh the other choices.
+
+-   `GEMINI.md` I will then convert the:
+    -   `Error` and `Solution` and/or
+    -   `Decision` and brief description of the context in which it was made
+    Into a new `Rule` to follow in the `GEMINI.md` project instructions under the "## Coding Best Practices" section.
+
+**IMPORTANT** All of this automated documentation means nothing if it is not referenced at the appropriate time in order to utilize the knowledge we have gained.
+
+Therefore:
+
+-   I will use Serena MCP's `default_api.search_for_pattern` or `default_api.find_symbol` to semantically search the `persistent-memory` directory (e.g., `bugs.md`, `decisions.md`), the `GEMINI.md`, and any other relevant files for keywords related to the error, task, or files involved in EVERY single Archon MCP task cycle that I undertake.
+-   If I am unsuccessful in my attempt to fix a bug or error, on the second attempt I will use `default_api.run_shell_command(command="git log -- <file_path>")` to review the history of relevant files, understanding the context of previous changes in order to avoid repeating mistakes or circular edits.
+
+### 1. Turborepo Configuration
+
+-   **Declare CI Environment Variables:** Any environment variable used in your code that is provided by the CI environment (e.g., `process.env.CI`) must be declared in the `env` array for the relevant task in `turbo.json`. This prevents `turbo/no-undeclared-env-vars` linting errors and ensures Turborepo's caching behaves predictably.
+
+    *Example (`turbo.json`):*
+    ```json
+    "tasks": {
+      "test": {
+        "env": ["CI"]
+      }
+    }
+    ```
+
+### 2. Next.js `package.json` Scripts
+
+-   **Explicit `next lint` Path:** When creating a `lint` script for a Next.js application, always provide an explicit path (e.g., `.`). Use `"lint": "next lint ."` instead of `"lint": "next lint"`. This prevents ambiguity in CI environments where the command might otherwise be misinterpreted.
+
+## 6. Gotchas
+
+This section highlights common pitfalls and important considerations to keep in mind during development.
+
+### Archon-First Rule
+
+**CRITICAL:** Before doing anything else, when you see any task management scenario, **ALWAYS** stop and check if MCP servers Archon and Serena are both available. Use a combination of Archon's task management system and Serena's semantic search and code editing together, acting as one PRIMARY system. Do not use your IDE's task tracking. This rule overrides all other instructions and patterns.
+
+### Task Management Adherence
+
+-   **NEVER** skip task updates.
+-   **NEVER** code without checking current tasks first.
+-   **NEVER** skip updating documentation.
+
+### Turborepo Configuration: CI Environment Variables
+
+Any environment variable used in your code that is provided by the CI environment (e.g., `process.env.CI`) must be declared in the `env` array for the relevant task in `turbo.json`. This prevents `turbo/no-undeclared-env-vars` linting errors and ensures Turborepo's caching behaves predictably.
+
+*Example (`turbo.json`):*
+```json
+"tasks": {
+  "test": {
+    "env": ["CI"]
+  }
+}
+```
+
+### Next.js `package.json` Scripts: Explicit `next lint` Path
+
+When creating a `lint` script for a Next.js application, always provide an explicit path (e.g., `.`). Use `"lint": "next lint ."` instead of `"lint": "next lint"`. This prevents ambiguity in CI environments where the command might otherwise be misinterpreted.
+
+## 7. RAG Knowledgebase
+
+The project utilizes a Retrieval-Augmented Generation (RAG) system to provide context-aware information and code examples. This knowledge base is crucial for efficient development and problem-solving.
+
+### How to Use the RAG System
+
+#### Searching Specific Documentation
+
+1.  **Get sources** → `rag_get_available_sources()` - Returns list with id, title, url
+2.  **Find source ID** → Match to documentation (e.g., "Supabase docs" → "src_abc123")
+3.  **Search** → `rag_search_knowledge_base(query="vector functions", source_id="src_abc123")`
+
+#### General Research
+
+```bash
+# Search knowledge base (2-5 keywords only!)
+rag_search_knowledge_base(query="authentication JWT", match_count=5)
+
+# Find code examples
+rag_search_code_examples(query="React hooks", match_count=3)
+```
+
+## 8. Archon Task Management Workflow
+
+This project uses Archon MCP server for knowledge management, task tracking, and project organization. **ALWAYS** start with Archon MCP server task management.
+
+### Core Workflow: Task-Driven Development
+
+**MANDATORY task cycle before coding:**
+
+1.  **Get Task** → `find_tasks(task_id="...")` or `find_tasks(filter_by="status", filter_value="todo")`
+2.  **Start Work** → `manage_task("update", task_id="...", status="doing")`
+3.  **Research** → Use knowledge base (see RAG workflow below)
+4.  **Implement** → Write code based on research
+5.  **Review** → `manage_task("update", task_id="...", status="review")`
+6.  **Next Task** → `find_tasks(filter_by="status", filter_value="todo")`
+
+**NEVER skip task updates. NEVER code without checking current tasks first. NEVER skip updating documentation**
+
+### RAG Workflow (Research Before Implementation)
+
+#### Searching Specific Documentation
+
+1.  **Get sources** → `rag_get_available_sources()` - Returns list with id, title, url
+2.  **Find source ID** → Match to documentation (e.g., "Supabase docs" → "src_abc123")
+3.  **Search** → `rag_search_knowledge_base(query="vector functions", source_id="src_abc123")`
+
+#### General Research
+
+```bash
+# Search knowledge base (2-5 keywords only!)
+rag_search_knowledge_base(query="authentication JWT", match_count=5)
+
+# Find code examples
+rag_search_code_examples(query="React hooks", match_count=3)
+```
+
+### Project Workflows
+
+#### New Project
+
+```bash
+# 1. Create project
+manage_project("create", title="My Feature", description="...")
+
+# 2. Create tasks
+manage_task("create", project_id="proj-123", title="Setup environment", task_order=10)
+
+# 3. Implement API
+manage_task("create", project_id="proj-123", title="Implement API", task_order=9)
+```
+
+#### Existing Project
+
+```bash
+# 1. Find project
+find_projects(query="auth")  # or find_projects() to list all
+
+# 2. Get project tasks
+find_tasks(filter_by="project", filter_value="proj-123")
+
+# 3. Continue work or create new tasks
+```
+
+### Tool Reference
+
+**Projects:**
+
+-   `find_projects(query="...")` - Search projects
+-   `find_projects(project_id="...")` - Get specific project
+-   `manage_project("create"/"update"/"delete", ...)` - Manage projects
+
+**Tasks:**
+
+-   `find_tasks(query="...")` - Search tasks by keyword
+-   `find_tasks(task_id="...")` - Get specific task
+-   `find_tasks(filter_by="status"/"project"/"assignee", filter_value="...")` - Filter tasks
+-   `manage_task("create"/"update"/"delete", ...)` - Manage tasks
+
+**Knowledge Base:**
+
+-   `rag_get_available_sources()` - List all sources
+-   `rag_search_knowledge_base(query="...", source_id="...")` - Search docs
+-   `rag_search_code_examples(query="...", source_id="...")` - Find code
+
+### Important Notes
+
+-   Task status flow: `todo` → `doing` → `review` → `done`
+-   Keep queries SHORT (2-5 keywords) for better search results
+-   Higher `task_order` = higher priority (0-100)
+-   Tasks should be 30 min - 4 hours of work
