@@ -1,7 +1,7 @@
 from .base import CoreModel
 from pydantic import Field
 from uuid import UUID
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class AnalyticsData(CoreModel):
@@ -13,4 +13,4 @@ class AnalyticsData(CoreModel):
         ..., description="Type of event (e.g., 'view', 'sale', 'offer')"
     )
     event_data: dict | None = None
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
