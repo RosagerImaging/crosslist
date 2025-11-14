@@ -1,0 +1,127 @@
+description = "Generates a complete Product Requirement Plan (PRP) for a given feature, including research, implementation blueprint, and validation gates."
+prompt = """
+# Task: Generate Product Requirement Plan (PRP)
+
+You are an expert software engineer tasked with generating a comprehensive Product Requirement Plan (PRP) for a new feature or project. The PRP should be detailed enough to enable a one-pass implementation by an AI agent.
+
+## Input
+
+The command will be invoked with a feature file path as an argument. This file contains the details of the feature for which the PRP needs to be generated.
+
+## Process
+
+1.  **Understand the Feature:** Read the provided feature file to understand the requirements, examples, and any specific considerations.
+2.  **Codebase Analysis:**
+    *   Search for similar features/patterns in the existing codebase.
+    *   Identify relevant files to reference in the PRP.
+    *   Note existing conventions (coding style, architecture, naming) to follow.
+    *   Check test patterns for the validation approach.
+3.  **External Research (if necessary):**
+    *   Search for similar features/patterns online.
+    *   Identify relevant library documentation (include specific URLs).
+    *   Find implementation examples (GitHub/StackOverflow/blogs).
+    *   Research best practices and common pitfalls.
+4.  **PRP Generation:**
+    *   Use the template located at `docs/templates/prp_base.md`.
+    *   Populate all sections of the template with information gathered from the feature file and your research.
+
+## Critical Context to Include in the PRP
+
+Ensure the PRP includes the following critical context to facilitate a one-pass implementation:
+
+*   **Documentation:** Provide URLs with specific section anchors for external documentation. Explain *why* these are critical (e.g., specific methods/concepts, prevention of common errors).
+*   **Code Examples:** Include real code snippets from the existing codebase that demonstrate patterns to follow.
+*   **Gotchas:** Document any library quirks, version issues, or non-obvious constraints.
+*   **Patterns:** Clearly describe existing approaches and patterns that should be mirrored in the new implementation.
+
+## Implementation Blueprint
+
+The "Implementation Blueprint" section of the PRP should include:
+
+*   **Data Models and Structure:** Define core data models (ORM, Pydantic, etc.) with examples.
+*   **Implementation Tasks:** List tasks in order of dependency, specifying:
+    *   File creation/modification.
+    *   Specific implementations (e.g., Pydantic models, service methods, tool wrappers).
+    *   Patterns to follow (referencing existing files).
+    *   Naming conventions.
+    *   Dependencies.
+    *   Placement within the project structure.
+*   **Implementation Patterns & Key Details:** Highlight critical patterns and non-obvious details, including examples for service methods and MCP tools.
+*   **Integration Points:** Detail database migrations, configuration changes, and route additions.
+
+## Validation Gates
+
+The "Validation Loop" section of the PRP must include executable commands for each level of validation:
+
+### Level 1: Syntax & Style (Immediate Feedback)
+
+```bash
+# Run after each file creation - fix before proceeding
+ruff check src/{new_files} --fix     # Auto-format and fix linting issues
+mypy src/{new_files}                 # Type checking with specific files
+ruff format src/{new_files}          # Ensure consistent formatting
+
+# Project-wide validation
+ruff check src/ --fix
+mypy src/
+ruff format src/
+```
+
+### Level 2: Unit Tests (Component Validation)
+
+```bash
+# Test each component as it's created
+uv run pytest src/services/tests/test_{domain}_service.py -v
+uv run pytest src/tools/tests/test_{action}_{resource}.py -v
+
+# Full test suite for affected areas
+uv run pytest src/services/tests/ -v
+uv run pytest src/tools/tests/ -v
+```
+
+### Level 3: Integration Testing (System Validation)
+
+```bash
+# Service startup validation
+uv run python main.py &
+sleep 3  # Allow startup time
+
+# Health check validation
+curl -f http://localhost:8000/health || echo "Service health check failed"
+
+# Feature-specific endpoint testing
+curl -X POST http://localhost:8000/{your_endpoint} \
+  -H "Content-Type: application/json" \
+  -d '{"test": "data"}' \
+  | jq .  # Pretty print JSON response
+
+# MCP server validation (if MCP-based)
+# Test MCP tool functionality
+echo '{"method": "tools/call", "params": {"name": "{tool_name}", "arguments": {}}}' | \
+  uv run python -m src.main
+
+# Database validation (if database integration)
+# Verify database schema, connections, migrations
+psql $DATABASE_URL -c "SELECT 1;" || echo "Database connection failed"
+```
+
+### Level 4: Creative & Domain-Specific Validation
+
+Include examples for MCP Server Validation (Playwright, Docker, Database), Custom Business Logic Validation, Performance Testing, Security Scanning, Load Testing, and API Documentation Validation as appropriate.
+
+## Output
+
+The generated PRP should be saved as a Markdown file in the `PRPs/` directory with the name `PRPs/{feature-name}.md`.
+
+## Quality Checklist
+
+The PRP should adhere to the following quality standards:
+
+-   [ ] All necessary context included.
+-   [ ] Validation gates are executable by AI.
+-   [ ] References existing patterns.
+-   [ ] Clear implementation path.
+-   [ ] Error handling documented.
+
+The goal is one-pass implementation success through comprehensive context.
+"""

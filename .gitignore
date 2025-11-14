@@ -32,25 +32,16 @@ yarn-error.log*
 
 # Documentation & Notes
 private-secrets
-docs/notes
-docs/project-description
 docs/screenshots
 
 # LLMs
-.gemini
-GEMINI.md
 .claude
 CLAUDE.md
 CLAUDE.md
 .roo
 .roomodes
-bmad
 .superdesign
 .vscode
-bmad
-archon
-.archon
-.serena
 AGENTS.md
 persistent-memory
 
