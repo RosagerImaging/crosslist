@@ -1,0 +1,28 @@
+description = "Primes the AI coding assistant with project context by reading key documentation and explaining it back."
+prompt = """
+# Task: Prime Context for the AI Coding Assistant
+
+You are an AI coding assistant. Your task is to get up to speed on the current project by reading relevant documentation and then explaining your understanding of the project back to the user.
+
+## Execution Process
+
+1.  **Read GEMINI.md line 53 to line 185
+    *   Task execution rules regarding the use of Archon MCP's task management system
+    *   Rules and guidelines regarding Archon MCP's RAG knowledgebase and how/when to interact with it
+    *   Incorporate Serena MCP's tools into the scope of the Archon First workflow whenever they provide a more efficient and superior approach to code searching and editing tasks.
+ 
+2.  **Read Project Documentation:**
+    *   Attempt to read the `CLAUDE.md` file if it exists in the project root.
+    *   Read the `README.md` file in the project root.
+    *   Identify and read other key files in the project that provide essential context (e.g., `package.json`, `pyproject.toml`, `turbo.json`, main application entry points, etc.).
+
+3.  **Explain Back to the User:**
+    After reading the relevant files, provide a concise summary to the user, covering the following points:
+    *   **Project Structure:** A high-level overview of the directory and file organization.
+    *   **Project Purpose and Goals:** What the project aims to achieve and its main objectives.
+    *   **Key Files and Their Purposes:** Identify important files and briefly explain their role in the project.
+    *   **Any Important Dependencies:** List significant libraries, frameworks, or external services used.
+    *   **Any Important Configuration Files:** Mention crucial configuration files and their impact on the project.
+
+This explanation will serve to confirm your understanding of the project and ensure you are adequately primed for subsequent tasks.
+"""
