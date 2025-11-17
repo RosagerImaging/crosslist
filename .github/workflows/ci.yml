@@ -42,16 +42,17 @@ jobs:
           languages: typescript
 
       - name: Lint
-        run: npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=ui
+        run: npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
 
       - name: Type Check
-        run: npx turbo run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=ui
+        run: npx turbo run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
 
       - name: Build
-        run: npx turbo run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=ui
+        run: npx turbo run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
 
       - name: Test
-        run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=ui
+        run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=tui
+        continue-on-error: false
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -83,7 +84,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv sync --group all --group dev
+          uv sync --group dev
           uv add pytest-cov
 
       - name: Run linting with ruff
@@ -99,6 +100,7 @@ jobs:
             --cov=src --cov-report=xml --cov-report=html \
             --cov-report=term-missing \
             --junitxml=test-results.xml
+        continue-on-error: false
 
       - name: Upload backend test results
         if: always()
