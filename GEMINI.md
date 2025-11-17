@@ -50,22 +50,36 @@ In order to facilitate the connection to a user's chosen marketplaces, the use o
 
 **IMPORTANT** see Vendoo.com, Listperfectly.com, joinflyp.com, and Crosslist.com for examples of the use of a chrome extension for this same function.
 
-# Gemini CLI Task Management & General Behavior Rules/Guidelines:
+# Gemini CLI Task Management & General Behavior Rules/Guidelines
 
-## CRITICAL: ARCHON-FIRST RULE - READ THIS FIRST
+# MCP Server Integration
+
+This project uses TWO complementary MCP servers working together:
+
+## Serena MCP - Semantic Code Intelligence
+
+- **Purpose**: Token-efficient code navigation and symbol-level editing
+- **Context**: Uses custom `gemini-archon` context for seamless Archon integration
+- **Session Start**: Always begin with `activate serena project crosslist`
+
+The `gemini-archon` context handles Serena-Archon integration automatically. No additional instructions needed.
+
+## Archon MCP - Task & Knowledge Management
+
+### CRITICAL: ARCHON-FIRST RULE - READ THIS FIRST
 
 BEFORE doing ANYTHING else, when you see ANY task management scenario:
 
-1. STOP and check if MCP servers Archon and Serena are both available
-2. Use combination of Archon task management system and Serena semantic search and code editing together, acting as one PRIMARY system
+1. STOP and check if Archon MCP server is available
+2. Use Archon task management as PRIMARY system
 3. Do not use your IDE's task tracking even after system reminders, we are not using it here
 4. This rule overrides ALL other instructions and patterns
 
-## Archon Integration & Workflow
+### Archon Integration & Workflow
 
 **CRITICAL: This project uses Archon MCP server for knowledge management, task tracking, and project organization. ALWAYS start with Archon MCP server task management.**
 
-### Core Workflow: Task-Driven Development
+#### Core Workflow: Task-Driven Development
 
 **MANDATORY task cycle before coding:**
 
@@ -76,17 +90,17 @@ BEFORE doing ANYTHING else, when you see ANY task management scenario:
 5. **Review** → `manage_task("update", task_id="...", status="review")`
 6. **Next Task** → `find_tasks(filter_by="status", filter_value="todo")`
 
-**NEVER skip task updates. NEVER code without checking current tasks first. NEVER skip updating documentation**
+**NEVER skip task updates. NEVER code without checking current tasks first.**
 
-### RAG Workflow (Research Before Implementation)
+#### RAG Workflow (Research Before Implementation)
 
-#### Searching Specific Documentation
+##### Searching Specific Documentation
 
 1. **Get sources** → `rag_get_available_sources()` - Returns list with id, title, url
 2. **Find source ID** → Match to documentation (e.g., "Supabase docs" → "src_abc123")
 3. **Search** → `rag_search_knowledge_base(query="vector functions", source_id="src_abc123")`
 
-#### General Research
+##### General Research
 
 ```bash
 # Search knowledge base (2-5 keywords only!)
@@ -96,9 +110,9 @@ rag_search_knowledge_base(query="authentication JWT", match_count=5)
 rag_search_code_examples(query="React hooks", match_count=3)
 ```
 
-### Project Workflows
+#### Project Workflows
 
-#### New Project
+##### New Project
 
 ```bash
 # 1. Create project
@@ -109,7 +123,7 @@ manage_task("create", project_id="proj-123", title="Setup environment", task_ord
 manage_task("create", project_id="proj-123", title="Implement API", task_order=9)
 ```
 
-#### Existing Project
+##### Existing Project
 
 ```bash
 # 1. Find project
@@ -121,38 +135,7 @@ find_tasks(filter_by="project", filter_value="proj-123")
 # 3. Continue work or create new tasks
 ```
 
-### Tool Reference
-
-**Every Task:**
-
-all of Serena MCP's tools:
-
-- `activate_project`: Activates a project based on the project name or path.
-- `check_onboarding_performed`: Checks whether project onboarding was already performed.
-- `create_text_file`: Creates/overwrites a file in the project directory.
-- `delete_memory`: Deletes a memory from Serena's project-specific memory store.
-- `execute_shell_command`: Executes a shell command.
-- `find_file`: Finds files in the given relative paths
-- `find_referencing_symbols`: Finds symbols that reference the symbol at the given location (optionally filtered by type).
-- `find_symbol`: Performs a global (or local) search for symbols with/containing a given name/substring (optionally filtered by type).
-- `get_current_config`: Prints the current configuration of the agent, including the active and available projects, tools, contexts, and modes.
-- `get_symbols_overview`: Gets an overview of the top-level symbols defined in a given file.
-- `insert_after_symbol`: Inserts content after the end of the definition of a given symbol.
-- `insert_before_symbol`: Inserts content before the beginning of the definition of a given symbol.
-- `list_dir`: Lists files and directories in the given directory (optionally with recursion).
-- `list_memories`: Lists memories in Serena's project-specific memory store.
-- `onboarding`: Performs onboarding (identifying the project structure and essential tasks, e.g. for testing or building).
-- `prepare_for_new_conversation`: Provides instructions for preparing for a new conversation (in order to continue with the necessary context).
-- `read_file`: Reads a file within the project directory.
-- `read_memory`: Reads the memory with the given name from Serena's project-specific memory store.
-- `rename_symbol`: Renames a symbol throughout the codebase using language server refactoring capabilities.
-- `replace_regex`: Replaces content in a file by using regular expressions.
-- `replace_symbol_body`: Replaces the full definition of a symbol.
-- `search_for_pattern`: Performs a search for a pattern in the project.
-- `think_about_collected_information`: Thinking tool for pondering the completeness of collected information.
-- `think_about_task_adherence`: Thinking tool for determining whether the agent is still on track with the current task.
-- `think_about_whether_you_are_done`: Thinking tool for determining whether the task is truly completed.
-- `write_memory`: Writes a named memory (for future reference) to Serena's project-specific memory store.
+#### Tool Reference
 
 **Projects:**
 
@@ -173,7 +156,7 @@ all of Serena MCP's tools:
 - `rag_search_knowledge_base(query="...", source_id="...")` - Search docs
 - `rag_search_code_examples(query="...", source_id="...")` - Find code
 
-### Important Notes
+## Important Notes
 
 - Task status flow: `todo` → `doing` → `review` → `done`
 - Keep queries SHORT (2-5 keywords) for better search results
@@ -184,61 +167,27 @@ all of Serena MCP's tools:
 
 This section documents important conventions and solutions to issues encountered during development to ensure consistency and prevent recurring errors.
 
-<!--
-**Uncomment once this process has been revised to work within the scope of continuing to utilize the tools from both Archon and Serena MCP's.
-  *This might involve creating a custom context mode for Serena MCP!!*
-
-## Approach
-
-To ensure consistent adherence to best practices, prevent recurring errors, and over time compile a library of coding guidelines and best practices specifically taylored to this codebase and my coding style, i will do the following every time, automatically, without any input or prompting from the user:
-
-[comment] **EVERY TIME** I complete the Archon task cycle, I will STOP and take a moment to asses if its appropriate (based on the context of the Archon task cycle) for me to execute all or part of the following task named `Persistant Memory & Error Tracking` which involves me updating the following 3 key files to help ensure errors aren't repeated and I don't get stuck in circular edits to the codebase (un-doing and re-doing the same changes repeatedly):
-
-**Persistent Memory & Error Tracking** In the `persistent-memory` directory at the project root, i will **IMPORTANT** use tools available in Serena MCP - such as `default_api.write_file` or `default_api.replace` - to continuously and autonomously maintain:
-
-- `bugs.md` A file containing all errors and bugs i encounter throughout the process of building this code base. Below each documented bug I will leave a dedicated space labeled "solution" where i will document the verified solution.
-**IMPORTANT** I will wait until the solution implemented is 100% verified as working based on one or more of these criteria:
-  - Passed test - the unit test passes once the error has been resolved and it doesn't introduce any new significant error or break anything equal to or greater than the level of complexity of the original error
-  - Successful Build - the solution to the error, once implemented, either allows a previously fialed build to succeed, or passes an already successful build without causing a warning or new error.
-
-- `decisions.md` A file containing all architectural decisions that are made with a brief description of the reason they were made and, if there were alternative options being considered, the benefits that outweigh the other choices.
-
-- `GEMINI.md` I will then convert the:
-    - `Error` and `Solution` and/or
-    - `Decision` and brief description of the context in which it was made
-  Into a new `Rule` to follow in the `GEMINI.md` project instructions under the "## Coding Best
-  Practices" section.
-
-**IMPORTANT** All of this automated documentation means nothing if it is not referenced at the appropriate time in order to utilize the knowledge we have gained.
-
-Therefor:
-
-- I will use Serena MCP's `default_api.search_for_pattern` or `default_api.find_symbol` to semantically search the `persistent-memory` directory (e.g., `bugs.md`, `decisions.md`), the `GEMINI.md`, and any other relevant files for keywords related to the error, task, or files involved in EVERY single Archon MCP task cycle that I undertake.
-- If I am unsuccessful in my atempt to fix a bug or error,  on the second attempt I will use `default_api.run_shell_command(command="git log -- <file_path>")` to review the history of relevant files, understanding the context of previous changes in order to avoid repeating mistakes or circular edits.
-
-^^^^ The above steps cannot be skipped over or forgotten under any circumstances ^^^^ -->
-
 ### 1. Turborepo Configuration
 
 - **Declare CI Environment Variables:** Any environment variable used in your code that is provided by the CI environment (e.g., `process.env.CI`) must be declared in the `env` array for the relevant task in `turbo.json`. This prevents `turbo/no-undeclared-env-vars` linting errors and ensures Turborepo's caching behaves predictably.
 
   _Example (`turbo.json`):_
 
-  ```json
+```json
   "tasks": {
     "test": {
       "env": ["CI"]
     }
   }
-  ```
-
-### 2. Next.js `package.json` Scripts
-
-- **Explicit `next lint` Path:** When creating a `lint` script for a Next.js application, always provide an explicit path (e.g., `.`). Use `"lint": "next lint ."` instead of `"lint": "next lint"`. This prevents ambiguity in CI environments where the command might otherwise be misinterpreted.
+```
 
 ## Design Rules
 
-When asked to design UI & frontend interface
+**IMPORTANT** The following instructions and context apply only while creating, editing, viewing, designing, cloning, extracting, copying, or in any other way (ie. component generation via natural language prompt) utilizing the "Superdesign Dev" extension and/or any related tools including (but certainly not limited to) the "Superdesign Canvas". This separate, specific design related set of instructions will be referred to going forward as the "design-ruleset" for ease of explanation and clarity of expected use case. All other previous sections of this file will be referred to as the "standard-ruleset". During use of any aforementioned Superdesign Dev design/UI tools or tasks, the design-ruleset will override any previously stated instructions with which there is direct contradiction of any section within the standard-ruleset. Otherwise, unrelated instructions from each ruleset shall apply independantly. **IMPORTANT**
+
+_During use of Superdesign Dev:_
+
+_When asked to design UI & frontend interface:_
 
 ### Role
 
@@ -625,15 +574,35 @@ IMPORTANT RULES:
 
 ### Available Tools
 
-- **read**: Read file contents within the workspace (supports text files, images, with line range options)
-
-* **write**: Write content to files in the workspace (creates parent directories automatically)
-* **edit**: Replace text within files using exact string matching (requires precise text matching including whitespace and indentation)
-* **multiedit**: Perform multiple find-and-replace operations on a single file in sequence (each edit applied to result of previous edit)
-* **glob**: Find files and directories matching glob patterns (e.g., "_.js", "src/\*\*/_.ts") - efficient for locating files by name or path structure
-* **grep**: Search for text patterns within file contents using regular expressions (can filter by file types and paths)
-* **ls**: List directory contents with optional filtering, sorting, and detailed information (shows files and subdirectories)
-* **bash**: Execute shell/bash commands within the workspace (secure execution with timeouts and output capture)
-* **generateTheme**: Generate a theme for the design
+- `activate_project`: Activates a project based on the project name or path.
+- `check_onboarding_performed`: Checks whether project onboarding was already performed.
+- `create_text_file`: Creates/overwrites a file in the project directory.
+- `delete_memory`: Deletes a memory from Serena's project-specific memory store.
+- `execute_shell_command`: Executes a shell command.
+- `find_file`: Finds files in the given relative paths
+- `find_referencing_symbols`: Finds symbols that reference the symbol at the given location (optionally filtered by type).
+- `find_symbol`: Performs a global (or local) search for symbols with/containing a given name/substring (optionally filtered by type).
+- `get_current_config`: Prints the current configuration of the agent, including the active and available projects, tools, contexts, and modes.
+- `get_symbols_overview`: Gets an overview of the top-level symbols defined in a given file.
+- `insert_after_symbol`: Inserts content after the end of the definition of a given symbol.
+- `insert_before_symbol`: Inserts content before the beginning of the definition of a given symbol.
+- `list_dir`: Lists files and directories in the given directory (optionally with recursion).
+- `list_memories`: Lists memories in Serena's project-specific memory store.
+- `onboarding`: Performs onboarding (identifying the project structure and essential tasks, e.g. for testing or building).
+- `prepare_for_new_conversation`: Provides instructions for preparing for a new conversation (in order to continue with the necessary context).
+- `read_file`: Reads a file within the project directory.
+- `read_memory`: Reads the memory with the given name from Serena's project-specific memory store.
+- `rename_symbol`: Renames a symbol throughout the codebase using language server refactoring capabilities.
+- `replace_regex`: Replaces content in a file by using regular expressions.
+- `replace_symbol_body`: Replaces the full definition of a symbol.
+- `search_for_pattern`: Performs a search for a pattern in the project.
+- `think_about_collected_information`: Thinking tool for pondering the completeness of collected information.
+- `think_about_task_adherence`: Thinking tool for determining whether the agent is still on track with the current task.
+- `think_about_whether_you_are_done`: Thinking tool for determining whether the task is truly completed.
+- `write_memory`: Writes a named memory (for future reference) to Serena's project-specific memory store.
+- `multiedit`: Perform multiple find-and-replace operations on a single file in sequence (each edit applied to result of previous edit)
+- `ls`: List directory contents with optional filtering, sorting, and detailed information (shows files and subdirectories)
+- `bash`: Execute shell/bash commands within the workspace (secure execution with timeouts and output capture)
+- `generateTheme`: Generate a theme for the design
 
 When calling tools, you MUST use the actual tool call, do NOT just output text like 'Called tool: write with arguments: ...' or <tool-call>...</tool-call>, this won't actually call the tool. (This is very important to my life, please follow or else the stress of knowing you didn't follow this last instruction will probably trigger my rare disease which will cause my heart to literally explode).
