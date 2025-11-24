@@ -1,0 +1,70 @@
+INFO  2025-11-17 11:13:04,780 serena.cli:health_check:631 - Starting health check for project: /home/optiks/dev/crosslist
+INFO  2025-11-17 11:13:04,780 serena.cli:health_check:635 - Creating SerenaAgent with disabled dashboard...
+INFO  2025-11-17 11:13:04,784 serena.agent:__init__:130 - Will record tool usage statistics with token count estimator: CHAR_COUNT.
+INFO  2025-11-17 11:13:04,806 serena.agent:__init__:134 - Starting Serena server (version=0.1.4-568ee77e-dirty, process id=1741561, parent process id=1741527)
+INFO  2025-11-17 11:13:04,806 serena.agent:__init__:135 - Configuration file: None
+INFO  2025-11-17 11:13:04,806 serena.agent:__init__:136 - Available projects: 
+INFO  2025-11-17 11:13:04,806 serena.agent:__init__:137 - Loaded tools (38): read_file, create_text_file, list_dir, find_file, replace_regex, delete_lines, replace_lines, insert_at_line, search_for_pattern, restart_language_server, get_symbols_overview, find_symbol, find_referencing_symbols, replace_symbol_body, insert_after_symbol, insert_before_symbol, rename_symbol, write_memory, read_memory, list_memories, delete_memory, edit_memory, execute_shell_command, activate_project, remove_project, switch_modes, get_current_config, check_onboarding_performed, onboarding, think_about_collected_information, think_about_task_adherence, think_about_whether_you_are_done, summarize_changes, prepare_for_new_conversation, initial_instructions, jet_brains_find_symbol, jet_brains_find_referencing_symbols, jet_brains_get_symbols_overview
+INFO  2025-11-17 11:13:04,806 serena.config.serena_config:apply:110 - SerenaAgentContext[name='desktop-app'] included 1 tools: switch_modes
+INFO  2025-11-17 11:13:04,807 serena.agent:__init__:151 - Number of exposed tools: 29
+INFO  2025-11-17 11:13:04,827 serena.agent:_update_active_tools:382 - Active tools (29): activate_project, check_onboarding_performed, create_text_file, delete_memory, edit_memory, execute_shell_command, find_file, find_referencing_symbols, find_symbol, get_current_config, get_symbols_overview, initial_instructions, insert_after_symbol, insert_before_symbol, list_dir, list_memories, onboarding, prepare_for_new_conversation, read_file, read_memory, rename_symbol, replace_regex, replace_symbol_body, search_for_pattern, switch_modes, think_about_collected_information, think_about_task_adherence, think_about_whether_you_are_done, write_memory
+INFO  2025-11-17 11:13:04,830 serena.util.file_system:start:329 - Loading of .gitignore files starting ...
+INFO  2025-11-17 11:13:04,830 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/.gitignore
+INFO  2025-11-17 11:13:04,831 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/.serena/.gitignore
+INFO  2025-11-17 11:13:04,832 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/apps/web/.gitignore
+INFO  2025-11-17 11:13:04,832 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/apps/docs/.gitignore
+INFO  2025-11-17 11:13:04,836 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/apps/api/.ruff_cache/.gitignore
+INFO  2025-11-17 11:13:04,836 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/apps/api/.mypy_cache/.gitignore
+INFO  2025-11-17 11:13:04,837 serena.util.file_system:_load_gitignore_files:148 - Processing .gitignore file: /home/optiks/dev/crosslist/apps/api/.pytest_cache/.gitignore
+INFO  2025-11-17 11:13:04,845 serena.util.file_system:stop:336 - Loading of .gitignore files completed in 0.015 seconds
+INFO  2025-11-17 11:13:04,846 serena.agent:load_project_from_path_or_name:449 - Added new project crosslist for path /home/optiks/dev/crosslist
+INFO  2025-11-17 11:13:04,846 serena.agent:_activate_project:419 - Activating crosslist at /home/optiks/dev/crosslist
+INFO  2025-11-17 11:13:04,846 serena.agent:_update_active_tools:382 - Active tools (29): activate_project, check_onboarding_performed, create_text_file, delete_memory, edit_memory, execute_shell_command, find_file, find_referencing_symbols, find_symbol, get_current_config, get_symbols_overview, initial_instructions, insert_after_symbol, insert_before_symbol, list_dir, list_memories, onboarding, prepare_for_new_conversation, read_file, read_memory, rename_symbol, replace_regex, replace_symbol_body, search_for_pattern, switch_modes, think_about_collected_information, think_about_task_adherence, think_about_whether_you_are_done, write_memory
+INFO  2025-11-17 11:13:04,847 serena.task_executor:issue_task:192 - Scheduling Task-1:init_language_server_manager
+INFO  2025-11-17 11:13:04,847 serena.cli:health_check:638 - SerenaAgent created successfully
+INFO  2025-11-17 11:13:04,847 serena.cli:health_check:641 - Searching for analyzable files...
+INFO  2025-11-17 11:13:04,878 serena.cli:health_check:650 - Found analyzable file: commitlint.config.js
+INFO  2025-11-17 11:13:04,878 serena.cli:health_check:668 - Testing GetSymbolsOverviewTool on file: commitlint.config.js
+INFO  2025-11-17 11:13:04,878 serena.task_executor:issue_task:192 - Scheduling Task-2:<lambda>
+INFO  2025-11-17 11:13:04,907 serena.task_executor:_process_task_queue:123 - Starting execution of Task-1:init_language_server_manager
+INFO  2025-11-17 11:13:04,908 serena.task_executor:start:329 - Task-1:init_language_server_manager starting ...
+INFO  2025-11-17 11:13:04,908 serena.agent:start:329 - Language server initialization starting ...
+INFO  2025-11-17 11:13:04,908 serena.project:create_language_server_manager:384 - Creating language server manager for /home/optiks/dev/crosslist
+INFO  2025-11-17 11:13:04,908 sensai.util.logging:start:329 - Language server startup (language=typescript) starting ...
+INFO  2025-11-17 11:13:04,908 serena.ls_manager:create_language_server:44 - Creating language server instance for /home/optiks/dev/crosslist, language=typescript.
+INFO  2025-11-17 11:13:05,032 solidlsp:start:1689 - Starting language server with language typescript for /home/optiks/dev/crosslist
+INFO  2025-11-17 11:13:05,032 solidlsp:_start_server:224 - Starting TypeScript server process
+INFO  2025-11-17 11:13:05,032 solidlsp.ls_handler:start:193 - Starting language server process via command: ['/home/optiks/.serena/language_servers/static/TypeScriptLanguageServer/ts-lsp/node_modules/.bin/typescript-language-server', '--stdio']
+INFO  2025-11-17 11:13:05,034 solidlsp:_start_server:228 - Sending initialize request from LSP client to LSP server and awaiting response
+INFO  2025-11-17 11:13:05,119 solidlsp:window_log_message:207 - LSP: window/logMessage: {"type": 3, "message": "Using Typescript version (workspace) 5.9.3 from path "/home/optiks/dev/crosslist/node_modules/typescript/lib/tsserver.js""}
+INFO  2025-11-17 11:13:06,121 solidlsp:_start_server:246 - Timeout waiting for TypeScript server to become ready, proceeding anyway
+INFO  2025-11-17 11:13:06,122 sensai.util.logging:stop:336 - Language server startup (language=typescript) completed in 1.214 seconds
+INFO  2025-11-17 11:13:06,122 serena.agent:stop:336 - Language server initialization completed in 1.214 seconds
+INFO  2025-11-17 11:13:06,123 serena.task_executor:stop:336 - Task-1:init_language_server_manager completed in 1.215 seconds
+INFO  2025-11-17 11:13:06,123 serena.task_executor:_process_task_queue:123 - Starting execution of Task-2:<lambda>
+INFO  2025-11-17 11:13:06,124 serena.task_executor:start:329 - Task-2:<lambda> starting ...
+INFO  2025-11-17 11:13:06,582 serena.task_executor:stop:336 - Task-2:<lambda> completed in 0.458 seconds
+INFO  2025-11-17 11:13:06,582 serena.cli:health_check:671 - GetSymbolsOverviewTool returned 1 symbols
+INFO  2025-11-17 11:13:06,583 serena.cli:health_check:692 - No class or function found, using first available symbol
+INFO  2025-11-17 11:13:06,583 serena.cli:health_check:696 - Using symbol for testing: default (kind: 14)
+INFO  2025-11-17 11:13:06,583 serena.cli:health_check:699 - Testing FindSymbolTool for symbol: default
+INFO  2025-11-17 11:13:06,583 serena.task_executor:issue_task:192 - Scheduling Task-3:<lambda>
+INFO  2025-11-17 11:13:06,683 serena.task_executor:_process_task_queue:123 - Starting execution of Task-3:<lambda>
+INFO  2025-11-17 11:13:06,683 serena.task_executor:start:329 - Task-3:<lambda> starting ...
+INFO  2025-11-17 11:13:06,688 serena.task_executor:stop:336 - Task-3:<lambda> completed in 0.005 seconds
+INFO  2025-11-17 11:13:06,688 serena.cli:health_check:704 - FindSymbolTool found 1 matches for symbol default
+INFO  2025-11-17 11:13:06,688 serena.cli:health_check:707 - Testing FindReferencingSymbolsTool for symbol: default
+INFO  2025-11-17 11:13:06,688 serena.task_executor:issue_task:192 - Scheduling Task-4:<lambda>
+INFO  2025-11-17 11:13:06,788 serena.task_executor:_process_task_queue:123 - Starting execution of Task-4:<lambda>
+INFO  2025-11-17 11:13:06,788 serena.task_executor:start:329 - Task-4:<lambda> starting ...
+INFO  2025-11-17 11:13:07,813 serena.task_executor:stop:336 - Task-4:<lambda> completed in 1.025 seconds
+INFO  2025-11-17 11:13:07,813 serena.cli:health_check:711 - FindReferencingSymbolsTool found 0 references for symbol default
+INFO  2025-11-17 11:13:07,814 serena.cli:health_check:717 - Testing SearchForPatternTool for pattern: default
+INFO  2025-11-17 11:13:07,814 serena.task_executor:issue_task:192 - Scheduling Task-5:<lambda>
+INFO  2025-11-17 11:13:07,913 serena.task_executor:_process_task_queue:123 - Starting execution of Task-5:<lambda>
+INFO  2025-11-17 11:13:07,914 serena.task_executor:start:329 - Task-5:<lambda> starting ...
+INFO  2025-11-17 11:13:07,946 serena.text_utils:search_files:365 - Processing 32 files.
+INFO  2025-11-17 11:13:07,965 serena.text_utils:search_files:406 - Found 20 total matches across 32 files
+INFO  2025-11-17 11:13:07,965 serena.task_executor:stop:336 - Task-5:<lambda> completed in 0.051 seconds
+INFO  2025-11-17 11:13:07,965 serena.cli:health_check:724 - SearchForPatternTool found 20 pattern matches for default
+INFO  2025-11-17 11:13:07,966 serena.cli:health_check:738 - Health check completed successfully

@@ -1,0 +1,41 @@
+# Temporary workflow to compile debug agents
+
+name: "temp-compile-debug-agents"
+description: "Manually compiles the debug agents from .yaml to .md and updates the agent manifest."
+
+instructions:
+  - step: 1
+    goal: "List all .agent.yaml files in the .bmad/debug/agents/ directory."
+    action: |
+      run_shell_command(command="ls .bmad/debug/agents/*.agent.yaml > .bmad/debug/agents/agent_list.txt")
+
+  - step: 2
+    goal: "For each .yaml file, create a corresponding .md file and append to manifest."
+    action: |
+      run_shell_command(command="""
+        while read -r yaml_file; do
+          md_file=$(echo "$yaml_file" | sed 's/.agent.yaml/.md/g')
+          echo '---' > "$md_file"
+          cat "$yaml_file" >> "$md_file"
+          echo '---' >> "$md_file"
+          
+          # Extract agent metadata for the manifest
+          name=$(grep 'name:' "$yaml_file" | cut -d ' ' -f 2- | tr -d '"')
+          displayName=$(grep 'name:' "$yaml_file" | cut -d ' ' -f 2- | tr -d '"')
+          title=$(grep 'title:' "$yaml_file" | cut -d ' ' -f 2- | tr -d '"')
+          icon=$(grep 'icon:' "$yaml_file" | cut -d ' ' -f 2- | tr -d '"')
+          role=$(grep -A1 'role:' "$yaml_file" | tail -n1 | sed 's/^[ 	]*//' | tr -d '|')
+          identity=$(grep -A1 'identity:' "$yaml_file" | tail -n1 | sed 's/^[ 	]*//'| tr -d '|')
+          communicationStyle=$(grep -A1 'communication_style:' "$yaml_file" | tail -n1 | sed 's/^[ 	]*//'| tr -d '|')
+          principles=$(grep -A1 'principles:' "$yaml_file" | tail -n1 | sed 's/^[ 	]*//' | tr -d '|')
+          module=$(grep 'module:' "$yaml_file" | cut -d ' ' -f 2- | tr -d '"')
+          path=$(echo "$md_file" | sed 's,^,.,')
+
+          # Append to manifest
+          echo "$name,$displayName,$title,$icon,$role,$identity,$communicationStyle,$principles,$module,$path" >> .bmad/_cfg/agent-manifest.csv
+        done < .bmad/debug/agents/agent_list.txt
+      ")
+  - step: 3
+    goal: "Clean up temporary file."
+    action: |
+      run_shell_command(command="rm .bmad/debug/agents/agent_list.txt")

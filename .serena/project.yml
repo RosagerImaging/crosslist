@@ -3,10 +3,6 @@
 #  * For JavaScript, use typescript
 # Special requirements:
 #  * csharp: Requires the presence of a .sln file in the project folder.
-language: typescript
-
-# the encoding used by text files in the project
-# For a list of possible encodings, see https://docs.python.org/3.11/library/codecs.html#standard-encodings
 encoding: "utf-8"
 
 # whether to use the project's gitignore file to ignore files
@@ -66,6 +62,218 @@ excluded_tools: []
 
 # initial prompt for the project. It will always be given to the LLM upon activating the project
 # (contrary to the memories, which are loaded on demand).
-initial_prompt: ""
+initial_prompt: |
+  # CROSSLIST PROJECT CONTEXT
+
+  ## Project Overview
+
+  Crosslist is an AI-native e-commerce reseller's inventory management system. It's a web application
+  using autonomous AI agents to automate every aspect of the reselling process, from listing creation
+  to customer service.
+
+  ## Technology Stack
+
+  - **Framework**: Next.js (App Router)
+  - **Language**: TypeScript
+  - **Database**: Supabase (PostgreSQL + pgvector)
+  - **AI Orchestration**: BMad Method v6 (agent-driven development)
+  - **Task Management**: Archon MCP (RAG + task tracking)
+  - **Code Intelligence**: Serena MCP (semantic code navigation)
+  - **Browser Automation**: Chrome Extension + Playwright MCP
+  - **Build/Deploy**: Vercel with automated testing pipeline
+
+  ## System Architecture: 7 AI Agent Systems
+
+  ### 1. Crosslisting System
+  - Replicates listings from one marketplace to all others
+  - Single primary agent
+
+  ### 2. Listing Optimizer System
+  - **Photo Optimizer**: Background removal, contrast enhancement
+  - **Description Generator**: SKU/image-based content creation
+  - **Pricing Agent**: Market-based dynamic pricing
+  - Optional Size.ly integration for measurements
+
+  ### 3. Sourcing System
+  - Finds profitable products in user's niche
+  - Analyzes marketplace trends
+
+  ### 4. Promotion System
+  - Automated social engagement (Poshmark-focused)
+  - Sharing, following, liking with human-like behavior
+  - Must avoid platform restrictions
+
+  ### 5. Trends System
+  - Identifies emerging product trends
+  - Tracks real-time market data
+
+  ### 6. Liquidation System
+  - Clears stale inventory via automated discounting
+  - Sends offers to other resellers
+
+  ### 7. Customer Service System
+  - Automated buyer communication
+  - Tunable chatbot with custom Q&A
+  - Escalates to user when uncertain
+
+  ## BMad Debugging Module: "BMad Detective Agency"
+
+  Custom debugging module with specialized agents (Phase 1 MVP):
+
+  - **Detective Casey** (Debug Orchestrator): Triages cases, delegates tasks, synthesizes findings
+  - **Loop Breaker** (Circular Edit Guardian): Prevents infinite debugging loops
+  - **React Rita** (Frontend Debugger): Next.js/React/TypeScript specialist
+  - **Test Tina** (Test Generator): Ensures every bug fix has tests
+  - **Inspector Git-chell** (Git Detective): Analyzes git history for bug origins
+  - **Chronicler** (Knowledge Keeper): Documents bugs/solutions in structured knowledge base
+  - **Playwright Pete** (UI/UX Verifier): Tests using Playwright MCP and Chrome Dev Tools MCP
+
+  ### Debug Workflows
+
+  - **`reactive-debug`** (PRIMARY): Systematic bug investigation and fixing
+  - **`circular-edit-intervention`** (CRITICAL): Breaks infinite loop patterns
+  - **`test-coverage-gap`** (Proactive): Identifies and fills testing gaps
+  - **`preventive-code-review`** (Before Commit): Catches potential bugs
+  - **`query-knowledge-base`**: Direct querying of bug/solution database
+
+  ### Automated Debugging Features
+
+  - Vercel build failure detection via webhook to `/apps/api` endpoint
+  - Local build/lint/type-check failure detection via wrapper script
+  - Self-correcting loop for build failures with automated re-deployment
+  - Structured bug/solution knowledge base organized by "jurisdictions"
+  - Autonomous operation once invoked (minimal user intervention)
+  - Execution modes: "Autonomous" (Hot Pursuit) and "Supervised" (Stakeout)
+  - Speed options: "fast" and "thorough"
+
+  ## Code Organization
+
+  - `/app` - Next.js App Router pages and layouts
+  - `/components` - Reusable React components
+  - `/lib` - Utility functions, API clients, database helpers
+  - `/agents` - AI agent system implementations
+  - `/types` - TypeScript type definitions
+  - `/hooks` - Custom React hooks
+  - `/bmad` - BMad Method files (docs, agents, workflows)
+  - `supabase/migrations/` - Database schema
+
+  ## Naming Conventions
+
+  - **Components**: PascalCase (e.g., `ListingCard.tsx`)
+  - **Functions**: camelCase (e.g., `fetchListingData`)
+  - **Types/Interfaces**: PascalCase (e.g., `MarketplaceConfig`)
+  - **Constants**: SCREAMING_SNAKE_CASE (e.g., `MAX_RETRY_ATTEMPTS`)
+  - **Agent Systems**: Descriptive names (e.g., `crosslisting-agent`)
+
+  ## Key Architectural Decisions
+
+  - **Monorepo Structure**: All agent systems in single codebase
+  - **Supabase Functions**: Server-side logic for sensitive operations
+  - **Chrome Extension**: Required for marketplace authentication/API access
+  - **Event-Driven**: Systems communicate via events/webhooks
+  - **Rate Limiting**: All marketplace interactions respect API limits
+  - **BMad Method Track**: Full planning (PRD + Architecture + UX)
+
+  ## Marketplace Integrations
+
+  - **eBay**: Auction vs. Buy-It-Now, shipping calculations, promoted listings
+  - **Poshmark**: Social features critical, sharing is key, community-driven
+  - **Etsy**: Handmade/vintage focus, SEO-optimized titles, tag management
+  - **Mercari**: Simple UI, shipping label integration, offer system
+
+  ## Domain Knowledge: E-Commerce Reselling Workflow
+
+  1. **Sourcing**: Finding undervalued items (thrift, wholesale, clearance)
+  2. **Listing**: Photography → Description → Pricing → Post to marketplaces
+  3. **Crosslisting**: Expand reach by listing on multiple platforms
+  4. **Promotion**: Drive visibility (shares, follows, engagement)
+  5. **Sales**: Fulfill orders, handle customer service
+  6. **Optimization**: Adjust pricing, refresh listings, clear old inventory
+
+  ## Critical Files
+
+  - `lib/marketplace-configs.ts` - Marketplace integration settings
+  - `types/marketplace.ts` - Core type definitions
+  - `app/api/` - Next.js API routes (includes webhook endpoint for Vercel)
+  - `.env.local` - Environment configuration (see .env.example)
+  - `bmad/debug/` - Custom debugging module agents and workflows
+
+  ## Development Guidelines for Serena
+
+  ### When Working with Agent Systems
+
+  Use symbol-based navigation to explore agent implementations:
+  ```
+  1. find_symbol("CrosslistingAgent") - Locate agent class
+  2. get_symbols_overview("agents/crosslisting/index.ts") - See structure
+  3. find_referencing_symbols - Understand how agent is used
+  ```
+
+  ### When Working with Marketplace Code
+
+  Always verify rate limiting before editing marketplace integrations:
+  ```
+  1. find_symbol("MarketplaceAdapter") - Locate adapter
+  2. search_for_pattern("rate limit") - Find rate limiting logic
+  3. find_referencing_symbols - Check usage across systems
+  ```
+
+  ### When Debugging with BMad Module
+
+  BMad debugging agents (Detective Casey, React Rita, etc.) will analyze and propose fixes.
+  Your role is to execute their proposals with surgical precision:
+  ```
+  1. React Rita proposes: "Fix AuthService.validateToken method"
+  2. You execute: find_symbol("AuthService.validateToken")
+  3. You edit: replace_symbol_body(...)
+  4. You verify: find_referencing_symbols(...)
+  ```
+
+  Never read entire files when BMad agents reference specific symbols.
+
+  ### Token Efficiency Patterns
+
+  - Use `get_symbols_overview` before reading any code file
+  - Use `find_symbol` to jump directly to entities
+  - Use `search_for_pattern` for text patterns (not symbols)
+  - Store common patterns in memories for quick recall
+  - Reference BMad docs instead of re-analyzing architecture
+
+  ## Memory Strategy
+
+  Use Serena's `write_memory` for:
+  - Marketplace API quirks and workarounds
+  - Common bug patterns and fixes (complement to Chronicler's database)
+  - Agent system integration points
+  - Performance optimization notes
+  - Security considerations for marketplace auth
+  - BMad architecture decisions from tech-specs
+
+  Example memories to create:
+  ```
+  write_memory("poshmark-rate-limits", "API throttling: max 60 req/min, backoff 2^n")
+  write_memory("photo-optimization-pipeline", "Flow: upload → sharp → remove.bg → crop → compress")
+  write_memory("crosslisting-error-patterns", "Common: auth timeout, missing SKU, price < min")
+  write_memory("bmad-rita-fix-patterns", "React Rita's common approaches for TypeScript errors")
+  ```
+
+  ## Business Metrics
+
+  - Sell-through rate (% of inventory sold)
+  - Average days to sale
+  - Profit margin per item
+  - Cross-listing coverage (% on multiple platforms)
+  - Engagement rate (likes, follows, shares)
+
+  ---
+
+  Remember: This is an AI-native application where agents do the work. Enable those agents
+  with efficient, well-structured code. Use Serena's semantic tools to maintain the codebase
+  at the symbol level, never at the file level. When BMad debugging agents propose fixes,
+  execute them surgically with symbol-based tools.
 
 project_name: "crosslist"
+languages:
+- typescript
+- python
+included_optional_tools: []

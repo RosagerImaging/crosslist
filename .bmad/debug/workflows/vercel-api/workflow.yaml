@@ -1,0 +1,18 @@
+name: 'vercel-api'
+description: 'Interacts with the Vercel API for deployment logs and triggering deployments.'
+author: "joel"
+
+# Critical variables load from config_source
+config_source: "{project-root}/.bmad/debug/config.yaml"
+output_folder: "{config_source}:output_folder"
+user_name: "{config_source}:user_name"
+communication_language: "{config_source}:communication_language"
+date: system-generated
+
+# Module path and component files
+installed_path: "{project-root}/.bmad/debug/workflows/vercel-api"
+template: false
+instructions: "{installed-path}/instructions.md"
+validation: "{installed-path}/checklist.md"
+
+standalone: false

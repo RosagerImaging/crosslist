@@ -6,7 +6,7 @@ MCP's and other servers and services to start before beginning work on the codeb
 
 **From /home/optiks/dev/mcp/serena**:
 
-```uv run serena start-mcp-server --project crosslist --context ide-assistant --transport streamable-http --port 9121
+```uv run serena start-mcp-server --project crosslist --context /home/optiks/dev/mcp/serena/src/serena/resources/config/contexts/gemini-archon.yml --mode /home/optiks/dev/mcp/serena/src/serena/resources/config/modes/bmad.yml --mode interactive --mode editing --project /home/optiks/dev/crosslist --transport streamable-http --port 9121
 
 ```
 
@@ -25,12 +25,16 @@ MCP's and other servers and services to start before beginning work on the codeb
 - To activate Serena MCP's tools:
 
 Gemini:
-prompt - ``Use Serena MCP to first read Serena's initial instructions and ensure project onboarding has been completed for the current working directory. Afterwards, use Serena MCP's `activate_project` tool to activate project name "crosslist" located at home/optiks/dev/crosslist. I am NOT IN ANY WAY REFERRING TO THE ARCHON MCP SERVER OR ANY PROJECT WITHIN ARCHON OR ITS PROJECT MANAGEMENT OR TASK MANAGEMENT SYSTEM. DO NOT IN AN WAY ALTER, CREATE, OR MANAGE ANY PROJECT USING ARCHON. THIS TASK ONLY INVOLVES THE SERENA MCP SERVER AND THREE OF THE TOOLS AVAILABLE THROUGH THE SERENA MCP: `check_onboarding_performed`, `initial_instructions` AND `activate_project`.``
+prompt - `activate Serena project crosslist`
 
 Claude:
 command - `/mcp_serena_initial_instructions`
 
 - Browser window will automatically open
+
+**Load project context**
+
+- After Serena activates project, use Gemini custom slash command /primer to load project context into chat session
 
 **Archon**
 

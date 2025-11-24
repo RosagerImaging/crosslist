@@ -3,12 +3,13 @@
 This document provides a comprehensive overview of the Crosslist project, including its architecture, file structure, development environment setup, coding best practices, and how to interact with the AI agents (Serena and Archon).
 
 ## Table of Contents
+
 1.  [Project Overview](#1-project-overview)
 2.  [Architecture](#2-architecture)
 3.  [File Structure](#3-file-structure)
 4.  [Development Environment Setup](#4-development-environment-setup)
-    *   [Serena MCP](#serena-mcp)
-    *   [Archon MCP](#archon-mcp)
+    - [Serena MCP](#serena-mcp)
+    - [Archon MCP](#archon-mcp)
 5.  [Coding Best Practices](#5-coding-best-practices)
 6.  [Gotchas](#6-gotchas)
 7.  [RAG Knowledgebase](#7-rag-knowledgebase)
@@ -130,10 +131,13 @@ The project utilizes a monorepo structure managed by Turborepo, organizing diffe
 ## 4. Development Environment Setup
 
 ### Serena MCP
+
 To activate the Serena configuration project, use the following command:
+
 ```bash
 activate_project(project="crosslist")
 ```
+
 This command loads the necessary configurations and memories for Serena to interact with the Crosslist project.
 
 ### Archon MCP
@@ -152,41 +156,73 @@ To ensure consistent adherence to best practices, prevent recurring errors, and 
 
 **Persistent Memory & Error Tracking** In the `persistent-memory` directory at the project root, I will **IMPORTANT** use tools available in Serena MCP - such as `default_api.write_file` or `default_api.replace` - to continuously and autonomously maintain:
 
--   `bugs.md` A file containing all errors and bugs I encounter throughout the process of building this code base. Below each documented bug I will leave a dedicated space labeled "solution" where I will document the verified solution.
-    **IMPORTANT** I will wait until the solution implemented is 100% verified as working based on one or more of these criteria:
-    -   Passed test - the unit test passes once the error has been resolved and it doesn't introduce any new significant error or break anything equal to or greater than the level of complexity of the original error
-    -   Successful Build - the solution to the error, once implemented, either allows a previously failed build to succeed, or passes an already successful build without causing a warning or new error.
+- `bugs.md` A file containing all errors and bugs I encounter throughout the process of building this code base. Below each documented bug I will leave a dedicated space labeled "solution" where I will document the verified solution.
+  **IMPORTANT** I will wait until the solution implemented is 100% verified as working based on one or more of these criteria:
+  - Passed test - the unit test passes once the error has been resolved and it doesn't introduce any new significant error or break anything equal to or greater than the level of complexity of the original error
+  - Successful Build - the solution to the error, once implemented, either allows a previously failed build to succeed, or passes an already successful build without causing a warning or new error.
 
--   `decisions.md` A file containing all architectural decisions that are made with a brief description of the reason they were made and, if there were alternative options being considered, the benefits that outweigh the other choices.
+- `decisions.md` A file containing all architectural decisions that are made with a brief description of the reason they were made and, if there were alternative options being considered, the benefits that outweigh the other choices.
 
--   `GEMINI.md` I will then convert the:
-    -   `Error` and `Solution` and/or
-    -   `Decision` and brief description of the context in which it was made
+- `GEMINI.md` I will then convert the:
+  - `Error` and `Solution` and/or
+  - `Decision` and brief description of the context in which it was made
     Into a new `Rule` to follow in the `GEMINI.md` project instructions under the "## Coding Best Practices" section.
 
 **IMPORTANT** All of this automated documentation means nothing if it is not referenced at the appropriate time in order to utilize the knowledge we have gained.
 
 Therefore:
 
--   I will use Serena MCP's `default_api.search_for_pattern` or `default_api.find_symbol` to semantically search the `persistent-memory` directory (e.g., `bugs.md`, `decisions.md`), the `GEMINI.md`, and any other relevant files for keywords related to the error, task, or files involved in EVERY single Archon MCP task cycle that I undertake.
--   If I am unsuccessful in my attempt to fix a bug or error, on the second attempt I will use `default_api.run_shell_command(command="git log -- <file_path>")` to review the history of relevant files, understanding the context of previous changes in order to avoid repeating mistakes or circular edits.
+- I will use Serena MCP's `default_api.search_for_pattern` or `default_api.find_symbol` to semantically search the `persistent-memory` directory (e.g., `bugs.md`, `decisions.md`), the `GEMINI.md`, and any other relevant files for keywords related to the error, task, or files involved in EVERY single Archon MCP task cycle that I undertake.
+- If I am unsuccessful in my attempt to fix a bug or error, on the second attempt I will use `default_api.run_shell_command(command="git log -- <file_path>")` to review the history of relevant files, understanding the context of previous changes in order to avoid repeating mistakes or circular edits.
 
 ### 1. Turborepo Configuration
 
--   **Declare CI Environment Variables:** Any environment variable used in your code that is provided by the CI environment (e.g., `process.env.CI`) must be declared in the `env` array for the relevant task in `turbo.json`. This prevents `turbo/no-undeclared-env-vars` linting errors and ensures Turborepo's caching behaves predictably.
+- **Declare CI Environment Variables:** Any environment variable used in your code that is provided by the CI environment (e.g., `process.env.CI`) must be declared in the `env` array for the relevant task in `turbo.json`. This prevents `turbo/no-undeclared-env-vars` linting errors and ensures Turborepo's caching behaves predictably.
 
-    *Example (`turbo.json`):*
-    ```json
-    "tasks": {
-      "test": {
-        "env": ["CI"]
-      }
+  _Example (`turbo.json`):_
+
+  ```json
+  "tasks": {
+    "test": {
+      "env": ["CI"]
     }
-    ```
+  }
+  ```
 
 ### 2. Next.js `package.json` Scripts
 
--   **Explicit `next lint` Path:** When creating a `lint` script for a Next.js application, always provide an explicit path (e.g., `.`). Use `"lint": "next lint ."` instead of `"lint": "next lint"`. This prevents ambiguity in CI environments where the command might otherwise be misinterpreted.
+- **Explicit `next lint` Path:** When creating a `lint` script for a Next.js application, always provide an explicit path (e.g., `.`). Use `"lint": "next lint ."` instead of `"lint": "next lint"`. This prevents ambiguity in CI environments where the command might otherwise be misinterpreted.
+
+### 3. Linting
+
+This project uses ESLint for code linting. The configuration is managed in a monorepo-friendly way using a flat config (`eslint.config.js`).
+
+#### How to Run the Linter
+
+To run the linter across the entire monorepo, use the following command from the root directory:
+
+```bash
+npm run lint
+```
+
+This command directly runs `eslint` on all relevant TypeScript/TSX files in the `apps/` and `packages/` directories.
+
+#### ESLint Configuration (`eslint.config.js`)
+
+The `eslint.config.js` file at the root of the project is the single source of truth for ESLint configuration. It uses a flat config structure with the following key features:
+
+- **Global Ignores**: The configuration begins with a global `ignores` property that excludes generated files and directories from linting. This is crucial for preventing warnings in `.next/` directories, `dist/` directories, and other generated files like `next-env.d.ts`.
+  ```javascript
+  export default [
+    {
+      ignores: ["**/.next/**", "**/dist/**", "**/next-env.d.ts"],
+    },
+    // ... other configurations
+  ];
+  ```
+- **Monorepo-Friendly**: The configuration is structured to handle the monorepo setup, with specific configurations for Next.js apps, the Chrome extension, and other packages.
+
+By centralizing the linting command and configuration, we ensure a consistent and reliable linting process across the entire project.
 
 ## 6. Gotchas
 
@@ -198,15 +234,16 @@ This section highlights common pitfalls and important considerations to keep in 
 
 ### Task Management Adherence
 
--   **NEVER** skip task updates.
--   **NEVER** code without checking current tasks first.
--   **NEVER** skip updating documentation.
+- **NEVER** skip task updates.
+- **NEVER** code without checking current tasks first.
+- **NEVER** skip updating documentation.
 
 ### Turborepo Configuration: CI Environment Variables
 
 Any environment variable used in your code that is provided by the CI environment (e.g., `process.env.CI`) must be declared in the `env` array for the relevant task in `turbo.json`. This prevents `turbo/no-undeclared-env-vars` linting errors and ensures Turborepo's caching behaves predictably.
 
-*Example (`turbo.json`):*
+_Example (`turbo.json`):_
+
 ```json
 "tasks": {
   "test": {
@@ -307,26 +344,26 @@ find_tasks(filter_by="project", filter_value="proj-123")
 
 **Projects:**
 
--   `find_projects(query="...")` - Search projects
--   `find_projects(project_id="...")` - Get specific project
--   `manage_project("create"/"update"/"delete", ...)` - Manage projects
+- `find_projects(query="...")` - Search projects
+- `find_projects(project_id="...")` - Get specific project
+- `manage_project("create"/"update"/"delete", ...)` - Manage projects
 
 **Tasks:**
 
--   `find_tasks(query="...")` - Search tasks by keyword
--   `find_tasks(task_id="...")` - Get specific task
--   `find_tasks(filter_by="status"/"project"/"assignee", filter_value="...")` - Filter tasks
--   `manage_task("create"/"update"/"delete", ...)` - Manage tasks
+- `find_tasks(query="...")` - Search tasks by keyword
+- `find_tasks(task_id="...")` - Get specific task
+- `find_tasks(filter_by="status"/"project"/"assignee", filter_value="...")` - Filter tasks
+- `manage_task("create"/"update"/"delete", ...)` - Manage tasks
 
 **Knowledge Base:**
 
--   `rag_get_available_sources()` - List all sources
--   `rag_search_knowledge_base(query="...", source_id="...")` - Search docs
--   `rag_search_code_examples(query="...", source_id="...")` - Find code
+- `rag_get_available_sources()` - List all sources
+- `rag_search_knowledge_base(query="...", source_id="...")` - Search docs
+- `rag_search_code_examples(query="...", source_id="...")` - Find code
 
 ### Important Notes
 
--   Task status flow: `todo` → `doing` → `review` → `done`
--   Keep queries SHORT (2-5 keywords) for better search results
--   Higher `task_order` = higher priority (0-100)
--   Tasks should be 30 min - 4 hours of work
+- Task status flow: `todo` → `doing` → `review` → `done`
+- Keep queries SHORT (2-5 keywords) for better search results
+- Higher `task_order` = higher priority (0-100)
+- Tasks should be 30 min - 4 hours of work

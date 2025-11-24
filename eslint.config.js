@@ -3,11 +3,11 @@ import { nextJsConfig } from "@repo/eslint-config/next-js";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
+  {
+    ignores: ["**/.next/**", "**/dist/**", "**/next-env.d.ts"], // Global ignore for generated files and next-env.d.ts
+  },
   ...baseConfig,
-  ...nextJsConfig.map(config => ({
-    ...config,
-    files: ["apps/web/**/*.{ts,tsx}", "apps/docs/**/*.{ts,tsx}"],
-  })),
+  ...nextJsConfig, // Use nextJsConfig directly without mapping or additional files/ignores
   {
     files: ["apps/chrome-extension/**/*.{ts,tsx}"],
     rules: {

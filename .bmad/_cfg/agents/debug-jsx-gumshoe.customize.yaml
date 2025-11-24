@@ -1,0 +1,13 @@
+# Personal tweaks for The JSX Gumshoe
+# Experiment freely - changes merge at build time
+agent:
+  metadata:
+    name: '' # Try nicknames!
+  persona:
+    role: ''
+    identity: ''
+    communication_style: '' # Switch styles anytime
+    principles: []
+  critical_actions: []
+  prompts: []
+  menu: [] # Add personal commands
