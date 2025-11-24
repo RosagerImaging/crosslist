@@ -1,0 +1,59 @@
+﻿2025-11-24T02:17:57.9859583Z ##[group]Run uv sync --group dev
+2025-11-24T02:17:57.9860157Z [36;1muv sync --group dev[0m
+2025-11-24T02:17:57.9860418Z [36;1muv add pytest-cov[0m
+2025-11-24T02:17:57.9892767Z shell: /usr/bin/bash -e {0}
+2025-11-24T02:17:57.9893017Z env:
+2025-11-24T02:17:57.9893273Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-24T02:17:57.9894443Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-24T02:17:57.9894682Z   NODE_VERSION: 20
+2025-11-24T02:17:57.9894881Z   PYTHON_VERSION: 3.12
+2025-11-24T02:17:57.9895156Z   TURBO_TOKEN: ***
+2025-11-24T02:17:57.9895406Z   TURBO_TEAM: ***
+2025-11-24T02:17:57.9895647Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-24T02:17:57.9895923Z ##[endgroup]
+2025-11-24T02:17:58.1545104Z Using CPython 3.12.12
+2025-11-24T02:17:58.1545502Z Creating virtual environment at: .venv
+2025-11-24T02:17:58.4629976Z Resolved 64 packages in 307ms
+2025-11-24T02:17:58.4756371Z    Building api @ file:///home/runner/work/crosslist/crosslist/apps/api
+2025-11-24T02:17:58.4972785Z Downloading pydantic-core (2.0MiB)
+2025-11-24T02:17:58.4979741Z Downloading pygments (1.2MiB)
+2025-11-24T02:17:58.4996583Z Downloading mypy (12.7MiB)
+2025-11-24T02:17:58.5016740Z Downloading ruff (13.3MiB)
+2025-11-24T02:17:58.5031828Z Downloading zstandard (5.3MiB)
+2025-11-24T02:17:58.6669621Z  Downloaded pydantic-core
+2025-11-24T02:17:58.8157619Z  Downloaded zstandard
+2025-11-24T02:17:58.8722126Z  Downloaded ruff
+2025-11-24T02:17:58.9455932Z  Downloaded pygments
+2025-11-24T02:17:59.1046570Z  Downloaded mypy
+2025-11-24T02:17:59.6881567Z   × Failed to build `api @
+2025-11-24T02:17:59.6882264Z   │ file:///home/runner/work/crosslist/crosslist/apps/api`
+2025-11-24T02:17:59.6883100Z   ├─▶ The build backend returned an error
+2025-11-24T02:17:59.6887101Z   ╰─▶ Call to `poetry.core.masonry.api.build_editable` failed (exit status: 1)
+2025-11-24T02:17:59.6890055Z 
+2025-11-24T02:17:59.6890246Z       [stderr]
+2025-11-24T02:17:59.6890646Z       Traceback (most recent call last):
+2025-11-24T02:17:59.6899310Z         File "<string>", line 11, in <module>
+2025-11-24T02:17:59.6899960Z         File
+2025-11-24T02:17:59.6900795Z       "/home/runner/work/_temp/setup-uv-cache/builds-v0/.tmpEqMA8J/lib/python3.12/site-packages/poetry/core/masonry/api.py",
+2025-11-24T02:17:59.6901767Z       line 87, in build_editable
+2025-11-24T02:17:59.6902198Z           return WheelBuilder.make_in(
+2025-11-24T02:17:59.6902658Z                  ^^^^^^^^^^^^^^^^^^^^^
+2025-11-24T02:17:59.6903066Z         File
+2025-11-24T02:17:59.6904050Z       "/home/runner/work/_temp/setup-uv-cache/builds-v0/.tmpEqMA8J/lib/python3.12/site-packages/poetry/core/masonry/builders/wheel.py",
+2025-11-24T02:17:59.6905093Z       line 87, in make_in
+2025-11-24T02:17:59.6905466Z           wb = cls(
+2025-11-24T02:17:59.6905718Z                ^^^^
+2025-11-24T02:17:59.6906031Z         File
+2025-11-24T02:17:59.6907039Z       "/home/runner/work/_temp/setup-uv-cache/builds-v0/.tmpEqMA8J/lib/python3.12/site-packages/poetry/core/masonry/builders/wheel.py",
+2025-11-24T02:17:59.6908151Z       line 67, in __init__
+2025-11-24T02:17:59.6908623Z           super().__init__(poetry, executable=executable,
+2025-11-24T02:17:59.6909082Z       config_settings=config_settings)
+2025-11-24T02:17:59.6909460Z         File
+2025-11-24T02:17:59.6910205Z       "/home/runner/work/_temp/setup-uv-cache/builds-v0/.tmpEqMA8J/lib/python3.12/site-packages/poetry/core/masonry/builders/builder.py",
+2025-11-24T02:17:59.6911212Z       line 40, in __init__
+2025-11-24T02:17:59.6911617Z           raise RuntimeError(
+2025-11-24T02:17:59.6912210Z       RuntimeError: Building a package is not possible in non-package mode.
+2025-11-24T02:17:59.6912730Z 
+2025-11-24T02:17:59.6913057Z       hint: This usually indicates a problem with the package or the build
+2025-11-24T02:17:59.6913659Z       environment.
+2025-11-24T02:17:59.6969433Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,33 @@
+﻿2025-11-24T02:18:29.9805422Z ##[group]Run npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
+2025-11-24T02:18:29.9806162Z [36;1mnpx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui[0m
+2025-11-24T02:18:29.9838742Z shell: /usr/bin/bash -e {0}
+2025-11-24T02:18:29.9838976Z env:
+2025-11-24T02:18:29.9839215Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-24T02:18:29.9840451Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-24T02:18:29.9840685Z   NODE_VERSION: 20
+2025-11-24T02:18:29.9840870Z   PYTHON_VERSION: 3.12
+2025-11-24T02:18:29.9841112Z   TURBO_TOKEN: ***
+2025-11-24T02:18:29.9841310Z   TURBO_TEAM: ***
+2025-11-24T02:18:29.9841519Z   CODEQL_ACTION_FEATURE_MULTI_LANGUAGE: false
+2025-11-24T02:18:29.9841794Z   CODEQL_ACTION_FEATURE_SANDWICH: false
+2025-11-24T02:18:29.9842058Z   CODEQL_ACTION_FEATURE_SARIF_COMBINE: true
+2025-11-24T02:18:29.9842324Z   CODEQL_ACTION_FEATURE_WILL_UPLOAD: true
+2025-11-24T02:18:29.9842577Z   CODEQL_ACTION_VERSION: 3.31.4
+2025-11-24T02:18:29.9842857Z   CODEQL_ACTION_DID_LOG_VERSION_DEPRECATION: true
+2025-11-24T02:18:29.9843162Z   JOB_RUN_UUID: cd8c95e8-e102-4530-963d-931c3d598665
+2025-11-24T02:18:29.9843443Z   CODEQL_ACTION_INIT_HAS_RUN: true
+2025-11-24T02:18:29.9843764Z   CODEQL_ACTION_ANALYSIS_KEY: .github/workflows/ci.yml:frontend-tests
+2025-11-24T02:18:29.9844139Z   CODEQL_WORKFLOW_STARTED_AT: 2025-11-24T02:18:12.716Z
+2025-11-24T02:18:29.9844406Z   CODEQL_RAM: 14581
+2025-11-24T02:18:29.9844588Z   CODEQL_THREADS: 4
+2025-11-24T02:18:29.9844764Z ##[endgroup]
+2025-11-24T02:18:30.3561840Z 
+2025-11-24T02:18:30.3562061Z Attention:
+2025-11-24T02:18:30.3562917Z Turborepo now collects completely anonymous telemetry regarding usage.
+2025-11-24T02:18:30.3564091Z This information is used to shape the Turborepo roadmap and prioritize features.
+2025-11-24T02:18:30.3565435Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+2025-11-24T02:18:30.3566309Z https://turborepo.com/docs/telemetry
+2025-11-24T02:18:30.3566588Z 
+2025-11-24T02:18:30.5663359Z   x No package found with name 'tui' in workspace
+2025-11-24T02:18:30.5664141Z 
+2025-11-24T02:18:30.5802225Z ##[error]Process completed with exit code 1.

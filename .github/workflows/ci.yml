@@ -42,16 +42,16 @@ jobs:
           languages: typescript
 
       - name: Lint
-        run: npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
+        run: npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=ui
 
       - name: Type Check
-        run: npx turbo run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
+        run: npx turbo run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=ui
 
       - name: Build
-        run: npx turbo run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=tui
+        run: npx turbo run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=ui
 
       - name: Test
-        run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=tui
+        run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=ui
         continue-on-error: false
 
       - name: Install Playwright Browsers

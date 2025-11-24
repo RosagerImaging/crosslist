@@ -1,0 +1,22 @@
+﻿2025-11-24T02:17:55.4179500Z ##[group]Run astral-sh/setup-uv@v4
+2025-11-24T02:17:55.4180607Z with:
+2025-11-24T02:17:55.4181509Z   version: latest
+2025-11-24T02:17:55.4182806Z   github-token: ***
+2025-11-24T02:17:55.4183746Z   enable-cache: false
+2025-11-24T02:17:55.4184759Z   cache-dependency-glob: **/uv.lock
+2025-11-24T02:17:55.4185878Z   prune-cache: true
+2025-11-24T02:17:55.4186845Z   ignore-nothing-to-cache: false
+2025-11-24T02:17:55.4188017Z env:
+2025-11-24T02:17:55.4189108Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-24T02:17:55.4193150Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-24T02:17:55.4194252Z   NODE_VERSION: 20
+2025-11-24T02:17:55.4195135Z   PYTHON_VERSION: 3.12
+2025-11-24T02:17:55.4196211Z   TURBO_TOKEN: ***
+2025-11-24T02:17:55.4197224Z   TURBO_TEAM: ***
+2025-11-24T02:17:55.4198259Z ##[endgroup]
+2025-11-24T02:17:56.0867015Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.9.11/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+2025-11-24T02:17:56.4832408Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/53be4b1c-929b-452b-a989-786236ccf88f -f /home/runner/work/_temp/5073f876-5063-418d-ac6f-bc7c98de1796
+2025-11-24T02:17:56.9194903Z Added /opt/hostedtoolcache/uv/0.9.11/x86_64 to the path
+2025-11-24T02:17:56.9196022Z Added /home/runner/.local/bin to the path
+2025-11-24T02:17:56.9218172Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+2025-11-24T02:17:56.9218739Z Successfully installed uv version 0.9.11

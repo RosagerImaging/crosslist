@@ -30,4 +30,4 @@ dev = [
 ]
 
 [tool.poetry]
-package-mode = false
+
