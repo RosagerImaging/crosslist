@@ -1,6 +1,9 @@
 {
   "$schema": "https://turborepo.com/schema.json",
-
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "remoteCache": {
     "signature": false
   },

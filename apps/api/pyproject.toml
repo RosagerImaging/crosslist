@@ -30,4 +30,6 @@ dev = [
 ]
 
 [tool.poetry]
-
+packages = [
+    { include = "api", from = "src" }
+]
