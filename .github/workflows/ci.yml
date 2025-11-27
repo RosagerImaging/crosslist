@@ -45,23 +45,23 @@ jobs:
           languages: typescript
 
       - name: Lint
-        run: npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
+        run: npx turbo@latest run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
 
       - name: Type Check
-        run: npx turbo run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
+        run: npx turbo@latest run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
 
       - name: Build
-        run: npx turbo run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
+        run: npx turbo@latest run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
 
       - name: Test
-        run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=@repo/ui
+        run: npx turbo@latest run test --filter=web --filter=chrome-extension --filter=docs --filter=@repo/ui
         continue-on-error: false
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx turbo run test --filter=e2e
+        run: npx turbo@latest run test --filter=e2e
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
@@ -99,7 +99,7 @@ jobs:
       - name: Run all tests
         run: |
           echo "Running all unit tests..."
-          uv run pytest src/api/models/tests --verbose --tb=short \
+          uv run pytest ./src/api/models/tests --verbose --tb=short \
             --cov=src/api --cov-report=xml --cov-report=html \
             --cov-report=term-missing \
             --junitxml=test-results.xml
