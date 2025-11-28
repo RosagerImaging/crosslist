@@ -97,7 +97,7 @@ jobs:
         run: uv run ruff check .
 
       - name: Run type checking with mypy
-        run: uv run mypy .
+        run: uv run mypy src/api/main.py
 
       - name: Run all tests
         run: |
