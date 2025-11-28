@@ -39,6 +39,9 @@ jobs:
       - name: Install Turbo CLI
         run: npm install -g turbo
 
+      - name: Debug: Print turbo.json
+        run: cat turbo.json
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
