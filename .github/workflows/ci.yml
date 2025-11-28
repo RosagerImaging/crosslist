@@ -36,9 +36,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Turbo CLI
-        run: npm install -g turbo
-      - name: Debug: Print turbo.json
+            - name: Install Turbo CLI
+
+              run: npm install -g turbo
+
+            - name: Debug: Print turbo.json
         run: cat turbo.json
 
       - name: Initialize CodeQL
