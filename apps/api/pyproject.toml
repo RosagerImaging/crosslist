@@ -33,3 +33,6 @@ dev = [
 packages = [
     { include = "api", from = "src" }
 ]
+
+[tool.mypy]
+mypy_path = "src/"
