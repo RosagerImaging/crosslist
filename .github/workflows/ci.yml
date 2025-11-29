@@ -136,7 +136,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           
           # Backend Results
-.github/workflows/ci.yml          echo "## 🐍 Backend Tests (Python + pytest)" >> $GITHUB_STEP_SUMMARY
+            .github/workflows/ci.yml          echo "## 🐍 Backend Tests (Python + pytest)" >> $GITHUB_STEP_SUMMARY
           if [ "${{ needs.backend-tests.result }}" == "success" ]; then
             echo "✅ Backend tests completed successfully" >> $GITHUB_STEP_SUMMARY
           else
