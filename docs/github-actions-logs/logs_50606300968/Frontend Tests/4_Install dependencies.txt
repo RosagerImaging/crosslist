@@ -1,0 +1,30 @@
+﻿2025-11-24T02:55:55.6103748Z ##[group]Run npm install
+2025-11-24T02:55:55.6104357Z [36;1mnpm install[0m
+2025-11-24T02:55:55.6150122Z shell: /usr/bin/bash -e {0}
+2025-11-24T02:55:55.6150401Z env:
+2025-11-24T02:55:55.6150686Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-24T02:55:55.6151910Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-24T02:55:55.6152139Z   NODE_VERSION: 20
+2025-11-24T02:55:55.6152337Z   PYTHON_VERSION: 3.12
+2025-11-24T02:55:55.6152609Z   TURBO_TOKEN: ***
+2025-11-24T02:55:55.6152803Z   TURBO_TEAM: ***
+2025-11-24T02:55:55.6152987Z ##[endgroup]
+2025-11-24T02:56:00.1889874Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-11-24T02:56:01.9491738Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-11-24T02:56:02.5269988Z npm warn deprecated jose@1.28.2: this version is no longer supported
+2025-11-24T02:56:10.5953507Z 
+2025-11-24T02:56:10.5954054Z > crosslist@1.0.0 prepare
+2025-11-24T02:56:10.5954498Z > husky
+2025-11-24T02:56:10.5954614Z 
+2025-11-24T02:56:10.6551687Z 
+2025-11-24T02:56:10.6553011Z added 721 packages, and audited 730 packages in 15s
+2025-11-24T02:56:10.6553528Z 
+2025-11-24T02:56:10.6553848Z 217 packages are looking for funding
+2025-11-24T02:56:10.6554630Z   run `npm fund` for details
+2025-11-24T02:56:10.6731008Z 
+2025-11-24T02:56:10.6731623Z 6 vulnerabilities (3 moderate, 2 high, 1 critical)
+2025-11-24T02:56:10.6731915Z 
+2025-11-24T02:56:10.6732044Z To address all issues, run:
+2025-11-24T02:56:10.6732288Z   npm audit fix
+2025-11-24T02:56:10.6732421Z 
+2025-11-24T02:56:10.6732536Z Run `npm audit` for details.

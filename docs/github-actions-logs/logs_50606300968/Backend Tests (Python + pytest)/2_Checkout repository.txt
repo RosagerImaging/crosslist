@@ -1,0 +1,94 @@
+﻿2025-11-24T02:55:51.7364171Z ##[group]Run actions/checkout@v4
+2025-11-24T02:55:51.7365225Z with:
+2025-11-24T02:55:51.7365795Z   repository: RosagerImaging/crosslist
+2025-11-24T02:55:51.7366824Z   token: ***
+2025-11-24T02:55:51.7367332Z   ssh-strict: true
+2025-11-24T02:55:51.7367877Z   ssh-user: git
+2025-11-24T02:55:51.7368441Z   persist-credentials: true
+2025-11-24T02:55:51.7369265Z   clean: true
+2025-11-24T02:55:51.7369833Z   sparse-checkout-cone-mode: true
+2025-11-24T02:55:51.7370604Z   fetch-depth: 1
+2025-11-24T02:55:51.7371144Z   fetch-tags: false
+2025-11-24T02:55:51.7371718Z   show-progress: true
+2025-11-24T02:55:51.7372288Z   lfs: false
+2025-11-24T02:55:51.7372784Z   submodules: false
+2025-11-24T02:55:51.7373347Z   set-safe-directory: true
+2025-11-24T02:55:51.7374199Z env:
+2025-11-24T02:55:51.7374865Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-24T02:55:51.7379019Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-24T02:55:51.7379708Z   NODE_VERSION: 20
+2025-11-24T02:55:51.7380255Z   PYTHON_VERSION: 3.12
+2025-11-24T02:55:51.7380949Z   TURBO_TOKEN: ***
+2025-11-24T02:55:51.7381508Z   TURBO_TEAM: ***
+2025-11-24T02:55:51.7382017Z ##[endgroup]
+2025-11-24T02:55:51.8438203Z Syncing repository: RosagerImaging/crosslist
+2025-11-24T02:55:51.8440646Z ##[group]Getting Git version info
+2025-11-24T02:55:51.8441743Z Working directory is '/home/runner/work/crosslist/crosslist'
+2025-11-24T02:55:51.8443221Z [command]/usr/bin/git version
+2025-11-24T02:55:51.8550331Z git version 2.51.2
+2025-11-24T02:55:51.8577309Z ##[endgroup]
+2025-11-24T02:55:51.8590637Z Temporarily overriding HOME='/home/runner/work/_temp/188e7b85-6a84-46f3-8a5b-974bbbf967ed' before making global git config changes
+2025-11-24T02:55:51.8593798Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-24T02:55:51.8596900Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/crosslist/crosslist
+2025-11-24T02:55:51.8633809Z Deleting the contents of '/home/runner/work/crosslist/crosslist'
+2025-11-24T02:55:51.8637391Z ##[group]Initializing the repository
+2025-11-24T02:55:51.8642712Z [command]/usr/bin/git init /home/runner/work/crosslist/crosslist
+2025-11-24T02:55:51.8827872Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-11-24T02:55:51.8830489Z hint: is subject to change. To configure the initial branch name to use in all
+2025-11-24T02:55:51.8832434Z hint: of your new repositories, which will suppress this warning, call:
+2025-11-24T02:55:51.8833966Z hint:
+2025-11-24T02:55:51.8835159Z hint: 	git config --global init.defaultBranch <name>
+2025-11-24T02:55:51.8836392Z hint:
+2025-11-24T02:55:51.8837918Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-11-24T02:55:51.8840950Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-11-24T02:55:51.8843137Z hint:
+2025-11-24T02:55:51.8844084Z hint: 	git branch -m <name>
+2025-11-24T02:55:51.8845166Z hint:
+2025-11-24T02:55:51.8846840Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-11-24T02:55:51.8850199Z Initialized empty Git repository in /home/runner/work/crosslist/crosslist/.git/
+2025-11-24T02:55:51.8854564Z [command]/usr/bin/git remote add origin https://github.com/RosagerImaging/crosslist
+2025-11-24T02:55:51.8885084Z ##[endgroup]
+2025-11-24T02:55:51.8886838Z ##[group]Disabling automatic garbage collection
+2025-11-24T02:55:51.8889414Z [command]/usr/bin/git config --local gc.auto 0
+2025-11-24T02:55:51.8918193Z ##[endgroup]
+2025-11-24T02:55:51.8920170Z ##[group]Setting up auth
+2025-11-24T02:55:51.8926295Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-24T02:55:51.8959152Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-24T02:55:51.9349598Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-24T02:55:51.9381381Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-24T02:55:51.9598282Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-11-24T02:55:51.9636240Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2025-11-24T02:55:51.9855176Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-11-24T02:55:51.9887754Z ##[endgroup]
+2025-11-24T02:55:51.9889719Z ##[group]Fetching the repository
+2025-11-24T02:55:51.9899495Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5dad0e1e6c8c6338cba24cd3c1081cffdf2e7977:refs/remotes/pull/11/merge
+2025-11-24T02:55:52.3293999Z From https://github.com/RosagerImaging/crosslist
+2025-11-24T02:55:52.3297871Z  * [new ref]         5dad0e1e6c8c6338cba24cd3c1081cffdf2e7977 -> pull/11/merge
+2025-11-24T02:55:52.3332659Z ##[endgroup]
+2025-11-24T02:55:52.3334866Z ##[group]Determining the checkout info
+2025-11-24T02:55:52.3337412Z ##[endgroup]
+2025-11-24T02:55:52.3340883Z [command]/usr/bin/git sparse-checkout disable
+2025-11-24T02:55:52.3390364Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-11-24T02:55:52.3417070Z ##[group]Checking out the ref
+2025-11-24T02:55:52.3420746Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/11/merge
+2025-11-24T02:55:52.4090726Z Note: switching to 'refs/remotes/pull/11/merge'.
+2025-11-24T02:55:52.4091950Z 
+2025-11-24T02:55:52.4092713Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-11-24T02:55:52.4094847Z changes and commit them, and you can discard any commits you make in this
+2025-11-24T02:55:52.4097745Z state without impacting any branches by switching back to a branch.
+2025-11-24T02:55:52.4099864Z 
+2025-11-24T02:55:52.4101012Z If you want to create a new branch to retain commits you create, you may
+2025-11-24T02:55:52.4103864Z do so (now or later) by using -c with the switch command. Example:
+2025-11-24T02:55:52.4105495Z 
+2025-11-24T02:55:52.4106256Z   git switch -c <new-branch-name>
+2025-11-24T02:55:52.4107566Z 
+2025-11-24T02:55:52.4108263Z Or undo this operation with:
+2025-11-24T02:55:52.4109568Z 
+2025-11-24T02:55:52.4110132Z   git switch -
+2025-11-24T02:55:52.4110950Z 
+2025-11-24T02:55:52.4112186Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-11-24T02:55:52.4114052Z 
+2025-11-24T02:55:52.4115665Z HEAD is now at 5dad0e1 Merge 8ee94e6fb121e724c9404140742d1e8e28d3eecf into e6495474400f6858d4698c288d18ca1c04a26b34
+2025-11-24T02:55:52.4120220Z ##[endgroup]
+2025-11-24T02:55:52.4143111Z [command]/usr/bin/git log -1 --format=%H
+2025-11-24T02:55:52.4165222Z 5dad0e1e6c8c6338cba24cd3c1081cffdf2e7977

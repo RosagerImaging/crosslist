@@ -1,0 +1,119 @@
+name: Continuous Integration
+
+on:
+push:
+branches: [ main, unit-testing-ci ]
+pull_request:
+branches: [ main ]
+workflow_dispatch: # Allow manual triggering
+
+env:
+
+# Test database credentials (using properly formatted fake values for CI)
+
+# These are fake but properly formatted values that will pass validation
+
+SUPABASE_URL: ${{ secrets.SUPABASE_URL || '''https://xyzcompanytest.supabase.co''' }}
+SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU''' }}
+NODE_VERSION: '20'
+PYTHON_VERSION: '3.12'
+TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+frontend-tests:
+name: Frontend Tests
+runs-on: ubuntu-latest
+steps: - name: Checkout code
+uses: actions/checkout@v4
+with:
+fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Turbo CLI
+        run: npm install -g turbo
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: typescript
+
+      - name: Lint
+        run: npx turbo run lint --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
+
+      - name: Type Check
+        run: npx turbo run check-types --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
+
+      - name: Build
+        run: npx turbo run build --filter=web --filter=chrome-extension --filter=docs --filter=e2e --filter=@repo/ui
+
+      - name: Test
+        run: npx turbo run test --filter=web --filter=chrome-extension --filter=docs --filter=@repo/ui
+        continue-on-error: false
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx turbo run test --filter=e2e
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+backend-tests:
+name: Backend Tests (Python + pytest)
+runs-on: ubuntu-latest
+defaults:
+run:
+working-directory: ./apps/api
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          uv sync --group dev
+          uv add pytest-cov
+
+      - name: Run linting with ruff
+        run: uv run ruff check .
+
+      - name: Run type checking with mypy
+        run: uv run mypy .
+
+      - name: Run all tests
+        run: |
+          echo "Running all unit tests..."
+          uv run pytest src/api/models/tests --verbose --tb=short \
+            --cov=src/api --cov-report=xml --cov-report=html \
+            --cov-report=term-missing \
+            --junitxml=test-results.xml
+        continue-on-error: false
+
+      - name: Upload backend test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: |
+            apps/api/test-results.xml
+            apps/api/htmlcov/
+            apps/api/coverage.xml
+          retention-days: 30

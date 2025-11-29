@@ -1,0 +1,334 @@
+﻿2025-11-27T03:54:10.4986330Z Current runner version: '2.329.0'
+2025-11-27T03:54:10.5010313Z ##[group]Runner Image Provisioner
+2025-11-27T03:54:10.5011165Z Hosted Compute Agent
+2025-11-27T03:54:10.5011732Z Version: 20251016.436
+2025-11-27T03:54:10.5012455Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+2025-11-27T03:54:10.5013171Z Build Date: 2025-10-15T20:44:12Z
+2025-11-27T03:54:10.5013764Z ##[endgroup]
+2025-11-27T03:54:10.5014371Z ##[group]Operating System
+2025-11-27T03:54:10.5014889Z Ubuntu
+2025-11-27T03:54:10.5015354Z 24.04.3
+2025-11-27T03:54:10.5015886Z LTS
+2025-11-27T03:54:10.5016357Z ##[endgroup]
+2025-11-27T03:54:10.5016839Z ##[group]Runner Image
+2025-11-27T03:54:10.5017456Z Image: ubuntu-24.04
+2025-11-27T03:54:10.5017941Z Version: 20251112.124.1
+2025-11-27T03:54:10.5019190Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251112.124/images/ubuntu/Ubuntu2404-Readme.md
+2025-11-27T03:54:10.5020836Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251112.124
+2025-11-27T03:54:10.5021894Z ##[endgroup]
+2025-11-27T03:54:10.5024547Z ##[group]GITHUB_TOKEN Permissions
+2025-11-27T03:54:10.5026512Z Actions: write
+2025-11-27T03:54:10.5027256Z ArtifactMetadata: write
+2025-11-27T03:54:10.5027844Z Attestations: write
+2025-11-27T03:54:10.5028747Z Checks: write
+2025-11-27T03:54:10.5029370Z Contents: write
+2025-11-27T03:54:10.5029902Z Deployments: write
+2025-11-27T03:54:10.5030385Z Discussions: write
+2025-11-27T03:54:10.5031009Z Issues: write
+2025-11-27T03:54:10.5031512Z Metadata: read
+2025-11-27T03:54:10.5031970Z Models: read
+2025-11-27T03:54:10.5032537Z Packages: write
+2025-11-27T03:54:10.5033061Z Pages: write
+2025-11-27T03:54:10.5033514Z PullRequests: write
+2025-11-27T03:54:10.5034158Z RepositoryProjects: write
+2025-11-27T03:54:10.5034839Z SecurityEvents: write
+2025-11-27T03:54:10.5035423Z Statuses: write
+2025-11-27T03:54:10.5035924Z ##[endgroup]
+2025-11-27T03:54:10.5038525Z Secret source: Actions
+2025-11-27T03:54:10.5039333Z Prepare workflow directory
+2025-11-27T03:54:10.5642412Z Prepare all required actions
+2025-11-27T03:54:10.5679954Z Getting action download info
+2025-11-27T03:54:11.0259645Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2025-11-27T03:54:11.8217505Z Download action repository 'astral-sh/setup-uv@v4' (SHA:38f3f104447c67c051c4a08e39b64a148898af3a)
+2025-11-27T03:54:12.7279341Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-11-27T03:54:12.9134481Z Complete job name: Backend Tests (Python + pytest)
+2025-11-27T03:54:12.9761658Z ##[group]Run actions/checkout@v4
+2025-11-27T03:54:12.9762394Z with:
+2025-11-27T03:54:12.9762745Z   repository: RosagerImaging/crosslist
+2025-11-27T03:54:12.9763316Z   token: ***
+2025-11-27T03:54:12.9763629Z   ssh-strict: true
+2025-11-27T03:54:12.9763944Z   ssh-user: git
+2025-11-27T03:54:12.9764271Z   persist-credentials: true
+2025-11-27T03:54:12.9764618Z   clean: true
+2025-11-27T03:54:12.9764955Z   sparse-checkout-cone-mode: true
+2025-11-27T03:54:12.9765353Z   fetch-depth: 1
+2025-11-27T03:54:12.9765670Z   fetch-tags: false
+2025-11-27T03:54:12.9765996Z   show-progress: true
+2025-11-27T03:54:12.9766320Z   lfs: false
+2025-11-27T03:54:12.9766612Z   submodules: false
+2025-11-27T03:54:12.9766933Z   set-safe-directory: true
+2025-11-27T03:54:12.9767467Z env:
+2025-11-27T03:54:12.9767847Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:12.9769376Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:12.9769733Z   NODE_VERSION: 20
+2025-11-27T03:54:12.9770089Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:12.9770457Z   TURBO_TOKEN: ***
+2025-11-27T03:54:12.9770779Z   TURBO_TEAM: ***
+2025-11-27T03:54:12.9771085Z ##[endgroup]
+2025-11-27T03:54:13.0871591Z Syncing repository: RosagerImaging/crosslist
+2025-11-27T03:54:13.0873708Z ##[group]Getting Git version info
+2025-11-27T03:54:13.0874658Z Working directory is '/home/runner/work/crosslist/crosslist'
+2025-11-27T03:54:13.0876086Z [command]/usr/bin/git version
+2025-11-27T03:54:13.0969665Z git version 2.51.2
+2025-11-27T03:54:13.0996279Z ##[endgroup]
+2025-11-27T03:54:13.1009491Z Temporarily overriding HOME='/home/runner/work/_temp/a2375ccd-a889-4c98-bed6-5c4bc63d30b9' before making global git config changes
+2025-11-27T03:54:13.1010431Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-27T03:54:13.1014762Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/crosslist/crosslist
+2025-11-27T03:54:13.1052000Z Deleting the contents of '/home/runner/work/crosslist/crosslist'
+2025-11-27T03:54:13.1055464Z ##[group]Initializing the repository
+2025-11-27T03:54:13.1059790Z [command]/usr/bin/git init /home/runner/work/crosslist/crosslist
+2025-11-27T03:54:13.1190501Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-11-27T03:54:13.1191301Z hint: is subject to change. To configure the initial branch name to use in all
+2025-11-27T03:54:13.1192026Z hint: of your new repositories, which will suppress this warning, call:
+2025-11-27T03:54:13.1192607Z hint:
+2025-11-27T03:54:13.1193067Z hint: 	git config --global init.defaultBranch <name>
+2025-11-27T03:54:13.1193566Z hint:
+2025-11-27T03:54:13.1194046Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-11-27T03:54:13.1194763Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-11-27T03:54:13.1195346Z hint:
+2025-11-27T03:54:13.1195955Z hint: 	git branch -m <name>
+2025-11-27T03:54:13.1196583Z hint:
+2025-11-27T03:54:13.1197194Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-11-27T03:54:13.1198219Z Initialized empty Git repository in /home/runner/work/crosslist/crosslist/.git/
+2025-11-27T03:54:13.1207263Z [command]/usr/bin/git remote add origin https://github.com/RosagerImaging/crosslist
+2025-11-27T03:54:13.1244455Z ##[endgroup]
+2025-11-27T03:54:13.1245039Z ##[group]Disabling automatic garbage collection
+2025-11-27T03:54:13.1248737Z [command]/usr/bin/git config --local gc.auto 0
+2025-11-27T03:54:13.1276852Z ##[endgroup]
+2025-11-27T03:54:13.1277434Z ##[group]Setting up auth
+2025-11-27T03:54:13.1283625Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-27T03:54:13.1312842Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-27T03:54:13.1701337Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-27T03:54:13.1733004Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-27T03:54:13.1951029Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-11-27T03:54:13.1979892Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2025-11-27T03:54:13.2199762Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-11-27T03:54:13.2232826Z ##[endgroup]
+2025-11-27T03:54:13.2233628Z ##[group]Fetching the repository
+2025-11-27T03:54:13.2241303Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0c989c7638824c70a49bc74ca7d471f089b3b90d:refs/remotes/pull/11/merge
+2025-11-27T03:54:14.0288460Z From https://github.com/RosagerImaging/crosslist
+2025-11-27T03:54:14.0289880Z  * [new ref]         0c989c7638824c70a49bc74ca7d471f089b3b90d -> pull/11/merge
+2025-11-27T03:54:14.0322315Z ##[endgroup]
+2025-11-27T03:54:14.0322956Z ##[group]Determining the checkout info
+2025-11-27T03:54:14.0324568Z ##[endgroup]
+2025-11-27T03:54:14.0329826Z [command]/usr/bin/git sparse-checkout disable
+2025-11-27T03:54:14.0373509Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-11-27T03:54:14.0398719Z ##[group]Checking out the ref
+2025-11-27T03:54:14.0402283Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/11/merge
+2025-11-27T03:54:14.1099867Z Note: switching to 'refs/remotes/pull/11/merge'.
+2025-11-27T03:54:14.1100846Z 
+2025-11-27T03:54:14.1101343Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-11-27T03:54:14.1103530Z changes and commit them, and you can discard any commits you make in this
+2025-11-27T03:54:14.1104507Z state without impacting any branches by switching back to a branch.
+2025-11-27T03:54:14.1105043Z 
+2025-11-27T03:54:14.1105448Z If you want to create a new branch to retain commits you create, you may
+2025-11-27T03:54:14.1106215Z do so (now or later) by using -c with the switch command. Example:
+2025-11-27T03:54:14.1106636Z 
+2025-11-27T03:54:14.1106847Z   git switch -c <new-branch-name>
+2025-11-27T03:54:14.1107183Z 
+2025-11-27T03:54:14.1107310Z Or undo this operation with:
+2025-11-27T03:54:14.1107521Z 
+2025-11-27T03:54:14.1107671Z   git switch -
+2025-11-27T03:54:14.1107874Z 
+2025-11-27T03:54:14.1108427Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-11-27T03:54:14.1108832Z 
+2025-11-27T03:54:14.1109182Z HEAD is now at 0c989c7 Merge 7edb3e6e659a1230318b37a35fb7dc595dcfc349 into e6495474400f6858d4698c288d18ca1c04a26b34
+2025-11-27T03:54:14.1111040Z ##[endgroup]
+2025-11-27T03:54:14.1149606Z [command]/usr/bin/git log -1 --format=%H
+2025-11-27T03:54:14.1172261Z 0c989c7638824c70a49bc74ca7d471f089b3b90d
+2025-11-27T03:54:14.1381520Z ##[group]Run astral-sh/setup-uv@v4
+2025-11-27T03:54:14.1381983Z with:
+2025-11-27T03:54:14.1382221Z   version: latest
+2025-11-27T03:54:14.1382653Z   github-token: ***
+2025-11-27T03:54:14.1383007Z   enable-cache: false
+2025-11-27T03:54:14.1383316Z   cache-dependency-glob: **/uv.lock
+2025-11-27T03:54:14.1383654Z   prune-cache: true
+2025-11-27T03:54:14.1384005Z   ignore-nothing-to-cache: false
+2025-11-27T03:54:14.1384323Z env:
+2025-11-27T03:54:14.1384615Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:14.1385901Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:14.1386249Z   NODE_VERSION: 20
+2025-11-27T03:54:14.1386492Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:14.1386911Z   TURBO_TOKEN: ***
+2025-11-27T03:54:14.1387202Z   TURBO_TEAM: ***
+2025-11-27T03:54:14.1387465Z ##[endgroup]
+2025-11-27T03:54:14.7219489Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.9.13/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+2025-11-27T03:54:15.1915906Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/bcd5ab5e-7c42-417e-95f5-7918d7881b4b -f /home/runner/work/_temp/d7c8dacd-188f-4037-a263-f4164098e958
+2025-11-27T03:54:15.6303367Z Added /opt/hostedtoolcache/uv/0.9.13/x86_64 to the path
+2025-11-27T03:54:15.6309052Z Added /home/runner/.local/bin to the path
+2025-11-27T03:54:15.6330989Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+2025-11-27T03:54:15.6331396Z Successfully installed uv version 0.9.13
+2025-11-27T03:54:15.6462023Z ##[group]Run uv python install 3.12
+2025-11-27T03:54:15.6462388Z [36;1muv python install 3.12[0m
+2025-11-27T03:54:15.6499862Z shell: /usr/bin/bash -e {0}
+2025-11-27T03:54:15.6500128Z env:
+2025-11-27T03:54:15.6500393Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:15.6501801Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:15.6502050Z   NODE_VERSION: 20
+2025-11-27T03:54:15.6502242Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:15.6502504Z   TURBO_TOKEN: ***
+2025-11-27T03:54:15.6502740Z   TURBO_TEAM: ***
+2025-11-27T03:54:15.6502982Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-27T03:54:15.6503269Z ##[endgroup]
+2025-11-27T03:54:15.8723377Z Downloading cpython-3.12.12-linux-x86_64-gnu (download) (31.6MiB)
+2025-11-27T03:54:16.7408584Z  Downloaded cpython-3.12.12-linux-x86_64-gnu (download)
+2025-11-27T03:54:16.7460588Z Installed Python 3.12.12 in 1.08s
+2025-11-27T03:54:16.7461862Z  + cpython-3.12.12-linux-x86_64-gnu (python3.12)
+2025-11-27T03:54:16.7519038Z ##[group]Run uv sync --group dev
+2025-11-27T03:54:16.7519571Z [36;1muv sync --group dev[0m
+2025-11-27T03:54:16.7519866Z [36;1muv add pytest-cov[0m
+2025-11-27T03:54:16.7552194Z shell: /usr/bin/bash -e {0}
+2025-11-27T03:54:16.7552437Z env:
+2025-11-27T03:54:16.7552685Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:16.7553897Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:16.7554166Z   NODE_VERSION: 20
+2025-11-27T03:54:16.7554391Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:16.7554632Z   TURBO_TOKEN: ***
+2025-11-27T03:54:16.7554846Z   TURBO_TEAM: ***
+2025-11-27T03:54:16.7555080Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-27T03:54:16.7555360Z ##[endgroup]
+2025-11-27T03:54:16.9206521Z Using CPython 3.12.12
+2025-11-27T03:54:16.9206882Z Creating virtual environment at: .venv
+2025-11-27T03:54:17.3556305Z Resolved 64 packages in 433ms
+2025-11-27T03:54:17.3677359Z    Building api @ file:///home/runner/work/crosslist/crosslist/apps/api
+2025-11-27T03:54:17.4151675Z Downloading mypy (12.7MiB)
+2025-11-27T03:54:17.4153916Z Downloading ruff (13.3MiB)
+2025-11-27T03:54:17.4156524Z Downloading pydantic-core (2.0MiB)
+2025-11-27T03:54:17.4159328Z Downloading pygments (1.2MiB)
+2025-11-27T03:54:17.4165649Z Downloading zstandard (5.3MiB)
+2025-11-27T03:54:17.5822949Z  Downloaded pydantic-core
+2025-11-27T03:54:17.7711912Z  Downloaded zstandard
+2025-11-27T03:54:17.7995169Z  Downloaded ruff
+2025-11-27T03:54:17.8781900Z  Downloaded pygments
+2025-11-27T03:54:18.0282700Z  Downloaded mypy
+2025-11-27T03:54:18.6143573Z       Built api @ file:///home/runner/work/crosslist/crosslist/apps/api
+2025-11-27T03:54:18.6151481Z Prepared 50 packages in 1.25s
+2025-11-27T03:54:18.6629160Z Installed 50 packages in 47ms
+2025-11-27T03:54:18.6629646Z  + annotated-doc==0.0.4
+2025-11-27T03:54:18.6630014Z  + annotated-types==0.7.0
+2025-11-27T03:54:18.6630354Z  + anyio==4.11.0
+2025-11-27T03:54:18.6630827Z  + api==0.1.0 (from file:///home/runner/work/crosslist/crosslist/apps/api)
+2025-11-27T03:54:18.6631412Z  + certifi==2025.11.12
+2025-11-27T03:54:18.6631755Z  + charset-normalizer==3.4.4
+2025-11-27T03:54:18.6632247Z  + click==8.3.1
+2025-11-27T03:54:18.6632561Z  + dnspython==2.8.0
+2025-11-27T03:54:18.6632882Z  + email-validator==2.3.0
+2025-11-27T03:54:18.6638693Z  + fastapi==0.120.4
+2025-11-27T03:54:18.6639022Z  + h11==0.16.0
+2025-11-27T03:54:18.6639329Z  + httpcore==1.0.9
+2025-11-27T03:54:18.6639634Z  + httpx==0.28.1
+2025-11-27T03:54:18.6639935Z  + idna==3.11
+2025-11-27T03:54:18.6640263Z  + iniconfig==2.3.0
+2025-11-27T03:54:18.6640568Z  + jsonpatch==1.33
+2025-11-27T03:54:18.6640890Z  + jsonpointer==3.0.0
+2025-11-27T03:54:18.6641214Z  + langchain==1.1.0
+2025-11-27T03:54:18.6641528Z  + langchain-core==1.1.0
+2025-11-27T03:54:18.6641872Z  + langgraph==1.0.4
+2025-11-27T03:54:18.6642210Z  + langgraph-checkpoint==3.0.1
+2025-11-27T03:54:18.6642617Z  + langgraph-prebuilt==1.0.5
+2025-11-27T03:54:18.6643000Z  + langgraph-sdk==0.2.10
+2025-11-27T03:54:18.6643341Z  + langsmith==0.4.49
+2025-11-27T03:54:18.6643659Z  + mypy==1.18.2
+2025-11-27T03:54:18.6643971Z  + mypy-extensions==1.1.0
+2025-11-27T03:54:18.6644321Z  + orjson==3.11.4
+2025-11-27T03:54:18.6644635Z  + ormsgpack==1.12.0
+2025-11-27T03:54:18.6644951Z  + packaging==25.0
+2025-11-27T03:54:18.6645259Z  + pathspec==0.12.1
+2025-11-27T03:54:18.6645557Z  + pluggy==1.6.0
+2025-11-27T03:54:18.6645856Z  + pydantic==2.12.5
+2025-11-27T03:54:18.6646173Z  + pydantic-core==2.41.5
+2025-11-27T03:54:18.6646531Z  + pydantic-settings==2.12.0
+2025-11-27T03:54:18.6646880Z  + pygments==2.19.2
+2025-11-27T03:54:18.6647168Z  + pytest==8.4.2
+2025-11-27T03:54:18.6647465Z  + python-dotenv==1.2.1
+2025-11-27T03:54:18.6647722Z  + pyyaml==6.0.3
+2025-11-27T03:54:18.6647911Z  + requests==2.32.5
+2025-11-27T03:54:18.6648379Z  + requests-toolbelt==1.0.0
+2025-11-27T03:54:18.6648598Z  + ruff==0.14.6
+2025-11-27T03:54:18.6648769Z  + sniffio==1.3.1
+2025-11-27T03:54:18.6648942Z  + starlette==0.49.3
+2025-11-27T03:54:18.6649127Z  + tenacity==9.1.2
+2025-11-27T03:54:18.6649318Z  + typing-extensions==4.15.0
+2025-11-27T03:54:18.6649775Z  + typing-inspection==0.4.2
+2025-11-27T03:54:18.6650139Z  + urllib3==2.5.0
+2025-11-27T03:54:18.6650313Z  + uvicorn==0.38.0
+2025-11-27T03:54:18.6650478Z  + xxhash==3.6.0
+2025-11-27T03:54:18.6650652Z  + zstandard==0.25.0
+2025-11-27T03:54:18.8981154Z Resolved 67 packages in 166ms
+2025-11-27T03:54:18.9251631Z    Building api @ file:///home/runner/work/crosslist/crosslist/apps/api
+2025-11-27T03:54:19.3433602Z       Built api @ file:///home/runner/work/crosslist/crosslist/apps/api
+2025-11-27T03:54:19.3440936Z Prepared 3 packages in 419ms
+2025-11-27T03:54:19.3445199Z Uninstalled 1 package in 0.33ms
+2025-11-27T03:54:19.3474405Z Installed 3 packages in 2ms
+2025-11-27T03:54:19.3475020Z  ~ api==0.1.0 (from file:///home/runner/work/crosslist/crosslist/apps/api)
+2025-11-27T03:54:19.3475396Z  + coverage==7.12.0
+2025-11-27T03:54:19.3475602Z  + pytest-cov==7.0.0
+2025-11-27T03:54:19.3604053Z ##[group]Run uv run ruff check .
+2025-11-27T03:54:19.3604355Z [36;1muv run ruff check .[0m
+2025-11-27T03:54:19.3637529Z shell: /usr/bin/bash -e {0}
+2025-11-27T03:54:19.3637757Z env:
+2025-11-27T03:54:19.3638312Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:19.3639526Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:19.3639758Z   NODE_VERSION: 20
+2025-11-27T03:54:19.3639946Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:19.3640190Z   TURBO_TOKEN: ***
+2025-11-27T03:54:19.3640372Z   TURBO_TEAM: ***
+2025-11-27T03:54:19.3640599Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-27T03:54:19.3640881Z ##[endgroup]
+2025-11-27T03:54:19.3933690Z All checks passed!
+2025-11-27T03:54:19.3990823Z ##[group]Run uv run mypy .
+2025-11-27T03:54:19.3991093Z [36;1muv run mypy .[0m
+2025-11-27T03:54:19.4023184Z shell: /usr/bin/bash -e {0}
+2025-11-27T03:54:19.4023413Z env:
+2025-11-27T03:54:19.4023669Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:19.4024866Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:19.4025091Z   NODE_VERSION: 20
+2025-11-27T03:54:19.4025279Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:19.4025510Z   TURBO_TOKEN: ***
+2025-11-27T03:54:19.4025715Z   TURBO_TEAM: ***
+2025-11-27T03:54:19.4025944Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-27T03:54:19.4026217Z ##[endgroup]
+2025-11-27T03:54:19.6315115Z src/api/main.py: error: Source file found twice under different module names: "api.main" and "src.api.main"
+2025-11-27T03:54:19.6316041Z Found 1 error in 1 file (errors prevented further checking)
+2025-11-27T03:54:19.6389387Z ##[error]Process completed with exit code 2.
+2025-11-27T03:54:19.6463745Z ##[group]Run actions/upload-artifact@v4
+2025-11-27T03:54:19.6464025Z with:
+2025-11-27T03:54:19.6464209Z   name: backend-test-results
+2025-11-27T03:54:19.6464546Z   path: apps/api/test-results.xml
+apps/api/htmlcov/
+apps/api/coverage.xml
+
+2025-11-27T03:54:19.6464906Z   retention-days: 30
+2025-11-27T03:54:19.6465107Z   if-no-files-found: warn
+2025-11-27T03:54:19.6465312Z   compression-level: 6
+2025-11-27T03:54:19.6465500Z   overwrite: false
+2025-11-27T03:54:19.6465695Z   include-hidden-files: false
+2025-11-27T03:54:19.6465902Z env:
+2025-11-27T03:54:19.6466144Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-27T03:54:19.6467326Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-27T03:54:19.6467551Z   NODE_VERSION: 20
+2025-11-27T03:54:19.6467730Z   PYTHON_VERSION: 3.12
+2025-11-27T03:54:19.6468195Z   TURBO_TOKEN: ***
+2025-11-27T03:54:19.6468529Z   TURBO_TEAM: ***
+2025-11-27T03:54:19.6468765Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-27T03:54:19.6469064Z ##[endgroup]
+2025-11-27T03:54:19.8638828Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2025-11-27T03:54:19.8640930Z The least common ancestor is /home/runner/work/crosslist/crosslist/apps/api. This will be the root directory of the artifact
+2025-11-27T03:54:19.8655618Z ##[warning]No files were found with the provided path: apps/api/test-results.xml
+apps/api/htmlcov/
+apps/api/coverage.xml. No artifacts will be uploaded.
+2025-11-27T03:54:19.8772195Z Post job cleanup.
+2025-11-27T03:54:19.9711364Z [command]/usr/bin/git version
+2025-11-27T03:54:19.9746775Z git version 2.51.2
+2025-11-27T03:54:19.9795451Z Temporarily overriding HOME='/home/runner/work/_temp/c71bfae5-2316-4aad-a933-7a4ddf5f066c' before making global git config changes
+2025-11-27T03:54:19.9796639Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-27T03:54:19.9801044Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/crosslist/crosslist
+2025-11-27T03:54:19.9835076Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-27T03:54:19.9867926Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-27T03:54:20.0100424Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-27T03:54:20.0122526Z http.https://github.com/.extraheader
+2025-11-27T03:54:20.0134394Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-11-27T03:54:20.0163800Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-27T03:54:20.0402790Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-11-27T03:54:20.0415665Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2025-11-27T03:54:20.0742139Z Cleaning up orphan processes

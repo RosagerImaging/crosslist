@@ -1,0 +1,44 @@
+﻿2025-11-24T02:55:50.4886398Z Current runner version: '2.329.0'
+2025-11-24T02:55:50.4919066Z ##[group]Runner Image Provisioner
+2025-11-24T02:55:50.4920181Z Hosted Compute Agent
+2025-11-24T02:55:50.4921146Z Version: 20251016.436
+2025-11-24T02:55:50.4922204Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+2025-11-24T02:55:50.4923349Z Build Date: 2025-10-15T20:44:12Z
+2025-11-24T02:55:50.4924352Z ##[endgroup]
+2025-11-24T02:55:50.4925248Z ##[group]Operating System
+2025-11-24T02:55:50.4926097Z Ubuntu
+2025-11-24T02:55:50.4926876Z 24.04.3
+2025-11-24T02:55:50.4927732Z LTS
+2025-11-24T02:55:50.4928452Z ##[endgroup]
+2025-11-24T02:55:50.4929551Z ##[group]Runner Image
+2025-11-24T02:55:50.4930419Z Image: ubuntu-24.04
+2025-11-24T02:55:50.4931239Z Version: 20251112.124.1
+2025-11-24T02:55:50.4933106Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251112.124/images/ubuntu/Ubuntu2404-Readme.md
+2025-11-24T02:55:50.4935566Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251112.124
+2025-11-24T02:55:50.4937470Z ##[endgroup]
+2025-11-24T02:55:50.4942109Z ##[group]GITHUB_TOKEN Permissions
+2025-11-24T02:55:50.4944845Z Actions: write
+2025-11-24T02:55:50.4945860Z ArtifactMetadata: write
+2025-11-24T02:55:50.4946833Z Attestations: write
+2025-11-24T02:55:50.4947632Z Checks: write
+2025-11-24T02:55:50.4948476Z Contents: write
+2025-11-24T02:55:50.4949610Z Deployments: write
+2025-11-24T02:55:50.4950400Z Discussions: write
+2025-11-24T02:55:50.4951299Z Issues: write
+2025-11-24T02:55:50.4952229Z Metadata: read
+2025-11-24T02:55:50.4952982Z Models: read
+2025-11-24T02:55:50.4953732Z Packages: write
+2025-11-24T02:55:50.4954679Z Pages: write
+2025-11-24T02:55:50.4955472Z PullRequests: write
+2025-11-24T02:55:50.4956373Z RepositoryProjects: write
+2025-11-24T02:55:50.4957549Z SecurityEvents: write
+2025-11-24T02:55:50.4958470Z Statuses: write
+2025-11-24T02:55:50.4959475Z ##[endgroup]
+2025-11-24T02:55:50.4962358Z Secret source: Actions
+2025-11-24T02:55:50.4963457Z Prepare workflow directory
+2025-11-24T02:55:50.5717385Z Prepare all required actions
+2025-11-24T02:55:50.5772544Z Getting action download info
+2025-11-24T02:55:50.8848264Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2025-11-24T02:55:51.2089319Z Download action repository 'astral-sh/setup-uv@v4' (SHA:38f3f104447c67c051c4a08e39b64a148898af3a)
+2025-11-24T02:55:51.4693322Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-11-24T02:55:51.6665694Z Complete job name: Backend Tests (Python + pytest)

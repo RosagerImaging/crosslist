@@ -1,0 +1,16 @@
+﻿2025-11-24T02:55:53.6369127Z ##[group]Run uv python install 3.12
+2025-11-24T02:55:53.6370035Z [36;1muv python install 3.12[0m
+2025-11-24T02:55:53.6409578Z shell: /usr/bin/bash -e {0}
+2025-11-24T02:55:53.6410355Z env:
+2025-11-24T02:55:53.6411134Z   SUPABASE_URL: 'https://xyzcompanytest.supabase.co'
+2025-11-24T02:55:53.6413040Z   SUPABASE_SERVICE_KEY: '***'
+2025-11-24T02:55:53.6413716Z   NODE_VERSION: 20
+2025-11-24T02:55:53.6414339Z   PYTHON_VERSION: 3.12
+2025-11-24T02:55:53.6415028Z   TURBO_TOKEN: ***
+2025-11-24T02:55:53.6415670Z   TURBO_TEAM: ***
+2025-11-24T02:55:53.6416346Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-24T02:55:53.6417090Z ##[endgroup]
+2025-11-24T02:55:53.8016254Z Downloading cpython-3.12.12-linux-x86_64-gnu (download) (31.6MiB)
+2025-11-24T02:55:54.6340424Z  Downloaded cpython-3.12.12-linux-x86_64-gnu (download)
+2025-11-24T02:55:54.6400773Z Installed Python 3.12.12 in 984ms
+2025-11-24T02:55:54.6401541Z  + cpython-3.12.12-linux-x86_64-gnu (python3.12)
