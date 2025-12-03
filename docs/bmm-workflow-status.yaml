@@ -1,0 +1,66 @@
+# Workflow Status Template
+
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+#   - skipped: Optional/conditional workflow that was skipped
+
+generated: "2025-11-28"
+project: "crosslist"
+project_type: "greenfield"
+selected_track: "method"
+field_type: "greenfield"
+brainstorm_requested: false
+research_requested: false
+product_brief_requested: true
+workflow_path: ".bmad/bmm/workflows/workflow-status/paths/method-greenfield.yaml"
+workflow_status:
+  - phase: 0
+    name: "Discovery (Optional)"
+    workflows:
+      - id: "brainstorm-project"
+        status: "skipped"
+      - id: "research"
+        status: "skipped"
+      - id: "product-brief"
+        status: "/home/optiks/dev/crosslist/docs/product-brief-crosslist-2025-11-28.md"
+
+  - phase: 1
+    name: "Planning"
+    workflows:
+      - id: "prd"
+        status: "docs/prd.md"
+      - id: "validate-prd"
+        status: "skipped"
+      - id: "create-design"
+        status: "docs/ux-design-specification.md"
+
+  - phase: 2
+    name: "Solutioning"
+    workflows:
+      - id: "create-architecture"
+        status: "docs/architecture.md"
+      - id: "create-epics-and-stories"
+        status: "docs/epics.md"
+      - id: "test-design"
+        status: "docs/test-design-system.md"
+      - id: "validate-architecture"
+        status: "docs/architecture-validation-report.md"
+      - id: "implementation-readiness"
+        status: "docs/implementation-readiness-report-2025-11-30.md"
+
+  - phase: 3
+    name: "Implementation"
+    workflows:
+      - id: "sprint-planning"
+        status: "pending"

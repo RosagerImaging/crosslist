@@ -1,0 +1,244 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.2</storyId>
+    <title>GitHub Repository & Vercel Deployment</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-03</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-2-github-repository-&-vercel-deployment.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the code in GitHub with automatic Vercel deployments</iWant>
+    <soThat>every commit is tested and deployable</soThat>
+    <tasks>
+### Task: Set up GitHub Repository
+*   **[ ] Subtask:** Create a new repository on GitHub named `crosslist`.
+*   **[ ] Subtask:** Push the existing code to the new repository.
+
+### Task: Configure Vercel
+*   **[ ] Subtask:** Create a new project on Vercel and link it to the GitHub repository.
+*   **[ ] Subtask:** Configure environment variables placeholder in Vercel project settings.
+
+### Task: Implement CI Workflow
+*   **[ ] Subtask:** Create the file `.github/workflows/ci.yml`.
+*   **[ ] Subtask:** Add a job to the `ci.yml` file that runs `npm run lint` and `npm run type-check` on every pull request to the `main` branch.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**AC1.2.1:** A GitHub repository exists for the project.
+
+**AC1.2.2:** A Vercel project is created and connected to the GitHub repository.
+
+**AC1.2.3:** A CI workflow is implemented in GitHub Actions to run linting and type-checking on every pull request.
+
+**AC1.2.4:** Every pull request to the `main` branch triggers a preview deployment on Vercel.
+
+**AC1.2.5:** Every merge to the `main` branch triggers a production deployment on Vercel.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Deployment Architecture</section>
+        <snippet>Platform: Vercel (Pro plan recommended for commercial use). CI/CD: GitHub Actions running Vitest + Playwright on every PR.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Project Initialization</section>
+        <snippet>Framework: Next.js 15 (App Router), Language: TypeScript 5, Styling: Tailwind CSS 4, UI Components: shadcn/ui, Linting: ESLint 9</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Foundation & Infrastructure</title>
+        <section>Story 1.2: GitHub Repository & Vercel Deployment</section>
+        <snippet>Create GitHub repository and link to Vercel. Implement GitHub Actions workflow (.github/workflows/ci.yml) for automated linting and type-checking on pull requests.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Foundation & Infrastructure</title>
+        <section>Acceptance Criteria</section>
+        <snippet>AC1.2.1-1.2.5: GitHub repository exists, Vercel connected, CI workflow runs lint/type-check on PRs, preview deployments on PRs, production deployments on main merges.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>package.json</path>
+        <kind>config</kind>
+        <symbol>scripts.lint</symbol>
+        <lines>9</lines>
+        <reason>Existing lint script that CI workflow will invoke</reason>
+      </artifact>
+      <artifact>
+        <path>package.json</path>
+        <kind>config</kind>
+        <symbol>scripts.check-types</symbol>
+        <lines>11</lines>
+        <reason>Type-checking script that CI workflow will invoke</reason>
+      </artifact>
+      <artifact>
+        <path>turbo.json</path>
+        <kind>config</kind>
+        <symbol>tasks.lint</symbol>
+        <lines>13-16</lines>
+        <reason>Turbo configuration for lint task with CI env var</reason>
+      </artifact>
+      <artifact>
+        <path>turbo.json</path>
+        <kind>config</kind>
+        <symbol>tasks.check-types</symbol>
+        <lines>17-20</lines>
+        <reason>Turbo configuration for type-check task with CI env var</reason>
+      </artifact>
+      <artifact>
+        <path>eslint.config.js</path>
+        <kind>config</kind>
+        <symbol>default</symbol>
+        <lines>1-24</lines>
+        <reason>ESLint 9 configuration that CI will run</reason>
+      </artifact>
+      <artifact>
+        <path>apps/web/tsconfig.json</path>
+        <kind>config</kind>
+        <symbol>compilerOptions</symbol>
+        <lines>1-43</lines>
+        <reason>TypeScript configuration for type-checking</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>next</package>
+        <version>^15.0.0</version>
+        <context>Next.js framework for web app</context>
+      </node>
+      <node>
+        <package>react</package>
+        <version>19.2.0</version>
+        <context>React library</context>
+      </node>
+      <node>
+        <package>typescript</package>
+        <version>^5</version>
+        <context>TypeScript for type-checking</context>
+      </node>
+      <node>
+        <package>eslint</package>
+        <version>^9</version>
+        <context>Linting tool for CI</context>
+      </node>
+      <node>
+        <package>turbo</package>
+        <version>^2.5.8</version>
+        <context>Monorepo task runner</context>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>
+      <type>CI/CD Pipeline</type>
+      <description>GitHub Actions workflow must run on every pull request to main branch</description>
+    </constraint>
+    <constraint>
+      <type>Linting</type>
+      <description>CI must run 'npm run lint' which uses ESLint 9 with zero warnings allowed (--max-warnings 0)</description>
+    </constraint>
+    <constraint>
+      <type>Type Checking</type>
+      <description>CI must run 'npm run check-types' which executes TypeScript compiler in strict mode</description>
+    </constraint>
+    <constraint>
+      <type>Deployment</type>
+      <description>Vercel must be configured for automatic preview deployments on PRs and production deployments on main merges</description>
+    </constraint>
+    <constraint>
+      <type>Environment Variables</type>
+      <description>Vercel project must have placeholder environment variables configured (even if empty initially)</description>
+    </constraint>
+    <constraint>
+      <type>Turbo Configuration</type>
+      <description>CI environment variable must be declared in turbo.json for lint and check-types tasks to prevent caching issues</description>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>GitHub Actions Workflow</name>
+      <kind>CI/CD Configuration</kind>
+      <signature>.github/workflows/ci.yml - YAML workflow file</signature>
+      <path>.github/workflows/ci.yml</path>
+      <description>Defines jobs that run on pull_request events to main branch, executing lint and type-check commands</description>
+    </interface>
+    <interface>
+      <name>Vercel Deployment API</name>
+      <kind>Platform Integration</kind>
+      <signature>Vercel GitHub Integration</signature>
+      <path>N/A - External Service</path>
+      <description>Automatic integration that triggers deployments based on GitHub events (PR creation, main branch merges)</description>
+    </interface>
+    <interface>
+      <name>npm scripts</name>
+      <kind>Build Scripts</kind>
+      <signature>package.json scripts section</signature>
+      <path>package.json</path>
+      <description>Defines 'lint' and 'check-types' commands that CI workflow will invoke</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+Testing for this story follows the hybrid strategy defined in the Architecture document:
+- **Playwright (E2E)**: Used for verifying GitHub repository setup, Vercel deployments, and Chrome extension loading
+- **Manual Verification**: CLI output review, file system audits, platform UI checks (GitHub, Vercel dashboards)
+- **CI/CD Pipeline Validation**: Ensuring GitHub Actions run successfully on PRs
+- **Framework**: Playwright v1.40+ for browser automation and extension testing
+- **Test Organization**: Tests should be descriptive and map directly to acceptance criteria IDs
+    </standards>
+    <locations>
+- E2E tests: apps/web/__tests__/e2e/ (if exists) or tests/e2e/
+- Playwright config: playwright.config.ts (root or apps/web/)
+- CI workflow: .github/workflows/ci.yml (to be created)
+    </locations>
+    <ideas>
+      <test ac="AC1.2.1">
+        <description>Verify GitHub repository exists and is accessible</description>
+        <approach>Manual verification: Check git remote -v output shows GitHub URL; Browser check: Navigate to repository URL and verify accessibility</approach>
+        <priority>High</priority>
+      </test>
+      <test ac="AC1.2.2">
+        <description>Verify Vercel project is connected to GitHub repository</description>
+        <approach>Manual verification: Check Vercel dashboard shows project linked to correct GitHub repo; Verify deployment settings show GitHub integration enabled</approach>
+        <priority>High</priority>
+      </test>
+      <test ac="AC1.2.3">
+        <description>Verify CI workflow runs linting and type-checking on PRs</description>
+        <approach>Create test PR; Verify GitHub Actions tab shows ci.yml workflow running; Check workflow logs show 'npm run lint' and 'npm run check-types' executed successfully</approach>
+        <priority>Critical</priority>
+      </test>
+      <test ac="AC1.2.4">
+        <description>Verify preview deployments trigger on PRs</description>
+        <approach>Create test PR; Wait for Vercel bot comment with preview URL; Navigate to preview URL and verify app loads; Check Vercel dashboard shows preview deployment</approach>
+        <priority>Critical</priority>
+      </test>
+      <test ac="AC1.2.5">
+        <description>Verify production deployments trigger on main merges</description>
+        <approach>Merge test PR to main; Wait for deployment completion; Check production URL shows updated code; Verify Vercel dashboard shows production deployment with main branch indicator</approach>
+        <priority>Critical</priority>
+      </test>
+      <test ac="General">
+        <description>Verify .github/workflows/ci.yml file structure</description>
+        <approach>File system check: Verify .github/workflows/ci.yml exists; Content validation: Check YAML syntax, verify 'on: pull_request' trigger, verify jobs run lint and check-types</approach>
+        <priority>High</priority>
+      </test>
+      <test ac="General">
+        <description>Verify CI environment variable in turbo.json</description>
+        <approach>Code review: Check turbo.json tasks.lint and tasks.check-types include 'CI' in env array to prevent turbo/no-undeclared-env-vars errors</approach>
+        <priority>Medium</priority>
+      </test>
+    </ideas>
+  </tests>
+</story-context>

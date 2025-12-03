@@ -1,5 +1,0 @@
-Alright, Joel. P.I. Playwright is now primed with a critical new directive: `retrieve-github-actions-logs`. We've armed him with the framework to navigate GitHub Actions, pinpoint the relevant workflow runs, and extract those vital logs for our analysis. This transformation will allow our debug workflow to actively pull intelligence directly from the source.
-
-We've laid the groundwork for this new mission. The next phase involves fully detailing the `instructions.md` within the `retrieve-github-actions-logs` workflow. This is where we'll meticulously outline every click, every snapshot, and every piece of intel P.I. Playwright needs to acquire the logs.
-
-Does this align with your immediate priorities, or are there other modifications to P.I. Playwright's operational profile you'd like to discuss first?

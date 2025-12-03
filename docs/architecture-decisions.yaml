@@ -1,0 +1,46 @@
+decisions:
+  - category: "Database & Authentication"
+    decision: "Supabase"
+    rationale: "Relational data model fits inventory; Realtime features support requirements; Auth is integrated and easy."
+    verified_version: "PostgreSQL 15 (via Supabase)"
+    provided_by_starter: false
+  - category: "State Management"
+    decision: "TanStack Query + Zustand"
+    rationale: "TanStack Query for server state (inventory); Zustand for client UI state (agent status)."
+    verified_version: "TanStack Query v5, Zustand v4"
+    provided_by_starter: false
+  - category: "Chrome Extension Bridge"
+    decision: "Custom 'useExtensionBridge' Hook"
+    rationale: "Encapsulates message passing complexity; provides clean API for React components; ensures type safety between App and Extension."
+    verified_version: "React 19 Hook Pattern"
+    provided_by_starter: false
+  - category: "Agent Orchestration"
+    decision: "Client-Side XState"
+    rationale: "Ensures all agent actions originate from user's local IP/session to prevent detection; robust state management for complex multi-step workflows."
+    verified_version: "XState v5"
+    provided_by_starter: false
+  - category: "Marketplace Integration Pattern"
+    decision: "Adapter Pattern"
+    rationale: "Decouples core inventory logic from specific marketplace APIs; allows easy addition of new marketplaces without refactoring core code."
+    verified_version: "TypeScript Interface Pattern"
+    provided_by_starter: false
+  - category: "Testing Strategy"
+    decision: "Hybrid (Vitest + Playwright)"
+    rationale: "Vitest for fast unit/logic testing; Playwright for critical browser automation and extension E2E testing."
+    verified_version: "Vitest v1, Playwright v1.40"
+    provided_by_starter: false
+  - category: "Deployment"
+    decision: "Vercel"
+    rationale: "Optimized for Next.js; zero-config scaling; seamless integration with GitHub and CI/CD."
+    verified_version: "Vercel Platform"
+    provided_by_starter: false
+  - category: "Novel Pattern: Humanizer Layer"
+    decision: "Scoped Humanizer Middleware (Poshmark Only)"
+    rationale: "Applies human-like jitter and cursor movements ONLY to Poshmark agents to avoid algorithmic detection. Other agents bypass this for efficiency."
+    verified_version: "Custom Implementation"
+    provided_by_starter: false
+  - category: "Compliance Pattern"
+    decision: "Strict API Compliance (eBay Standard)"
+    rationale: "All non-stealth agents must adhere to strict API rate limits and policy checks, modeled after eBay's rigorous standards, to ensure long-term account safety."
+    verified_version: "eBay API v2024 Standards"
+    provided_by_starter: false

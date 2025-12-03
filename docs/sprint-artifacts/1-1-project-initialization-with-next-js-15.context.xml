@@ -1,0 +1,142 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.1</storyId>
+    <title>Project Initialization with Next.js 15</title>
+    <status>Draft</status>
+    <generatedAt>2025-11-30 00:00</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-1-project-initialization-with-next-js-15.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the project initialized with Next.js 15, TypeScript, Tailwind CSS 4, and shadcn/ui</iWant>
+    <soThat>I have a modern, type-safe foundation for building features.</soThat>
+    <tasks>
+      <task>Initialize Next.js Project</task>
+      <subtask>Execute the command: `npx create-next-app@latest crosslist --typescript --tailwind --eslint`.</subtask>
+      <subtask>Review the CLI output to confirm successful project creation and initial configuration (AC1.1.1).</subtask>
+      <subtask>Verify the presence of key configuration files: `tailwind.config.ts`, `postcss.config.js`, `eslint.config.js`, `tsconfig.json`, `next.config.js`.</subtask>
+      <task>Integrate and Configure shadcn/ui</task>
+      <subtask>Run the command: `npx shadcn@latest init`.</subtask>
+      <subtask>Select "New York" as the style when prompted.</subtask>
+      <subtask>Verify the `components.json` file is created and correctly configured (AC1.1.2).</subtask>
+      <subtask>Confirm the `ui/` directory within `components/` is created (AC1.1.3).</subtask>
+      <task>Verify Initial Project Structure</task>
+      <subtask>Manually inspect the generated project directory for the presence of `app/`, `components/`, `lib/`, and `hooks/` directories (AC1.1.3).</subtask>
+      <subtask>Check the `tsconfig.json` for the `@/` path alias.</subtask>
+      <task>Establish Naming Convention Adherence</task>
+      <subtask>Briefly review a few generated files (e.g., `app/layout.tsx`, `app/page.tsx`) to ensure adherence to kebab-case for files and PascalCase for components (AC1.1.4).</subtask>
+      <subtask>Verify that the ESLint configuration is active and capable of identifying potential naming convention violations.</subtask>
+      <task>Validate Project Build</task>
+      <subtask>Execute the build command: `npm run build`.</subtask>
+      <subtask>Confirm the build completes without errors (AC1.1.5).</subtask>
+      <subtask>(Optional) Start the development server (`npm run dev`) and perform a basic browser check to confirm the application loads.</subtask>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1.1.1">The project is created with Next.js 15, TypeScript 5, Tailwind CSS 4, and ESLint 9.</criterion>
+    <criterion id="AC1.1.2">shadcn/ui is initialized and configured with the New York style.</criterion>
+    <criterion id="AC1.1.3">The folder structure matches the Architecture document (`app/`, `components/`, `lib/`, `hooks/`).</criterion>
+    <criterion id="AC1.1.4">Naming conventions (kebab-case for files, PascalCase for components) are established.</criterion>
+    <criterion id="AC1.1.5">The project builds successfully with `npm run build`.</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Web App Specific Requirements</section>
+        <snippet>The application will be a Single-Page Application (SPA) to provide a fluid user experience. It will be optimized for modern browsers including Chrome, Firefox, and Edge.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Project Initialization</section>
+        <snippet>First implementation story should execute: `npx create-next-app@latest crosslist --typescript --tailwind --eslint`</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Decision Summary</section>
+        <snippet>This section contains the summary of technology stack decisions, including Framework, Language, Styling, UI Components, and Linting.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>This section defines the initial folder structure for the project, including `app/`, `components/`, `lib/`, and `hooks/`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>1.1 Design System Choice</section>
+        <snippet>The chosen design system for Crosslist is shadcn/ui. This decision is driven by its strong alignment with the project's technical stack (React, Next.js, TypeScript, Tailwind CSS) and its philosophy of providing customizable, accessible components.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epics and User Stories</title>
+        <section>Epic 1: Foundation & Infrastructure</section>
+        <snippet>Establish the technical foundation (Next.js app, Supabase, Chrome Extension shell) to enable all future feature development.</snippet>
+      </doc>
+    </docs>
+    <code></code>
+    <dependencies>
+      <dependency>
+        <name>@changesets/cli</name>
+        <version>^2.27.1</version>
+      </dependency>
+      <dependency>
+        <name>@commitlint/cli</name>
+        <version>^20.1.0</version>
+      </dependency>
+      <dependency>
+        <name>@commitlint/config-conventional</name>
+        <version>^20.0.0</version>
+      </dependency>
+      <dependency>
+        <name>husky</name>
+        <version>^9.1.7</version>
+      </dependency>
+      <dependency>
+        <name>lint-staged</name>
+        <version>^16.2.6</version>
+      </dependency>
+      <dependency>
+        <name>prettier</name>
+        <version>^3.6.2</version>
+      </dependency>
+      <dependency>
+        <name>turbo</name>
+        <version>^2.5.8</version>
+      </dependency>
+      <dependency>
+        <name>typescript</name>
+        <version>5.9.3</version>
+      </dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Naming Conventions: kebab-case.ts for files, PascalCase for components, camelCase for functions, snake_case for database.</constraint>
+    <constraint>Error Handling: Agent errors reported to UI via XState onError, API routes return standard format.</constraint>
+    <constraint>Logging Strategy: Console logging with prefixes in dev, Sentry in prod.</constraint>
+    <constraint>Execute `npx create-next-app@latest crosslist --typescript --tailwind --eslint` for project initialization.</constraint>
+    <constraint>Execute `npx shadcn@latest init` and select "New York" style for UI components.</constraint>
+    <constraint>Confirm `tsconfig.json` includes the `@/` path alias for absolute imports.</constraint>
+  </constraints>
+  <interfaces></interfaces>
+  <tests>
+    <standards>Use Vitest for fast unit/logic testing. Use Playwright for critical browser automation and extension E2E testing.</standards>
+    <locations>Unit tests co-located with the source files (`*.test.ts`). E2E tests in a dedicated `e2e/` directory.</locations>
+    <ideas>
+      <idea for="AC1.1.1">Verify that the `create-next-app` command was executed with the correct parameters.</idea>
+      <idea for="AC1.1.2">Verify that `shadcn/ui` is initialized with the "New York" style.</idea>
+      <idea for="AC1.1.3">Verify that the generated `tsconfig.json` contains the `@/` alias.</idea>
+      <idea for="AC1.1.5">Verify that the project builds successfully with `npm run build`.</idea>
+    </ideas>
+  </tests>
+</story-context>
