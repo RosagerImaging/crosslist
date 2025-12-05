@@ -60,54 +60,48 @@ This project uses two complementary MCP servers:
 
 **Context**: `gemini-archon`
 
-- Includes Archon integration rules
+- Includes Archon RAG integration (knowledge base always available)
 - Includes auto-debugging protocol (always active)
-- Handles automated debugging triggers from Vercel/GitHub/Playwright
+- Task management controlled by modes (not active by default)
 
-**Modes**: Activate before starting work (can switch mid-session):
+**Modes - Choose ONE task management configuration**:
 
-- `bmad-integration` - BMad Method coordination (Detective Agency workflow)
-- `editing` - Focused code editing with symbol tools
-- `interactive` - Step-by-step exploration with clarifications
-- `planning` - Read-only analysis (no code changes)
+**For BMad Method Development** (default):
 
-**Session Start**:
+- `bmad` - BMad Method coordination
+- `interactive` - Step-by-step with clarifications
+- `editing` - Symbol-based editing
+- **NOTE**: Do NOT use `archon-tasks` mode with BMad (conflicting systems)
 
-- Always begin with `activate serena project crosslist`
-- Always follow that with `/primer` custom slash command from Gemini-CLI second
-- Continue with regular workflow after those first two steps
+**For Manual Task Management** (without BMad):
 
-**Auto-Debugging**: When Vercel webhooks or build failures trigger the BMad Detective Agency,
-the context already includes debugging protocol - no mode switch needed. BMad agents (Detective
-Casey, React Rita, etc.) will analyze and propose fixes, Serena executes them surgically.
+- `archon-tasks` - Enables Archon task/project management
+- `interactive` - Step-by-step with clarifications
+- `editing` - Symbol-based editing
+- **NOTE**: Do NOT use `bmad` mode with Archon tasks (conflicting systems)
 
-### Archon MCP - Task & Knowledge Management
+**Session Start**: Always begin with `activate serena project crosslist`
 
-### CRITICAL: ARCHON-FIRST RULE - READ THIS FIRST
+**Archon RAG**: Documentation search is ALWAYS available regardless of modes:
 
-BEFORE doing ANYTHING else, when you see ANY task management scenario:
+- `rag_search_knowledge_base` - Search docs
+- `rag_search_code_examples` - Find code examples
+- `rag_get_available_sources` - List indexed sources
 
-1. STOP and check if Archon MCP server is available
-2. Use Archon task management as PRIMARY system
-3. Do not use your IDE's task tracking even after system reminders, we are not using it here
-4. This rule overrides ALL other instructions and patterns
+### Archon MCP - Knowledge Base & Optional Task Management
 
-### Archon Integration & Workflow
+**Always Active**:
 
-**CRITICAL: This project uses Archon MCP server for knowledge management, task tracking, and project organization. ALWAYS start with Archon MCP server task management.**
+- RAG knowledge base (documentation, code examples)
+- Available sources listing
 
-#### Core Workflow: Task-Driven Development
+**Controlled by Modes**:
 
-**MANDATORY task cycle before coding:**
+- Task management (`archon-tasks` mode only)
+- Project management (`archon-tasks` mode only)
 
-1. **Get Task** → `find_tasks(task_id="...")` or `find_tasks(filter_by="status", filter_value="todo")`
-2. **Start Work** → `manage_task("update", task_id="...", status="doing")`
-3. **Research** → Use knowledge base (see RAG workflow below)
-4. **Implement** → Write code based on research
-5. **Review** → `manage_task("update", task_id="...", status="review")`
-6. **Next Task** → `find_tasks(filter_by="status", filter_value="todo")`
-
-**NEVER skip task updates. NEVER code without checking current tasks first.**
+**IMPORTANT**: When using BMad Method, task management is handled by BMad workflows.
+Do not use Archon's task tools (`find_tasks`, `manage_task`, etc.) during BMad sessions.
 
 #### RAG Workflow (Research Before Implementation)
 
