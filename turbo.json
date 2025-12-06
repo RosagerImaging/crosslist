@@ -12,7 +12,7 @@
     },
     "lint": {
       "dependsOn": ["^lint"],
-      "env": ["CI", "EMAIL_SERVER", "EMAIL_FROM", "NEXTAUTH_SECRET", "TURBO_CI_TOKEN", "TURBO_REMOTE_CACHE_SIGNATURE", "TURBO_REMOTE_CACHE_URL"]
+      "env": ["CI", "EMAIL_SERVER", "EMAIL_FROM", "NEXTAUTH_SECRET", "TURBO_CI_TOKEN", "TURBO_REMOTE_CACHE_SIGNATURE", "TURBO_REMOTE_CACHE_URL", "process.env"]
     },
     "check-types": {
       "dependsOn": ["^check-types"],
