@@ -12,7 +12,7 @@
     },
     "lint": {
       "dependsOn": ["^lint"],
-      "env": ["CI"]
+      "env": ["CI", "EMAIL_SERVER", "EMAIL_FROM", "NEXTAUTH_SECRET"]
     },
     "check-types": {
       "dependsOn": ["^check-types"],
