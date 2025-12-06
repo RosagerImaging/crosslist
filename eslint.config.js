@@ -9,6 +9,20 @@ export default [
   ...baseConfig,
   ...nextJsConfig, // Use nextJsConfig directly without mapping or additional files/ignores
   {
+    // Add import/resolver settings for monorepo support
+    settings: {
+      'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['./tsconfig.json', './packages/*/tsconfig.json', './apps/*/tsconfig.json'],
+        },
+      },
+    },
+  },
+  {
     files: ["apps/chrome-extension/**/*.{ts,tsx}"],
     rules: {
       // Specific rules for chrome extension
