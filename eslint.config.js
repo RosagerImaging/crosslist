@@ -1,5 +1,5 @@
-import { config as baseConfig } from "@repo/eslint-config/base";
-import { nextJsConfig } from "@repo/eslint-config/next-js";
+import { config as baseConfig } from "@repo/eslint-config/base.js";
+import { nextJsConfig } from "@repo/eslint-config/next-js.js";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
