@@ -31,6 +31,7 @@ export default [
       },
     },
     rules: {
+      "no-undef": "off", // Disable no-undef for chrome extension files
       // Specific rules for chrome extension
     },
   },
@@ -46,10 +47,11 @@ export default [
       "**/.eslintrc.{js,cjs}",
       "**/vite.config.ts",
       "apps/web/app/api/**/route.ts",
+      "apps/web/app/auth/**/route.ts",
       "apps/web/lib/supabase/**/*.ts",
       "apps/web/middleware.ts",
-      "playwright.config.ts",
-      "playwright/**/*.{ts,js}"
+      "apps/web/playwright.config.ts",
+      "apps/web/playwright/**/*.{ts,js}"
     ],
     languageOptions: {
       globals: {

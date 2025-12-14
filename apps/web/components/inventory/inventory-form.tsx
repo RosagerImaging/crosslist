@@ -1,17 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Loader2, Plus, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { insertItemSchema, type InsertItemValues } from "@/lib/schemas/inventory";
+import {
+  insertItemSchema,
+  type InsertItemValues,
+} from "@/lib/schemas/inventory";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,7 +37,7 @@ export function InventoryForm() {
   const supabase = createClient();
 
   const form = useForm<InsertItemValues>({
-    resolver: zodResolver(insertItemSchema) as any,
+    resolver: zodResolver(insertItemSchema),
     defaultValues: {
       title: "",
       price: 0,
@@ -113,7 +116,7 @@ export function InventoryForm() {
       form.reset();
       setSelectedImages([]);
       router.push("/inventory");
-      router.refresh(); 
+      router.refresh();
     } catch (error) {
       console.error("Error creating item:", error);
       // In a real app, use toast here
@@ -125,7 +128,10 @@ export function InventoryForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-2xl">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 max-w-2xl"
+      >
         <FormField
           control={form.control}
           name="title"
@@ -161,7 +167,10 @@ export function InventoryForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Condition</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select condition" />
@@ -216,10 +225,15 @@ export function InventoryForm() {
           <FormLabel>Images</FormLabel>
           <div className="grid grid-cols-3 gap-4">
             {selectedImages.map((file, index) => (
-              <div key={index} className="relative aspect-square bg-muted rounded-md overflow-hidden">
-                <img
+              <div
+                key={index}
+                className="relative aspect-square bg-muted rounded-md overflow-hidden"
+              >
+                <Image
                   src={URL.createObjectURL(file)}
                   alt="Preview"
+                  width={150}
+                  height={150}
                   className="object-cover w-full h-full"
                 />
                 <button
@@ -233,7 +247,9 @@ export function InventoryForm() {
             ))}
             <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed rounded-md hover:bg-muted/50 cursor-pointer">
               <Plus className="h-8 w-8 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground mt-2">Add Image</span>
+              <span className="text-xs text-muted-foreground mt-2">
+                Add Image
+              </span>
               <input
                 type="file"
                 className="hidden"

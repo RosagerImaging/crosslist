@@ -1,24 +1,28 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { forgotPasswordSchema, type ForgotPasswordValues } from "@/lib/schemas/auth"
-import { resetPasswordForEmail } from "@/lib/supabase/auth"
-import { Icons } from "@/components/ui/icons"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordValues,
+} from "@/lib/schemas/auth";
+import { resetPasswordForEmail } from "@/lib/supabase/auth";
+import { Icons } from "@/components/ui/icons";
 
-interface ForgotPasswordFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export function ForgotPasswordForm({ className, ...props }: ForgotPasswordFormProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<boolean>(false)
+export function ForgotPasswordForm({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const {
     register,
@@ -26,23 +30,23 @@ export function ForgotPasswordForm({ className, ...props }: ForgotPasswordFormPr
     formState: { errors },
   } = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
-  })
+  });
 
   async function onSubmit(data: ForgotPasswordValues) {
-    setIsLoading(true)
-    setError(null)
-    setSuccess(false)
+    setIsLoading(true);
+    setError(null);
+    setSuccess(false);
 
-    const result = await resetPasswordForEmail(data.email)
+    const result = await resetPasswordForEmail(data.email);
 
-    setIsLoading(false)
+    setIsLoading(false);
 
     if (!result.success) {
-      setError(result.error || "Something went wrong. Please try again.")
-      return
+      setError(result.error || "Something went wrong. Please try again.");
+      return;
     }
 
-    setSuccess(true)
+    setSuccess(true);
   }
 
   return (
@@ -76,9 +80,7 @@ export function ForgotPasswordForm({ className, ...props }: ForgotPasswordFormPr
                 </p>
               )}
             </div>
-            {error && (
-              <p className="px-1 text-xs text-red-600">{error}</p>
-            )}
+            {error && <p className="px-1 text-xs text-red-600">{error}</p>}
             <Button disabled={isLoading}>
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -89,5 +91,5 @@ export function ForgotPasswordForm({ className, ...props }: ForgotPasswordFormPr
         </form>
       )}
     </div>
-  )
+  );
 }

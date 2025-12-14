@@ -1,25 +1,29 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { updatePasswordSchema, type UpdatePasswordValues } from "@/lib/schemas/auth"
-import { updatePassword } from "@/lib/supabase/auth"
-import { Icons } from "@/components/ui/icons"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  updatePasswordSchema,
+  type UpdatePasswordValues,
+} from "@/lib/schemas/auth";
+import { updatePassword } from "@/lib/supabase/auth";
+import { Icons } from "@/components/ui/icons";
 
-interface UpdatePasswordFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export function UpdatePasswordForm({ className, ...props }: UpdatePasswordFormProps) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+export function UpdatePasswordForm({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -27,23 +31,23 @@ export function UpdatePasswordForm({ className, ...props }: UpdatePasswordFormPr
     formState: { errors },
   } = useForm<UpdatePasswordValues>({
     resolver: zodResolver(updatePasswordSchema),
-  })
+  });
 
   async function onSubmit(data: UpdatePasswordValues) {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
-    const result = await updatePassword(data.password)
+    const result = await updatePassword(data.password);
 
-    setIsLoading(false)
+    setIsLoading(false);
 
     if (!result.success) {
-      setError(result.error || "Something went wrong. Please try again.")
-      return
+      setError(result.error || "Something went wrong. Please try again.");
+      return;
     }
 
-    router.push("/inventory")
-    router.refresh()
+    router.push("/inventory");
+    router.refresh();
   }
 
   return (
@@ -90,9 +94,7 @@ export function UpdatePasswordForm({ className, ...props }: UpdatePasswordFormPr
               </p>
             )}
           </div>
-          {error && (
-            <p className="px-1 text-xs text-red-600">{error}</p>
-          )}
+          {error && <p className="px-1 text-xs text-red-600">{error}</p>}
           <Button disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -102,5 +104,5 @@ export function UpdatePasswordForm({ className, ...props }: UpdatePasswordFormPr
         </div>
       </form>
     </div>
-  )
+  );
 }

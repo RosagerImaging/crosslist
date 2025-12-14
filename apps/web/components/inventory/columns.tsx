@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import Image from "next/image"; // Import Image component
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,9 +26,11 @@ export const columns: ColumnDef<InventoryItem>[] = [
       return (
         <div className="w-12 h-12 rounded-md overflow-hidden bg-muted">
           {imageUrl && (
-            <img
+            <Image
               src={imageUrl}
               alt={row.getValue("title")}
+              width={48}
+              height={48}
               className="w-full h-full object-cover"
             />
           )}
@@ -42,7 +45,8 @@ export const columns: ColumnDef<InventoryItem>[] = [
   {
     accessorKey: "sku",
     header: "SKU",
-    cell: ({ row }) => row.getValue("sku") || <span className="text-muted-foreground">-</span>,
+    cell: ({ row }) =>
+      row.getValue("sku") || <span className="text-muted-foreground">-</span>,
   },
   {
     accessorKey: "price",
@@ -53,7 +57,7 @@ export const columns: ColumnDef<InventoryItem>[] = [
         style: "currency",
         currency: "USD",
       }).format(amount);
- 
+
       return <div className="font-medium">{formatted}</div>;
     },
   },
@@ -61,17 +65,19 @@ export const columns: ColumnDef<InventoryItem>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-        const status = row.getValue("status") as string;
-        return (
-            <Badge variant={status === 'active' ? 'default' : 'secondary'}>{status}</Badge>
-        )
-    }
+      const status = row.getValue("status") as string;
+      return (
+        <Badge variant={status === "active" ? "default" : "secondary"}>
+          {status}
+        </Badge>
+      );
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
       const item = row.original;
- 
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -82,12 +88,16 @@ export const columns: ColumnDef<InventoryItem>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(item.id)}>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(item.id)}
+            >
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit item</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">Delete item</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">
+              Delete item
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

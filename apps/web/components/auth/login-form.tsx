@@ -1,27 +1,28 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { loginSchema, type LoginValues } from "@/lib/schemas/auth"
-import { signInWithEmail } from "@/lib/supabase/auth"
-import { SocialAuthButton } from "./social-auth-button"
-import { Icons } from "@/components/ui/icons"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { loginSchema, type LoginValues } from "@/lib/schemas/auth";
+import { signInWithEmail } from "@/lib/supabase/auth";
+import { SocialAuthButton } from "./social-auth-button";
+import { Icons } from "@/components/ui/icons";
 
-interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export function LoginForm({ className, ...props }: LoginFormProps) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+export function LoginForm({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -29,23 +30,23 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     formState: { errors },
   } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   async function onSubmit(data: LoginValues) {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
-    const result = await signInWithEmail(data.email, data.password)
+    const result = await signInWithEmail(data.email, data.password);
 
-    setIsLoading(false)
+    setIsLoading(false);
 
     if (!result.success) {
-      setError(result.error || "Something went wrong. Please try again.")
-      return
+      setError(result.error || "Something went wrong. Please try again.");
+      return;
     }
 
-    router.push("/inventory") // Redirect to dashboard
-    router.refresh()
+    router.push("/inventory"); // Redirect to dashboard
+    router.refresh();
   }
 
   return (
@@ -100,9 +101,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               Forgot password?
             </Link>
           </div>
-          {error && (
-            <p className="px-1 text-xs text-red-600">{error}</p>
-          )}
+          {error && <p className="px-1 text-xs text-red-600">{error}</p>}
           <Button disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -131,7 +130,5 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
         </Link>
       </p>
     </div>
-  )
+  );
 }
-
-
