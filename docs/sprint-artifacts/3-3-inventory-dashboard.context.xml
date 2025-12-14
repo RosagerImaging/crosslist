@@ -1,0 +1,49 @@
+<story-context id="3-3-inventory-dashboard" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3-3</storyId>
+    <title>Inventory Dashboard</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-13</generatedAt>
+    <sourceStoryPath>docs/sprint-artifacts/3-3-inventory-dashboard.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to view all my items in a searchable table</iWant>
+    <soThat>I can quickly find and manage my inventory</soThat>
+    <tasks>
+      <task>Create useInventory Hook (Supabase Query)</task>
+      <task>Implement DataTable (Columns, Pagination)</task>
+      <task>Add Search & Filter Logic</task>
+      <task>Create Dashboard Page Page</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion>AC 1: Table View (Columns: Photo, Title, Price, etc.)</criterion>
+    <criterion>AC 2: Search & Filter (Title, SKU, Status)</criterion>
+    <criterion>AC 3: Pagination & Updates (Server-side fetch)</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>docs/sprint-artifacts/tech-spec-epic-3.md</doc>
+    </docs>
+    <code>
+      <item>types/supabase.ts</item>
+      <item>apps/web/components/inventory/inventory-form.tsx</item>
+    </code>
+    <dependencies>
+      <dep>@tanstack/react-table</dep>
+      <dep>@tanstack/react-query</dep>
+      <dep>shadcn/ui (Table, DropdownMenu)</dep>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface>
+      useInventory: (params: { page: number, search: string, status?: string }) => { data: Item[], count: number }
+    </interface>
+  </interfaces>
+</story-context>

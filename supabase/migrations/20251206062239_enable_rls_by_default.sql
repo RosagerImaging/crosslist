@@ -1,0 +1,1 @@
+ALTER ROLE authenticator SET row_security = on;

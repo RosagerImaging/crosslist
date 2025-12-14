@@ -1,0 +1,171 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Chrome Extension Shell</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>/home/optiks/dev/crosslist/docs/sprint-artifacts/1-4-chrome-extension-shell.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>a basic Chrome Extension structure</iWant>
+    <soThat>I can later implement marketplace credential management</soThat>
+    <tasks>
+      -   [ ] **Task:** Create Chrome Extension directory structure (AC1.4.1)
+          -   [ ] Subtask: Create `extension/` directory.
+          -   [ ] Subtask: Create `extension/manifest.json` (Manifest V3).
+          -   [ ] Subtask: Create `extension/background/service-worker.ts`.
+          -   [ ] Subtask: Create `extension/content/poshmark.ts` and `extension/content/ebay.ts`.
+          -   [ ] Subtask: Create `extension/popup/index.html`.
+      -   [ ] **Task:** Ensure extension loads without errors (AC1.4.2)
+          -   [ ] Subtask: Develop a basic build script using `vite` or `tsup` for TypeScript bundling.
+          -   [ ] Subtask: Test loading the extension in Chrome Developer Mode without errors.
+      -   [ ] **Task:** Implement content script injection and basic messaging (AC1.4.3)
+          -   [ ] Subtask: Configure `manifest.json` for content script injection into `*.poshmark.com` and `*.ebay.com`.
+          -   [ ] Subtask: Set up basic message passing between web app and extension.
+          -   [ ] Subtask: Configure `externally_connectable` for web app domain.
+      -   [ ] **Task:** Create build script for extension (AC1.4.4)
+          -   [ ] Subtask: Implement `npm run build:extension` command.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1.  **AC1.4.1:** An `extension/` directory exists with the following structure:
+        *   `manifest.json` (Manifest V3)
+        *   `background/service-worker.ts`
+        *   `content/poshmark.ts`
+        *   `content/ebay.ts`
+        *   `popup/index.html`
+    2.  **AC1.4.2:** The extension loads in Chrome Developer Mode without errors.
+    3.  **AC1.4.3:** Content scripts inject into `*.poshmark.com` and `*.ebay.com`.
+    4.  **AC1.4.4:** A build script packages the extension (`npm run build:extension`).
+  </acceptanceCriteria>
+
+    <docs>
+      <artifact>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Product Scope - MVP</section>
+        <snippet>The MVP will focus on ... "Marketplace Integration & Credential Management: Securely connect user marketplace accounts via a Chrome Extension."</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Functional Requirements</section>
+        <snippet>FR3: Users can connect and manage marketplace accounts securely via a Chrome Extension.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Innovation & Novel Patterns</section>
+        <snippet>A particularly novel pattern is the implementation of AI agents designed to mimic human-like behavior in marketplace interactions, specifically to evade detection by platforms like Poshmark that restrict automated activity.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Decision Summary</section>
+        <snippet>Extension Bridge: Custom 'useExtensionBridge' Hook. Encapsulates message passing complexity; provides clean API for React components; ensures type safety.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Decision Summary</section>
+        <snippet>Agent Orchestration: Client-Side XState. Ensures all agent actions originate from user's local IP/session to prevent detection; robust state management.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Novel Pattern Designs</section>
+        <snippet>Scoped Humanizer Layer (Poshmark Only). Applies human-like jitter/delays ONLY to Poshmark agents to avoid detection.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>crosslist/ ... extension/ ... manifest.json, background/, content/</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>Extension: externally_connectable permission restricted to the production domain.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Core User Experience</section>
+        <snippet>The defining experience of Crosslist is the intelligent, effortless one-to-many cross-listing. ... the intelligent, human-like automation across multiple diverse marketplaces introduces novel UX challenges related to trust, transparency of agent activity, and feedback on multi-platform status.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>User Journey Flows</section>
+        <snippet>Key Interactions: Seamless Marketplace Integration: A straightforward and secure process for connecting and managing marketplace accounts via the Chrome extension.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/epics.md</path>
+        <title>Epics and User Stories</title>
+        <section>Story 1.4: Chrome Extension Shell</section>
+        <snippet>As a developer, I want a basic Chrome Extension structure, So that I can later implement marketplace credential management.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/epics.md</path>
+        <title>Epics and User Stories</title>
+        <section>Story 1.4: Chrome Extension Shell - Acceptance Criteria</section>
+        <snippet>Given I need browser extension capabilities When I create the extension structure Then an extension/ directory exists with: - manifest.json (Manifest V3) - background/service-worker.ts - content/poshmark.ts - content/ebay.ts - popup/index.html And the extension loads in Chrome Developer Mode without errors And content scripts inject into *.poshmark.com and *.ebay.com And a build script packages the extension (npm run build:extension)</snippet>
+      </artifact>
+    </docs>
+
+  <artifacts>
+    <code>
+      <!-- This story establishes the initial extension shell; specific code artifacts will emerge in subsequent stories. -->
+    </code>
+    <dependencies>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>typescript</package>
+        <version>~5.x</version>
+        <notes>Core language for extension development.</notes>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>vite</package>
+        <notes>Recommended for TypeScript bundling in extension (or tsup).</notes>
+      </dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Chrome Extension Manifest V3 is required.</constraint>
+    <constraint>Extension scripts must be written in TypeScript and bundled (e.g., with Vite or tsup).</constraint>
+    <constraint>`externally_connectable` permission in `manifest.json` must be configured to restrict communication to the web app's domain for security.</constraint>
+    <constraint>Marketplace credentials (e.g., session cookies) must be stored securely and encrypted in `chrome.storage.local` within the extension; they must never be sent to the web application server.</constraint>
+    <constraint>Interactions with marketplaces like Poshmark (which lack official APIs) will require DOM manipulation via content scripts, utilizing a "Humanizer Layer" to mimic human-like behavior and avoid bot detection.</constraint>
+    <constraint>Secure communication between the web application and the Chrome Extension should primarily use `window.postMessage` with strict origin validation.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>useExtensionBridge</name>
+      <kind>React Hook</kind>
+      <signature>Custom React Hook for web app to extension communication. (Future Story)</signature>
+      <path>apps/web/lib/bridge/use-extension-bridge.ts</path>
+      <notes>This interface will encapsulate `window.postMessage` and provide a type-safe API for React components.</notes>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Initial development for this extension shell will focus on manual verification by loading the extension in Chrome Developer Mode and checking for console errors. For future, more complex extension functionalities, the project's overall testing strategy includes Playwright for critical browser automation and extension end-to-end testing.
+    </standards>
+    <locations>
+      <!-- Playwright E2E tests for extensions would typically reside in an e2e/extension/ directory -->
+    </locations>
+    <ideas>
+      <idea>Manually load the extension in Chrome Developer Mode to ensure `manifest.json` is valid and the extension loads without errors (AC1.4.2).</idea>
+      <idea>Verify content scripts are injected into `*.poshmark.com` and `*.ebay.com` by inspecting the page source or using developer tools (AC1.4.3).</idea>
+      <idea>Run the build script (`npm run build:extension`) and verify a packaged extension file is created (AC1.4.4).</idea>
+    </ideas>
+  </tests>
+</story-context>

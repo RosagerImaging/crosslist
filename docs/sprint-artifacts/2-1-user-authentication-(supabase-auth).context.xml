@@ -1,0 +1,101 @@
+<story-context>
+    <metadata>
+        <id>2.1</id>
+        <title>User Authentication (Supabase Auth)</title>
+        <status>ready-for-dev</status>
+        <semver>minor</semver>
+        <type>feature</type>
+        <description>
+As a user,
+I want to securely sign up and log in with email/password or Google,
+so that I can access my private inventory and manage my account.
+        </description>
+    </metadata>
+
+    <acceptance-criteria>
+        <criterion id="AC-2.1.1">Users can sign up with valid email and password meeting strength requirements (8+ chars, uppercase, lowercase, number, special character)</criterion>
+        <criterion id="AC-2.1.2">Users can log in with valid credentials; invalid attempts show appropriate error messages</criterion>
+        <criterion id="AC-2.1.3">Users can sign up/login with Google OAuth</criterion>
+        <criterion id="AC-2.1.4">Email verification is required for email/password signups before account activation</criterion>
+        <criterion id="AC-2.1.5">Users can request a password reset email and successfully reset their password</criterion>
+        <criterion id="AC-2.1.6">Session persists across page reloads and browser restarts (until expiry)</criterion>
+        <criterion id="AC-2.1.7">Protected routes redirect unauthenticated users to /login</criterion>
+        <criterion id="AC-2.1.8">Public routes (landing page, pricing) are accessible without auth</criterion>
+        <criterion id="AC-2.1.9">"Log Out" functionality clears session and redirects to verified public route</criterion>
+        <criterion id="AC-2.1.10">Auth pages (Login, Signup, Forgot Password) are responsive and accessible (WCAG 2.1 AA)</criterion>
+    </acceptance-criteria>
+
+    <tasks>
+        <task id="T-2.1.1" title="Supabase Auth Client Configuration">
+            <subtask>Configure Supabase SSR client in `lib/supabase` (server.ts, client.ts, middleware.ts)</subtask>
+            <subtask>Implement `middleware.ts` for route protection and session management</subtask>
+        </task>
+        <task id="T-2.1.2" title="Auth Service Layer">
+            <subtask>Create `services/auth-service.ts` to abstract Supabase calls (signUp, signIn, signOut, resetPassword, signInWithOAuth)</subtask>
+            <subtask>Implement error mapping to user-friendly messages</subtask>
+        </task>
+        <task id="T-2.1.3" title="Auth UI Components">
+            <subtask>Create reusable form components (Input, Button, Label) with validation (React Hook Form + Zod)</subtask>
+            <subtask>Implement `LoginForm` component</subtask>
+            <subtask>Implement `SignupForm` component</subtask>
+            <subtask>Implement `ForgotPasswordForm` component</subtask>
+            <subtask>Implement `SocialAuthButton` for Google</subtask>
+        </task>
+        <task id="T-2.1.4" title="Auth Pages Implementation">
+            <subtask>Create `/login` page</subtask>
+            <subtask>Create `/signup` page</subtask>
+            <subtask>Create `/forgot-password` page</subtask>
+            <subtask>Create `/auth/callback` route for OAuth handling</subtask>
+        </task>
+        <task id="T-2.1.5" title="User Profile Setup">
+            <subtask>Create database migration for `profiles` table (if not exists)</subtask>
+            <subtask>Create SQL trigger for auto-profile creation on new user signup</subtask>
+        </task>
+        <task id="T-2.1.6" title="Integration & Testing">
+            <subtask>Write unit tests for utility functions and form validation</subtask>
+            <subtask>Write E2E tests for Signup, Login, OAuth flow, and Protected Route access</subtask>
+        </task>
+    </tasks>
+
+    <artifacts>
+        <!-- Documentation -->
+        <artifact type="docs" path="docs/sprint-artifacts/tech-spec-epic-2.md" description="Technical Specification for Epic 2 (Source of Truth)" />
+        <artifact type="docs" path="docs/architecture.md" description="Architecture Overview (Supabase Auth & Security sections)" />
+        <artifact type="docs" path="docs/prd.md" description="Product Requirements (Security & Accessibility)" />
+        <artifact type="docs" path="docs/sprint-artifacts/1-3-supabase-project-&-database-setup.md" description="Story 1.3 Context (Supabase Setup)" />
+
+        <!-- Existing Code -->
+        <artifact type="code" path="apps/web/lib/supabase/client.ts" description="Existing Supabase Browser Client" />
+        <artifact type="code" path="apps/web/package.json" description="Project Dependencies" />
+
+        <!-- Dependencies -->
+        <artifact type="dependency" name="@supabase/ssr" version="latest" description="Supabase SSR Auth helpers" />
+        <artifact type="dependency" name="@supabase/supabase-js" version="latest" description="Supabase JS Client" />
+        <artifact type="dependency" name="react-hook-form" version="^7.x" description="Form Management" />
+        <artifact type="dependency" name="zod" version="^3.x" description="Schema Validation" />
+    </artifacts>
+
+    <constraints>
+        <constraint type="security">Password Complexity: 8+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special char</constraint>
+        <constraint type="security">Email verification mandatory for credential-based signup</constraint>
+        <constraint type="tech">Must use `@supabase/ssr` for Next.js 15 compatibility (App Router)</constraint>
+        <constraint type="ux">All auth forms must be fully accessible (keyboard nav, ARIA labels, contrast)</constraint>
+    </constraints>
+
+    <interfaces>
+        <interface type="api" name="Supabase Auth API" description="Standard Supabase Auth methods (signUp, signInWithPassword, signInWithOAuth, signOut)" />
+        <interface type="route" name="/login" description="User Login Page" />
+        <interface type="route" name="/signup" description="User Registration Page" />
+        <interface type="route" name="/forgot-password" description="Password Reset Request Page" />
+        <interface type="route" name="/auth/callback" description="OAuth Callback Handler" />
+    </interfaces>
+
+    <tests>
+        <test type="unit" description="Form validation logic (Zod schemas)" />
+        <test type="e2e" description="User Signup Flow (Success & Failure cases)" />
+        <test type="e2e" description="User Login Flow (Email/Pass & Google)" />
+        <test type="e2e" description="Password Reset Flow" />
+        <test type="e2e" description="Protected Route Redirection (Middleware check)" />
+    </tests>
+
+</story-context>

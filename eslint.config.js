@@ -1,5 +1,6 @@
-import { config as baseConfig } from "@repo/eslint-config/base";
-import { nextJsConfig } from "@repo/eslint-config/next-js";
+import { config as baseConfig } from "./packages/eslint-config/base.js";
+import { nextJsConfig } from "./packages/eslint-config/next-js.js";
+import globals from "globals";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
@@ -24,6 +25,11 @@ export default [
   },
   {
     files: ["apps/chrome-extension/**/*.{ts,tsx}"],
+    languageOptions: {
+      globals: {
+        chrome: "readonly",
+      },
+    },
     rules: {
       // Specific rules for chrome extension
     },
@@ -32,6 +38,27 @@ export default [
     files: ["packages/api-client/**/*.{ts,tsx}"],
     rules: {
       // Specific rules for api-client
+    },
+  },
+  {
+    files: [
+      "**/*.config.{js,mjs,cjs,ts}",
+      "**/.eslintrc.{js,cjs}",
+      "**/vite.config.ts",
+      "apps/web/app/api/**/route.ts",
+      "apps/web/lib/supabase/**/*.ts",
+      "apps/web/middleware.ts",
+      "playwright.config.ts",
+      "playwright/**/*.{ts,js}"
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+      "no-undef": "off", // Often needed for process.env
     },
   },
 ];

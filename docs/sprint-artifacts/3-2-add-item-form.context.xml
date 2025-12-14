@@ -1,0 +1,76 @@
+<story-context id="3-2-add-item-form" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3-2</storyId>
+    <title>Add Item Form</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-13</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-2-add-item-form.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to add a new item with photos and details</iWant>
+    <soThat>I can build my inventory</soThat>
+    <tasks>
+      <task>Create Zod Schema (insertItemSchema)</task>
+      <task>Implement Image Upload Hook (Supabase Storage)</task>
+      <task>Build InventoryForm Component (react-hook-form)</task>
+      <task>Create /inventory/new Page</task>
+      <task>Wire up Form Submission to DB</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion>AC 1: Form Inputs & Validation (Title, Price, Condition required)</criterion>
+    <criterion>AC 2: Image Upload (Drag & Drop, Preview, Supabase Storage)</criterion>
+    <criterion>AC 3: Successful Submission (DB Insert, Redirect)</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>docs/sprint-artifacts/tech-spec-epic-3.md</doc>
+      <doc>docs/sprint-artifacts/3-1-inventory-database-schema.md</doc>
+    </docs>
+    <code>
+      <item>types/supabase.ts</item>
+      <item>supabase/migrations/20251213224236_inventory_schema.sql</item>
+    </code>
+    <dependencies>
+      <dep>react-hook-form</dep>
+      <dep>zod</dep>
+      <dep>@hookform/resolvers</dep>
+      <dep>shadcn/ui (Form, Input, Select, Button)</dep>
+      <dep>Supabase Storage</dep>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Images must be uploaded to user-specific bucket path</constraint>
+    <constraint>Form must use Zod for validation</constraint>
+    <constraint>Price must be a positive number</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      InventoryFormProps: { onSuccess?: () => void }
+    </interface>
+    <interface>
+      useImageUpload: { upload: (files: File[]) => Promise<string[]>, isUploading: boolean }
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Unit test form validation; Integration test submission</standards>
+    <locations>
+      <loc>apps/web/tests/unit/components/inventory-form.test.tsx</loc>
+    </locations>
+    <ideas>
+      <test>Submit empty form -> expect validation errors</test>
+      <test>Submit negative price -> expect error</test>
+      <test>Upload image -> verify Supabase Storage call</test>
+      <test>Successful submit -> verify DB insert call</test>
+    </ideas>
+  </tests>
+</story-context>

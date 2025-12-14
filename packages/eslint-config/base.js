@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
+import tseslint from "typescript-eslint";
 // import turboPlugin from "eslint-plugin-turbo"; // Temporarily disabled
 
 /**
@@ -10,16 +11,12 @@ import eslintConfigPrettier from "eslint-config-prettier";
 export const config = [
   js.configs.recommended,
   eslintConfigPrettier,
+  ...tseslint.configs.recommended,
   {
-    extends: [
-      "plugin:@typescript-eslint/recommended"
-    ],
     plugins: {
       // turbo: turboPlugin, // Temporarily disabled
-      "@typescript-eslint": {},
       "only-warn": {},
     },
-    parser: "@typescript-eslint/parser",
     rules: {
       // "turbo/no-undeclared-env-vars": "warn", // Temporarily disabled
     },

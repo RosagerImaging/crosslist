@@ -1,0 +1,100 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>epic-2</epicId>
+    <storyId>2.2</storyId>
+    <title>Extension Authentication Bridge</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-11T22:00:00Z</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-2-extension-authentication-bridge.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>my authentication state to automatically synchronize between the web app and the Chrome Extension</iWant>
+    <soThat>I can seamlessly connect marketplace accounts without logging in twice</soThat>
+    <tasks>
+      - Task 1: Define Type-Safe Message Protocol (AC: #7)
+      - Task 2: Implement Extension Bridge Hook (Web App) (AC: #2, #5, #6, #7)
+      - Task 3: Implement Auth State Synchronization (Web App Side) (AC: #2, #6)
+      - Task 4: Implement Extension Background Service Worker Logic (AC: #4, #3, #5)
+      - Task 5: Implement Extension Popup UI (AC: #1)
+      - Task 6: Verify Authenticated API Access (AC: #8)
+      - Task 7: Comprehensive Testing (Tech Spec Strategy)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1. **AC-2.2.1**: Chrome Extension popup displays current login state ("Logged in as [email]" or "Not logged in")
+    2. **AC-2.2.2**: When user logs in via web app, extension receives AUTH_STATE_SYNC message within 100ms
+    3. **AC-2.2.3**: Extension stores Supabase session token in chrome.storage.local with encryption (AES-256)
+    4. **AC-2.2.4**: Extension validates message origin before processing (rejects non-production domains)
+    5. **AC-2.2.5**: Extension sends AUTH_STATE_SYNCED confirmation back to web app after successful sync
+    6. **AC-2.2.6**: Web app displays "Extension connected" status indicator after successful sync
+    7. **AC-2.2.7**: Extension-to-webapp messages use type-safe protocol with TypeScript interfaces
+    8. **AC-2.2.8**: Extension can make authenticated API calls using stored session token
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      - path: docs/sprint-artifacts/tech-spec-epic-2.md
+        title: Epic 2 Technical Specification
+        section: Story 2.2: Extension Authentication Bridge
+        snippet: Detailed requirements for extension postMessage protocol, security requirements for origin validation, and encrypted storage.
+      - path: docs/architecture.md
+        title: System Architecture
+        section: Security Architecture
+        snippet: Guidelines on secure credential handling and extension-web application communication patterns.
+    </docs>
+    <code>
+      - path: apps/web/types/supabase.ts
+        kind: types
+        symbol: Database
+        reason: Supabase database types for authenticated user context.
+      - path: apps/web/hooks/
+        kind: code
+        symbol: hooks
+        reason: Target directory for new useExtensionBridge hook.
+      - path: apps/chrome-extension/src/background/index.ts
+        kind: service-worker
+        symbol: background
+        reason: Background script for handling auth synchronization messages.
+    </code>
+    <dependencies>
+      <pkg>@supabase/ssr</pkg>
+      <pkg>react</pkg>
+      <pkg>zod</pkg>
+      <pkg>vitest</pkg>
+      <pkg>@playwright/test</pkg>
+      <pkg>@types/chrome</pkg>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Sync Latency**: Must be &lt; 100ms (p95). Use window.postMessage directly, avoid complex serialization.
+    - **Manifest V3**: Background script is a Service Worker (ephemeral). Do not rely on global variables for state persistence; use chrome.storage.
+    - **Security**: Must use AES-256 (Web Crypto API) for creating the "Encrypted Credentials" layer. Origin verification is mandatory.
+  </constraints>
+
+  <interfaces>
+    - name: AuthStateSyncMessage
+      kind: interface
+      signature: { type: 'AUTH_STATE_SYNC', payload: { session: Session | null } }
+      path: shared/messages.ts (proposed)
+  </interfaces>
+
+  <tests>
+    <standards>
+      Unit tests using Vitest for logic (encryption, message validation). E2E tests using Playwright for full sync flow.
+    </standards>
+    <locations>
+      apps/web/tests/unit/
+      apps/web/playwright/
+    </locations>
+    <ideas>
+      - Test 1: Verify AES-256 encryption/decryption round trip.
+      - Test 2: Verify message listener rejects messages from unknown origins.
+      - Test 3: Playwright test: Login on Web App -> Verify Extension Storage has token.
+    </ideas>
+  </tests>
+</story-context>

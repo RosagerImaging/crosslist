@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Crosslist Extension",
+  "version": "1.0.0",
+  "description": "Crosslist Chrome Extension for marketplace integration.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "cookies"
+  ],
+  "host_permissions": [
+    "*://*.poshmark.com/*",
+    "*://*.ebay.com/*",
+    "*://localhost/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.poshmark.com/*"],
+      "js": ["content/poshmark.ts"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["*://*.ebay.com/*"],
+      "js": ["content/ebay.ts"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["*://localhost/*", "https://crosslist.app/*"],
+      "js": ["content/bridge.ts"],
+      "run_at": "document_start"
+    }
+  ],
+  "externally_connectable": {
+    "matches": ["__EXT_MATCHES_HOST__"]
+  }
+}

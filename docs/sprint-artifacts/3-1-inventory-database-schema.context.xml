@@ -1,0 +1,71 @@
+<story-context id="3-1-inventory-database-schema" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3-1</storyId>
+    <title>Inventory Database Schema</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-13</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-1-inventory-database-schema.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>database tables for items, images, and marketplace listings</iWant>
+    <soThat>I can store and query inventory data efficiently</soThat>
+    <tasks>
+      <task>Create Migration File (items, item_images, marketplace_listings tables)</task>
+      <task>Implement RLS Policies (CRUD for owners only)</task>
+      <task>Generate TypeScript Types</task>
+      <task>Verify schema via SQL Editor and Codebase</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion>AC 1: Database Tables Created (items, item_images, marketplace_listings)</criterion>
+    <criterion>AC 2: Row Level Security (RLS) - Users only access their own data</criterion>
+    <criterion>AC 3: TypeScript Types Generated and usable in code</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>docs/sprint-artifacts/tech-spec-epic-3.md</doc>
+      <doc>docs/architecture.md</doc>
+    </docs>
+    <code>
+      <item>supabase/migrations/</item>
+      <item>types/supabase.ts</item>
+    </code>
+    <dependencies>
+      <dep>Supabase Client SDK</dep>
+      <dep>Supabase CLI</dep>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>SKU must be unique PER USER (composite index on user_id, sku)</constraint>
+    <constraint>Use PostgreSQL enums for 'condition' and 'status'</constraint>
+    <constraint>Strict RLS: auth.uid() = user_id</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      Items Table: id (uuid), user_id (uuid), title (text), description (text), price (decimal), sku (text), condition (enum), status (enum), timestamps
+    </interface>
+    <interface>
+      Item Images Table: id (uuid), item_id (uuid), url (text), order (int)
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Manual verification via SQL Editor; Type validation via TSC</standards>
+    <locations>
+      <loc>local Supabase instance</loc>
+    </locations>
+    <ideas>
+      <test>Attempt to select * from items as anon user (should fail)</test>
+      <test>Attempt to select * from items as different auth user (should fail)</test>
+      <test>Insert item with duplicate SKU for same user (should fail)</test>
+    </ideas>
+  </tests>
+</story-context>

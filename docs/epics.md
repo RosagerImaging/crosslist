@@ -170,64 +170,72 @@
 ### Story 2.1: User Authentication (Supabase Auth)
 
 **As a** user,  
-**I want** to sign up and log in with email or Google,  
-**So that** I can access my private inventory securely.
+**I want** to securely sign up and log in with email/password or Google,  
+**So that** I can access my private inventory and manage my account.
 
 **Acceptance Criteria:**
 
 **Given** I am a new user  
-**When** I visit the sign-up page  
-**Then** I see options for Email/Password and Google OAuth
-
-**And** I can create an account with email and password (min 8 characters)  
-**And** I receive a verification email  
-**And** after verification, I am redirected to the dashboard
+**When** I visit the sign-up page (`/signup`)  
+**Then** I see a visually clean form with email, password (confirm password) fields, and a "Sign up with Google" button.  
+**And** the email field validates for RFC 5322 format.  
+**And** the password field requires a minimum of 8 characters, including at least one uppercase letter, one number, and one special character, with real-time feedback on password strength.  
+**And** clicking "Sign up with Google" initiates a Google OAuth flow.  
+**And** upon successful email/password signup, I receive an email verification link.  
+**And** after verifying my email, I am redirected to the `/dashboard` page.
 
 **Given** I am an existing user  
-**When** I visit the login page  
-**Then** I can log in with my credentials
-
-**And** I can reset my password via email  
-**And** my session persists across browser tabs  
-**And** unauthenticated users are redirected to `/login`
+**When** I visit the login page (`/login`)  
+**Then** I see an intuitive form with email and password fields, and "Login with Google" and "Forgot Password" links.  
+**And** upon successful login, my session persists across browser tabs.  
+**And** unauthenticated users attempting to access protected routes (e.g., `/dashboard`) are automatically redirected to `/login`.  
+**And** clicking "Forgot Password" sends a password reset email and provides clear instructions.
 
 **Prerequisites:** Story 1.3
 
 **Technical Notes:**
-- Use Supabase Auth with email provider and Google OAuth
-- Implement protected route middleware
-- Create auth context with React Context or Zustand
-- Use shadcn/ui Form components for UI
+-   Utilize Supabase Auth for all authentication methods (email/password, Google OAuth).
+-   Implement server-side email verification with a configurable redirect URL.
+-   Protected routes will be implemented using Next.js Middleware or client-side checks with `supabase.auth.getSession()`.
+-   Develop a custom `AuthContext` or use Zustand for global authentication state management.
+-   UI components will be built using `shadcn/ui` Form, Input, Button, and Alert components, ensuring WCAG 2.1 Level AA accessibility.
+-   Error messages for failed authentication attempts (e.g., invalid credentials, network errors) will be displayed clearly and concisely below the relevant input fields.
+-   Performance target: Critical authentication interactions (login/signup submission) should respond within 200ms.
 
 ---
 
 ### Story 2.2: Extension Authentication Bridge
 
 **As a** user,  
-**I want** the Chrome Extension to automatically sync with my web app login,  
-**So that** I don't have to authenticate twice.
+**I want** the Chrome Extension to automatically sync with my web app login state,  
+**So that** I have a seamless, secure experience and don't have to authenticate twice.
 
 **Acceptance Criteria:**
 
-**Given** I am logged into the web app  
+**Given** I am logged into the web app (via Story 2.1)  
 **When** I open the extension popup  
-**Then** the extension shows "Logged in as [email]"
-
-**And** the extension has access to my Supabase session token  
-**And** the token is stored securely in `chrome.storage.local` (encrypted)  
-**And** the extension can make authenticated API calls on my behalf
+**Then** the extension popup immediately displays "Logged in as [user's email]".  
+**And** the extension securely retrieves and stores my active Supabase session token in `chrome.storage.local` (encrypted).  
+**And** the extension can use this token to make authenticated calls to the Supabase API on my behalf.
 
 **Given** I log out of the web app  
-**When** the extension checks my status  
-**Then** the extension clears the stored token and shows "Not logged in"
+**When** the web app communicates its logout state to the extension  
+**Then** the extension clears any stored session tokens and displays "Not logged in".
+
+**Given** the web app sends a message to the extension  
+**When** the extension receives the message via `window.postMessage` (from the web app) or `chrome.runtime.sendMessage` (from content scripts)  
+**Then** the extension rigorously validates the message's origin to prevent cross-site scripting (XSS) attacks.
 
 **Prerequisites:** Story 2.1, Story 1.4
 
 **Technical Notes:**
-- Implement `useExtensionBridge` hook (Architecture pattern)
-- Use `window.postMessage` for web ↔ extension communication
-- Validate message origin for security
-- Store encrypted tokens only
+-   Implement the `useExtensionBridge` hook within the web application (`apps/web/lib/bridge/use-extension-bridge.ts` - from Architecture).
+-   Utilize `window.postMessage` for communication between the web app and content scripts, ensuring strict origin validation (`event.origin` check).
+-   Establish message passing between content scripts and the background service worker using `chrome.runtime.sendMessage`.
+-   Session tokens obtained from the web app must be immediately encrypted before storage in `chrome.storage.local`. A simple symmetric encryption mechanism (e.g., using `crypto.subtle` API with a generated key stored in session storage or passed securely) should be used.
+-   The background service worker will act as the central hub for authentication state, handling token storage, retrieval, and relaying authenticated API requests.
+-   The extension popup will query the background service worker for login status upon opening.
+-   Refer to Architecture Document for `externally_connectable` permission details in `manifest.json`.
 
 ---
 
@@ -235,31 +243,42 @@
 
 **As a** user,  
 **I want** to securely connect my eBay and Poshmark accounts,  
-**So that** AI agents can list items on my behalf.
+**So that** AI agents can seamlessly list items on my behalf and manage them across marketplaces.
 
 **Acceptance Criteria:**
 
-**Given** I am logged into the web app  
-**When** I click "Connect eBay"  
-**Then** the extension opens a new tab to eBay login
+**Given** I am logged into the web app (via Story 2.2)  
+**When** I navigate to the "Connected Marketplaces" section (e.g., `/settings/marketplaces`)  
+**Then** I see buttons to "Connect eBay" and "Connect Poshmark" with clear status indicators (e.g., "Connected", "Disconnected").
 
-**And** after I log into eBay, the extension captures the session cookies  
-**And** the cookies are stored encrypted in `chrome.storage.local`  
-**And** the web app dashboard shows "eBay: Connected ✓"
+**Given** I click "Connect eBay"  
+**When** the extension opens a new tab or window to the eBay login page  
+**Then** I can log in to my eBay account.  
+**And** upon successful login, the extension automatically captures the necessary session cookies using the `chrome.cookies` API.  
+**And** these captured cookies are immediately encrypted using the same mechanism as the Supabase session token (from Story 2.2) and stored securely in `chrome.storage.local`.  
+**And** the web app dashboard updates to show "eBay: Connected ✓" with a clear status indicator.  
+**And** if the connection fails (e.g., invalid login, API error), a user-friendly error message is displayed in the web app and/or extension popup.
 
-**Given** I want to connect Poshmark  
-**When** I click "Connect Poshmark"  
-**Then** the same flow occurs for Poshmark
+**Given** I click "Connect Poshmark"  
+**When** the same secure connection flow occurs for Poshmark  
+**Then** my Poshmark session cookies are captured, encrypted, and stored.  
+**And** the web app dashboard updates to show "Poshmark: Connected ✓".
 
-**And** I can disconnect a marketplace, which clears its stored credentials
+**Given** a marketplace account is connected  
+**When** I click a "Disconnect" button for that marketplace  
+**Then** all associated encrypted credentials (cookies, tokens) for that marketplace are securely cleared from `chrome.storage.local`.  
+**And** the web app dashboard updates the status to "Disconnected".
 
 **Prerequisites:** Story 2.2
 
 **Technical Notes:**
-- **CRITICAL:** Never send raw cookies to the server
-- Use `chrome.cookies` API to read marketplace session cookies
-- Encrypt cookies before storing
-- Implement credential verification (test API call)
+-   **CRITICAL:** Marketplace credentials (cookies/tokens) must **never** be sent to the web application server. All handling and storage occurs exclusively within the Chrome Extension.
+-   Utilize the `chrome.cookies` API in the background service worker or a dedicated helper script to capture specific session cookies for eBay and Poshmark after the user logs in.
+-   Implement a robust encryption/decryption utility within the extension for `chrome.storage.local` data, leveraging Web Cryptography API (e.g., AES-GCM) with a key derived from a user-specific secret or a secure key exchange mechanism.
+-   The background service worker will manage the state of connected marketplaces and provide an API for content scripts/web app to query connection status.
+-   The web app will communicate with the extension via the `useExtensionBridge` (from Story 2.2) to initiate connection flows and receive status updates.
+-   Implement comprehensive error handling for network issues, failed logins, and API rate limits during the connection process.
+-   Refer to the Architecture Document for the "Adapter Pattern" and "Scoped Humanizer Layer" for how these credentials will eventually be used by AI agents.
 
 ---
 
