@@ -1,4 +1,4 @@
-fix(lint): Final ESLint cleanup and resolution
+fix(lint): final eslint cleanup and resolution
 
 This commit finalizes the ESLint cleanup process, resolving all remaining errors
 and warnings across the codebase.
