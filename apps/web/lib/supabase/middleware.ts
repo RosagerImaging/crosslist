@@ -1,58 +1,31 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  });
+  // Simple cookie-based auth check for Edge Runtime compatibility
+  // Full session validation happens in Server Components
+  const hasAuthCookie =
+    request.cookies.has("sb-access-token") ||
+    request.cookies.has("sb-refresh-token") ||
+    // Check for newer Supabase cookie format
+    Array.from(request.cookies.getAll()).some(
+      (cookie) =>
+        cookie.name.startsWith("sb-") && cookie.name.includes("-auth-token"),
+    );
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach((cookie) => {
-            request.cookies.set(cookie.name, cookie.value);
-          });
-          supabaseResponse = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach((cookie) => {
-            supabaseResponse.cookies.set(
-              cookie.name,
-              cookie.value,
-              cookie.options,
-            );
-          });
-        },
-      },
-      auth: {
-        flowType: "pkce",
-      },
-    },
-  );
-
-  // refresh the session if expired
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (request.nextUrl.pathname.startsWith("/inventory") && !user) {
+  // Redirect unauthenticated users from protected routes
+  if (request.nextUrl.pathname.startsWith("/inventory") && !hasAuthCookie) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // Redirect authenticated users from auth pages
   if (
     ["/login", "/signup", "/reset-password"].includes(
       request.nextUrl.pathname,
     ) &&
-    user
+    hasAuthCookie
   ) {
     return NextResponse.redirect(new URL("/inventory", request.url));
   }
 
-  return supabaseResponse;
+  return NextResponse.next();
 }
