@@ -1,0 +1,147 @@
+Summary of the issue (number 1)
+
+The linter reports that the Postgres function public.handle_new_user uses a mutable search_path because the function definition does not set an explicit search_path configuration. When a function relies on the session's or role's search_path, its behavior can change depending on who executes it or what the session settings are. This is a security and reliability risk: the function might resolve unqualified object names (tables, types, other functions) to different objects than intended, or be vulnerable to privilege escalation if a malicious schema is earlier in the path.
+
+Key problem: function lacks an explicit SET search_path = ... clause, so it inherits a mutable search path from the caller/role.
+Risks
+
+    Unqualified table/function/type references may resolve to the wrong object if a different schema appears first in search_path.
+    Possible SQL injection / privilege escalation if an attacker creates objects in a schema earlier on the search_path.
+    Harder-to-debug behavior when running under different roles or environments.
+    Breaks reproducibility across environments (dev/staging/prod) with different role settings.
+
+Recommended fixes
+
+Choose one of the following, depending on your desired semantics:
+
+    Set an explicit, fixed search_path in the function definition (recommended)
+
+    Modify the function to include a SET search_path = schema[, other_schema, ...] clause so it always resolves names against known schemas. Example pattern:
+        If the function only needs the public schema: SET search_path = public, pg_temp;
+        If it needs public and extensions: SET search_path = public, extensions, pg_temp;
+
+Advantages: predictable resolution and safer execution.
+
+    Use fully qualified object names inside the function
+
+    Update the function body to reference all tables, types, and functions with fully qualified names (schema.object). This removes dependence on search_path without altering function configuration.
+
+Advantages: minimal config change; explicit intent.
+
+    Mark the function SECURITY DEFINER and restrict who can create objects in target schemas (use with caution)
+
+    If you need the function to run with the function owner's privileges, use SECURITY DEFINER, but still combine with an explicit search_path or fully qualified names to avoid surprises.
+
+Important: If using SECURITY DEFINER, ensure the function owner is a trusted role and revoke EXECUTE from untrusted roles if appropriate.
+Suggested SQL patches
+
+Use one of these approaches. Replace the function body with your actual function code.
+
+A) Add SET search_path (example):
+SQL Query
+
+CREATE OR REPLACE FUNCTION public.handle_new_user(...)
+RETURNS ...
+LANGUAGE plpgsql
+SET search_path = public, pg_temp
+AS $$
+BEGIN
+  -- function body (use unqualified names if intentionally relying on public)
+END;
+$$;
+
+B) Fully qualify names (no SET needed):
+
+    Edit the function body so all references use schema-qualified names, e.g. public.users, auth.users, public.some_helper().
+
+C) If combining SECURITY DEFINER:
+SQL Query
+
+CREATE OR REPLACE FUNCTION public.handle_new_user(...)
+RETURNS ...
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+BEGIN
+  -- function body
+END;
+$$;
+-- then ensure the function owner is trusted and revoke unnecessary privileges
+REVOKE EXECUTE ON FUNCTION public.handle_new_user(...) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.handle_new_user(...) TO specific_role;
+
+Validation steps after fix
+
+    Inspect the function definition: run \df+ public.handle_new_user or query pg_proc/pg_get_functiondef to confirm SET search_path appears or that object names are fully qualified.
+    Test behavior under different role/session search_path settings to ensure consistent results.
+    If using SECURITY DEFINER, audit privileges of the function owner and revoke public access if needed.
+
+Short recommended action
+
+    If you can change the function: add SET search_path = public, pg_temp to the function definition (or fully qualify object names). This is the simplest and safest fix.
+    If you cannot alter the function immediately: ensure no untrusted roles can create objects in schemas that might appear earlier in callers' search_path, and plan to update the function to a fixed search_path soon.
+
+
+
+
+
+
+
+Summary of the issue (number 2)
+
+The RLS policy on public.users ("Users can only access own profile") calls functions like current_setting() or auth.<function>() directly in the USING/WITH CHECK expressions. When used this way, Postgres may re-evaluate those function calls for every row checked by the policy, which causes poor performance at scale.
+
+The recommended fix is to call these functions via a scalar subquery so they are evaluated once per statement (or at least not per-row), e.g. replace auth.uid() with (SELECT auth.uid()), or current_setting('...') with (SELECT current_setting('...')). This follows Supabase/Postgres guidance to wrap auth and session helpers in SELECT to avoid per-row re-evaluation.
+Why this matters
+
+    Per-row evaluation of functions like auth.uid() increases CPU and can drastically slow queries on large tables.
+    Using a scalar subquery lets the planner treat the result as a stable value for the duration of the query, improving performance and enabling better plans / index usage.
+
+Suggested fixes
+
+    Locate the RLS policies on public.users. Example problematic pattern:
+        USING: auth.uid() = id
+        WITH CHECK: auth.uid() = id
+
+    Update the policy expressions to call the functions via SELECT. Example replacements:
+        Change auth.uid() = id to (SELECT auth.uid()) = id
+        Change current_setting('jwt.claims.tenant_id')::uuid = tenant_id to (SELECT current_setting('jwt.claims.tenant_id'))::uuid = tenant_id
+
+    If there are multiple places in the same policy using the same function, wrap each use consistently with (SELECT ...). Example full policy rewrite:
+        Old (problematic): CREATE POLICY "Users can only access own profile" ON public.users FOR ALL TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+        New (recommended): CREATE POLICY "Users can only access own profile" ON public.users FOR ALL TO authenticated USING ((SELECT auth.uid()) = id) WITH CHECK ((SELECT auth.uid()) = id);
+
+    Consider creating a SECURITY DEFINER helper function if you need more complex evaluation or multiple claims:
+        Create a stable SECURITY DEFINER function that returns auth uid or parsed claim, revoke its EXECUTE from anon/authenticated, and call it via SELECT inside policies. This centralizes logic and keeps policy expressions simple.
+
+    Add/verify indexes on columns referenced in the policy (e.g., id, tenant_id) to ensure the planner can use indexes when filtering by the (SELECT ...) value.
+
+Example SQL (non-destructive)
+
+If you want to update an existing policy, drop and recreate it or create a corrected replacement. Example:
+SQL Query
+
+-- Drop the old policy (confirm name)
+DROP POLICY IF EXISTS "Users can only access own profile" ON public.users;
+
+-- Recreate with SELECT-wrapped function calls
+CREATE POLICY "Users can only access own profile" ON public.users
+  FOR ALL
+  TO authenticated
+  USING ((SELECT auth.uid()) = id)
+  WITH CHECK ((SELECT auth.uid()) = id);
+
+(Execute only after confirming the policy name and intended operations.)
+Validation steps after change
+
+    Run representative reads/writes as an authenticated user and confirm behavior unchanged.
+    Check query plans (EXPLAIN ANALYZE) for queries filtering users to confirm the function is not being evaluated per row and that indexes are used.
+    Monitor performance for expected improvement under load.
+
+Notes and caveats
+
+    Don't use CREATE POLICY IF NOT EXISTS because Postgres doesn't support it; drop/recreate or alter as needed.
+    If you rely on other JWT claims, wrap their retrieval with SELECT as well: (SELECT auth.jwt() ->> 'claim').
+    For critical production tables, test in staging before applying to production.
+

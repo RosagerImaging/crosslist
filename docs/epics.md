@@ -8,27 +8,27 @@
 
 ## FR Coverage Matrix
 
-| FR | Description | Epic | Stories |
-|----|-------------|------|---------|
-| FR1 | Users can create and manage accounts | Epic 2 | 2.1 |
-| FR2 | Users can log in securely | Epic 2 | 2.1 |
-| FR3 | Users can connect marketplace accounts via Extension | Epic 2 | 2.2, 2.3 |
-| FR4 | Users can view consolidated dashboard | Epic 3 | 3.3 |
-| FR5 | Users can manage profile and preferences | Epic 2 | 2.1 |
-| FR6 | Users can add new items | Epic 3 | 3.2 |
-| FR7 | Users can view, search, filter inventory | Epic 3 | 3.3 |
-| FR8 | Users can edit item details | Epic 3 | 3.2, 3.4 |
-| FR9 | Users can mark items sold/unsold | Epic 3 | 3.4, Epic 6 | 6.1 |
-| FR10 | Users can categorize and tag items | Epic 3 | 3.2 |
-| FR11 | Crosslisting Agent replicates listings | Epic 4 | 4.1-4.5 |
-| FR12 | Crosslisting Agent transfers details | Epic 4 | 4.2, 4.3 |
-| FR13 | Optimizer removes backgrounds | Epic 5 | 5.1 |
-| FR14 | Optimizer generates descriptions | Epic 5 | 5.2 |
-| FR15 | Users can review AI outputs | Epic 5 | 5.2 |
-| FR16 | Users can initiate/monitor agent tasks | Epic 4 | 4.4, 4.5 |
-| FR17 | Users can view inventory analytics | Epic 6 | 6.2 |
-| FR18 | Users can view sales tracking | Epic 6 | 6.1, 6.2 |
-| FR19-FR31 | Future/Growth Features | Post-MVP | Deferred |
+| FR        | Description                                          | Epic     | Stories     |
+| --------- | ---------------------------------------------------- | -------- | ----------- | --- |
+| FR1       | Users can create and manage accounts                 | Epic 2   | 2.1         |
+| FR2       | Users can log in securely                            | Epic 2   | 2.1         |
+| FR3       | Users can connect marketplace accounts via Extension | Epic 2   | 2.2, 2.3    |
+| FR4       | Users can view consolidated dashboard                | Epic 3   | 3.3         |
+| FR5       | Users can manage profile and preferences             | Epic 2   | 2.1         |
+| FR6       | Users can add new items                              | Epic 3   | 3.2         |
+| FR7       | Users can view, search, filter inventory             | Epic 3   | 3.3         |
+| FR8       | Users can edit item details                          | Epic 3   | 3.2, 3.4    |
+| FR9       | Users can mark items sold/unsold                     | Epic 3   | 3.4, Epic 6 | 6.1 |
+| FR10      | Users can categorize and tag items                   | Epic 3   | 3.2         |
+| FR11      | Crosslisting Agent replicates listings               | Epic 4   | 4.1-4.5     |
+| FR12      | Crosslisting Agent transfers details                 | Epic 4   | 4.2, 4.3    |
+| FR13      | Optimizer removes backgrounds                        | Epic 5   | 5.1         |
+| FR14      | Optimizer generates descriptions                     | Epic 5   | 5.2         |
+| FR15      | Users can review AI outputs                          | Epic 5   | 5.2         |
+| FR16      | Users can initiate/monitor agent tasks               | Epic 4   | 4.4, 4.5    |
+| FR17      | Users can view inventory analytics                   | Epic 6   | 6.2         |
+| FR18      | Users can view sales tracking                        | Epic 6   | 6.1, 6.2    |
+| FR19-FR31 | Future/Growth Features                               | Post-MVP | Deferred    |
 
 ---
 
@@ -62,6 +62,7 @@
 **Prerequisites:** None
 
 **Technical Notes:**
+
 - Execute: `npx create-next-app@latest crosslist --typescript --tailwind --eslint`
 - Follow with: `npx shadcn@latest init`
 - Configure `components.json` for shadcn/ui with New York style
@@ -89,6 +90,7 @@
 **Prerequisites:** Story 1.1
 
 **Technical Notes:**
+
 - Create `.github/workflows/ci.yml` for linting and type-checking
 - Configure Vercel project with environment variables placeholder
 - Enable Vercel GitHub integration
@@ -110,9 +112,10 @@
 **And** local Supabase CLI is installed and initialized (`supabase init`)  
 **And** database migrations directory exists (`supabase/migrations/`)  
 **And** environment variables are configured:
-  - `NEXT_PUBLIC_SUPABASE_URL`
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-  - `SUPABASE_SERVICE_ROLE_KEY` (server-only)
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY` (server-only)
 
 **And** Supabase client is configured in `lib/supabase/client.ts`  
 **And** Row Level Security (RLS) is enabled by default
@@ -120,6 +123,7 @@
 **Prerequisites:** Story 1.2
 
 **Technical Notes:**
+
 - Install: `npm install @supabase/supabase-js`
 - Create client and server Supabase instances
 - Configure environment variables in Vercel
@@ -138,11 +142,12 @@
 **Given** I need browser extension capabilities  
 **When** I create the extension structure  
 **Then** an `extension/` directory exists with:
-  - `manifest.json` (Manifest V3)
-  - `background/service-worker.ts`
-  - `content/poshmark.ts`
-  - `content/ebay.ts`
-  - `popup/index.html`
+
+- `manifest.json` (Manifest V3)
+- `background/service-worker.ts`
+- `content/poshmark.ts`
+- `content/ebay.ts`
+- `popup/index.html`
 
 **And** the extension loads in Chrome Developer Mode without errors  
 **And** content scripts inject into `*.poshmark.com` and `*.ebay.com`  
@@ -151,6 +156,7 @@
 **Prerequisites:** Story 1.1
 
 **Technical Notes:**
+
 - Use `vite` or `tsup` for TypeScript bundling
 - Configure `externally_connectable` for web app domain
 - Set up basic message passing structure
@@ -194,13 +200,14 @@
 **Prerequisites:** Story 1.3
 
 **Technical Notes:**
--   Utilize Supabase Auth for all authentication methods (email/password, Google OAuth).
--   Implement server-side email verification with a configurable redirect URL.
--   Protected routes will be implemented using Next.js Middleware or client-side checks with `supabase.auth.getSession()`.
--   Develop a custom `AuthContext` or use Zustand for global authentication state management.
--   UI components will be built using `shadcn/ui` Form, Input, Button, and Alert components, ensuring WCAG 2.1 Level AA accessibility.
--   Error messages for failed authentication attempts (e.g., invalid credentials, network errors) will be displayed clearly and concisely below the relevant input fields.
--   Performance target: Critical authentication interactions (login/signup submission) should respond within 200ms.
+
+- Utilize Supabase Auth for all authentication methods (email/password, Google OAuth).
+- Implement server-side email verification with a configurable redirect URL.
+- Protected routes will be implemented using Next.js Middleware or client-side checks with `supabase.auth.getSession()`.
+- Develop a custom `AuthContext` or use Zustand for global authentication state management.
+- UI components will be built using `shadcn/ui` Form, Input, Button, and Alert components, ensuring WCAG 2.1 Level AA accessibility.
+- Error messages for failed authentication attempts (e.g., invalid credentials, network errors) will be displayed clearly and concisely below the relevant input fields.
+- Performance target: Critical authentication interactions (login/signup submission) should respond within 200ms.
 
 ---
 
@@ -229,13 +236,14 @@
 **Prerequisites:** Story 2.1, Story 1.4
 
 **Technical Notes:**
--   Implement the `useExtensionBridge` hook within the web application (`apps/web/lib/bridge/use-extension-bridge.ts` - from Architecture).
--   Utilize `window.postMessage` for communication between the web app and content scripts, ensuring strict origin validation (`event.origin` check).
--   Establish message passing between content scripts and the background service worker using `chrome.runtime.sendMessage`.
--   Session tokens obtained from the web app must be immediately encrypted before storage in `chrome.storage.local`. A simple symmetric encryption mechanism (e.g., using `crypto.subtle` API with a generated key stored in session storage or passed securely) should be used.
--   The background service worker will act as the central hub for authentication state, handling token storage, retrieval, and relaying authenticated API requests.
--   The extension popup will query the background service worker for login status upon opening.
--   Refer to Architecture Document for `externally_connectable` permission details in `manifest.json`.
+
+- Implement the `useExtensionBridge` hook within the web application (`apps/web/lib/bridge/use-extension-bridge.ts` - from Architecture).
+- Utilize `window.postMessage` for communication between the web app and content scripts, ensuring strict origin validation (`event.origin` check).
+- Establish message passing between content scripts and the background service worker using `chrome.runtime.sendMessage`.
+- Session tokens obtained from the web app must be immediately encrypted before storage in `chrome.storage.local`. A simple symmetric encryption mechanism (e.g., using `crypto.subtle` API with a generated key stored in session storage or passed securely) should be used.
+- The background service worker will act as the central hub for authentication state, handling token storage, retrieval, and relaying authenticated API requests.
+- The extension popup will query the background service worker for login status upon opening.
+- Refer to Architecture Document for `externally_connectable` permission details in `manifest.json`.
 
 ---
 
@@ -272,13 +280,14 @@
 **Prerequisites:** Story 2.2
 
 **Technical Notes:**
--   **CRITICAL:** Marketplace credentials (cookies/tokens) must **never** be sent to the web application server. All handling and storage occurs exclusively within the Chrome Extension.
--   Utilize the `chrome.cookies` API in the background service worker or a dedicated helper script to capture specific session cookies for eBay and Poshmark after the user logs in.
--   Implement a robust encryption/decryption utility within the extension for `chrome.storage.local` data, leveraging Web Cryptography API (e.g., AES-GCM) with a key derived from a user-specific secret or a secure key exchange mechanism.
--   The background service worker will manage the state of connected marketplaces and provide an API for content scripts/web app to query connection status.
--   The web app will communicate with the extension via the `useExtensionBridge` (from Story 2.2) to initiate connection flows and receive status updates.
--   Implement comprehensive error handling for network issues, failed logins, and API rate limits during the connection process.
--   Refer to the Architecture Document for the "Adapter Pattern" and "Scoped Humanizer Layer" for how these credentials will eventually be used by AI agents.
+
+- **CRITICAL:** Marketplace credentials (cookies/tokens) must **never** be sent to the web application server. All handling and storage occurs exclusively within the Chrome Extension.
+- Utilize the `chrome.cookies` API in the background service worker or a dedicated helper script to capture specific session cookies for eBay and Poshmark after the user logs in.
+- Implement a robust encryption/decryption utility within the extension for `chrome.storage.local` data, leveraging Web Cryptography API (e.g., AES-GCM) with a key derived from a user-specific secret or a secure key exchange mechanism.
+- The background service worker will manage the state of connected marketplaces and provide an API for content scripts/web app to query connection status.
+- The web app will communicate with the extension via the `useExtensionBridge` (from Story 2.2) to initiate connection flows and receive status updates.
+- Implement comprehensive error handling for network issues, failed logins, and API rate limits during the connection process.
+- Refer to the Architecture Document for the "Adapter Pattern" and "Scoped Humanizer Layer" for how these credentials will eventually be used by AI agents.
 
 ---
 
@@ -305,6 +314,7 @@
 **Then** the following tables exist:
 
 **`items` table:**
+
 - `id` (uuid, primary key)
 - `user_id` (uuid, foreign key to auth.users)
 - `title` (text, required)
@@ -316,12 +326,14 @@
 - `created_at`, `updated_at`
 
 **`item_images` table:**
+
 - `id` (uuid, primary key)
 - `item_id` (uuid, foreign key)
 - `url` (text, Supabase Storage URL)
 - `order` (integer)
 
 **`marketplace_listings` table:**
+
 - `id` (uuid, primary key)
 - `item_id` (uuid, foreign key)
 - `marketplace` (enum: ebay, poshmark, mercari)
@@ -334,6 +346,7 @@
 **Prerequisites:** Story 1.3
 
 **Technical Notes:**
+
 - Create migration: `supabase migration new inventory_schema`
 - Use Supabase CLI to generate types
 - Enable RLS on all tables
@@ -351,12 +364,13 @@
 **Given** I want to add an item  
 **When** I navigate to `/inventory/new`  
 **Then** I see a form with fields:
-  - Title (required, max 80 chars)
-  - Description (optional, rich text)
-  - Price (required, decimal)
-  - SKU (optional, auto-generated if empty)
-  - Condition (dropdown: New, Like New, Used, For Parts)
-  - Photos (drag-and-drop, max 12 images)
+
+- Title (required, max 80 chars)
+- Description (optional, rich text)
+- Price (required, decimal)
+- SKU (optional, auto-generated if empty)
+- Condition (dropdown: New, Like New, Used, For Parts)
+- Photos (drag-and-drop, max 12 images)
 
 **And** I can drag-and-drop photos to upload  
 **And** photos are uploaded to Supabase Storage bucket `user-uploads/{user_id}/`  
@@ -371,6 +385,7 @@
 **Prerequisites:** Story 3.1
 
 **Technical Notes:**
+
 - Use `react-hook-form` + `zod` for validation
 - Use shadcn/ui Form, Input, Textarea, Select components
 - Implement photo upload with progress indicator
@@ -389,14 +404,15 @@
 **Given** I have items in my inventory  
 **When** I navigate to `/inventory`  
 **Then** I see a table with columns:
-  - Photo (thumbnail)
-  - Title
-  - SKU
-  - Price
-  - Condition
-  - Status (Active/Sold badge)
-  - Marketplaces (icons for eBay, Poshmark if listed)
-  - Actions (Edit, Delete buttons)
+
+- Photo (thumbnail)
+- Title
+- SKU
+- Price
+- Condition
+- Status (Active/Sold badge)
+- Marketplaces (icons for eBay, Poshmark if listed)
+- Actions (Edit, Delete buttons)
 
 **And** I can search by title or SKU (debounced input)  
 **And** I can filter by Status (Active, Sold, Draft)  
@@ -407,6 +423,7 @@
 **Prerequisites:** Story 3.1
 
 **Technical Notes:**
+
 - Implement `useInventory` hook with TanStack Query
 - Use shadcn/ui Table, Input, Badge components
 - Enable Supabase Realtime subscriptions for live updates
@@ -441,6 +458,7 @@
 **Prerequisites:** Story 3.2, Story 3.3
 
 **Technical Notes:**
+
 - Implement soft delete (add `deleted_at` column)
 - Use shadcn/ui Dialog for confirmation modal
 - Use TanStack Query mutations with optimistic updates
@@ -468,10 +486,11 @@
 **Given** I need a pluggable marketplace system  
 **When** I define the adapter interface  
 **Then** a `MarketplaceAdapter` interface exists with methods:
-  - `list(item: Item): Promise<ListingResult>`
-  - `update(externalId: string, item: Item): Promise<void>`
-  - `delist(externalId: string): Promise<void>`
-  - `verify(): Promise<boolean>` (check credentials)
+
+- `list(item: Item): Promise<ListingResult>`
+- `update(externalId: string, item: Item): Promise<void>`
+- `delist(externalId: string): Promise<void>`
+- `verify(): Promise<boolean>` (check credentials)
 
 **And** a `MockAdapter` class is implemented for testing  
 **And** TypeScript enforces the interface for all adapters
@@ -479,6 +498,7 @@
 **Prerequisites:** Story 3.1
 
 **Technical Notes:**
+
 - Create `lib/adapters/types.ts`
 - Define `ListingResult` type with `success`, `externalId`, `errors`
 - Create `lib/adapters/mock-adapter.ts` for unit tests
@@ -506,6 +526,7 @@
 **Prerequisites:** Story 4.1, Story 2.3
 
 **Technical Notes:**
+
 - Use eBay Trading API v1207 or later
 - Implement exponential backoff for rate limit errors
 - Follow "Strict API Compliance" pattern from Architecture
@@ -528,9 +549,10 @@
 **And** it uses DOM manipulation via the Extension's content script  
 **And** a `HumanizerMiddleware` class intercepts all actions  
 **And** the Humanizer adds randomized delays:
-  - Base delay: 500ms
-  - Random jitter: 0-700ms
-  - Total delay per action: 500-1200ms
+
+- Base delay: 500ms
+- Random jitter: 0-700ms
+- Total delay per action: 500-1200ms
 
 **And** the Humanizer simulates human-like cursor movement (Bezier curves)  
 **And** the Humanizer varies typing speed (150-300ms per character)  
@@ -539,6 +561,7 @@
 **Prerequisites:** Story 4.1, Story 2.3
 
 **Technical Notes:**
+
 - **CRITICAL:** This is the "Stealth" component
 - Implement in `lib/agents/humanizer/middleware.ts`
 - Use `chrome.debugger` API for cursor simulation (if available)
@@ -557,20 +580,22 @@
 **Given** I need to manage complex async workflows  
 **When** I implement the state machine  
 **Then** an XState machine exists with states:
-  - `idle`
-  - `validating` (check item has required fields)
-  - `uploading_photos`
-  - `filling_form`
-  - `submitting`
-  - `success`
-  - `error`
+
+- `idle`
+- `validating` (check item has required fields)
+- `uploading_photos`
+- `filling_form`
+- `submitting`
+- `success`
+- `error`
 
 **And** the machine handles events:
-  - `START` (begin crosslisting)
-  - `PAUSE` (user pauses)
-  - `RESUME` (user resumes)
-  - `CANCEL` (user cancels)
-  - `RETRY` (retry after error)
+
+- `START` (begin crosslisting)
+- `PAUSE` (user pauses)
+- `RESUME` (user resumes)
+- `CANCEL` (user cancels)
+- `RETRY` (retry after error)
 
 **And** errors trigger automatic retry (max 3 attempts)  
 **And** the machine exposes current state to the UI  
@@ -579,6 +604,7 @@
 **Prerequisites:** Story 4.1
 
 **Technical Notes:**
+
 - Install: `npm install xstate`
 - Create `lib/agents/machines/crosslist-machine.ts`
 - Use XState v5 with TypeScript
@@ -600,9 +626,10 @@
 
 **When** I click "Crosslist"  
 **Then** a modal opens showing:
-  - Selected items (thumbnails)
-  - Marketplace checkboxes (eBay, Poshmark)
-  - "Start Crosslisting" button
+
+- Selected items (thumbnails)
+- Marketplace checkboxes (eBay, Poshmark)
+- "Start Crosslisting" button
 
 **When** I start crosslisting  
 **Then** I see a progress bar for each item  
@@ -611,14 +638,16 @@
 
 **When** crosslisting completes  
 **Then** I see a summary:
-  - ✓ 3 items listed successfully
-  - ✗ 1 item failed (with error message)
+
+- ✓ 3 items listed successfully
+- ✗ 1 item failed (with error message)
 
 **And** the inventory dashboard shows marketplace icons for successfully listed items
 
 **Prerequisites:** Story 4.4, Story 3.3
 
 **Technical Notes:**
+
 - Use Zustand to track crosslisting state
 - Use shadcn/ui Dialog, Progress, Checkbox components
 - Connect to XState machine via `useMachine` hook
@@ -656,6 +685,7 @@
 **Prerequisites:** Story 3.2
 
 **Technical Notes:**
+
 - Use remove.bg API or open-source alternative (rembg)
 - Store variants in Supabase Storage: `{item_id}/original.jpg`, `{item_id}/no-bg.jpg`
 - Implement API route: `/api/optimize/remove-bg`
@@ -676,10 +706,11 @@
 
 **And** it generates a 2-3 paragraph description  
 **And** the description includes:
-  - Product highlights
-  - Condition details
-  - Suggested use cases
-  - SEO-friendly keywords
+
+- Product highlights
+- Condition details
+- Suggested use cases
+- SEO-friendly keywords
 
 **And** the generated text fills the Description field  
 **And** I can edit the text before saving  
@@ -688,6 +719,7 @@
 **Prerequisites:** Story 3.2
 
 **Technical Notes:**
+
 - Use OpenAI GPT-4o or similar
 - Implement API route: `/api/optimize/generate-description`
 - Prompt engineering: include item title, condition, category
@@ -716,11 +748,12 @@
 **Given** I have an active item  
 **When** I click "Mark as Sold"  
 **Then** a modal opens with fields:
-  - Sale Price (required, pre-filled with listing price)
-  - Sale Date (required, defaults to today)
-  - Marketplace (required, dropdown)
-  - Fees (optional, decimal)
-  - Notes (optional, text)
+
+- Sale Price (required, pre-filled with listing price)
+- Sale Date (required, defaults to today)
+- Marketplace (required, dropdown)
+- Fees (optional, decimal)
+- Notes (optional, text)
 
 **When** I submit  
 **Then** the item status changes to "Sold"  
@@ -731,6 +764,7 @@
 **Prerequisites:** Story 3.3
 
 **Technical Notes:**
+
 - Create `sales` table with columns: item_id, sale_price, sale_date, marketplace, fees
 - Calculate net profit: sale_price - fees - (original cost if tracked)
 
@@ -747,10 +781,11 @@
 **Given** I have sales data  
 **When** I navigate to `/analytics`  
 **Then** I see:
-  - **Total Active Value** card (sum of all active item prices)
-  - **Total Sales (This Month)** card (sum of sale prices)
-  - **Items Sold (This Month)** card (count)
-  - **Bar Chart:** Sales by Month (last 6 months)
+
+- **Total Active Value** card (sum of all active item prices)
+- **Total Sales (This Month)** card (sum of sale prices)
+- **Items Sold (This Month)** card (count)
+- **Bar Chart:** Sales by Month (last 6 months)
 
 **And** the data updates in real-time  
 **And** I can filter by marketplace  
@@ -759,10 +794,85 @@
 **Prerequisites:** Story 6.1
 
 **Technical Notes:**
+
 - Use `recharts` for charts
 - Use shadcn/ui Card components
 - Implement API route: `/api/analytics/summary`
 - Use TanStack Query for data fetching
+
+---
+
+## Epic 7: Database Types Automation
+
+**Goal:** Automate TypeScript type generation from the Supabase database schema to eliminate manual friction during database migrations and prepare for Epic 4's schema changes.
+
+**Value Delivered:** Developers can regenerate types with a single npm command after database migrations, eliminating manual CLI commands and reducing type/schema drift.
+
+**Source:** Epic 3 Retrospective Action Item (30-minute quick win)
+
+**FRs Covered:** Infrastructure improvement (enables smooth implementation of Epic 4 and beyond)
+
+---
+
+### Story 7.1: Implement db:types npm script
+
+**As a** developer,
+**I want** an npm script to automatically generate TypeScript types from the Supabase database schema,
+**So that** I don't have to manually run Supabase CLI commands and memorize the correct output path after every database migration.
+
+**Acceptance Criteria:**
+
+**AC #1: Script Added to package.json**
+
+- **Given** the root `package.json` is open
+- **When** I locate the `scripts` section
+- **Then** I should see a `db:types` script with the command: `supabase gen types typescript --local > apps/web/types/supabase.ts`
+
+**AC #2: Script Executes Successfully**
+
+- **Given** local Supabase is running (`supabase start`)
+- **When** I run `npm run db:types` from project root
+- **Then** the command completes without errors
+- **And** the file `apps/web/types/supabase.ts` is updated with current database schema types
+
+**AC #3: Generated Types Are Valid**
+
+- **Given** types have been generated by the script
+- **When** I run `npm run build` from `apps/web`
+- **Then** TypeScript compilation succeeds with no type errors
+- **And** all existing code using `@/types/supabase` continues to work
+
+**AC #4: Documentation Is Clear**
+
+- **Given** README.md is updated
+- **When** a developer reads the Database Type Generation section
+- **Then** they understand when to use `npm run db:types`
+- **And** they know the prerequisites (Supabase must be running)
+- **And** they see the alternative command for remote Supabase
+
+**AC #5: Error Handling Works**
+
+- **Given** local Supabase is NOT running
+- **When** I run `npm run db:types`
+- **Then** I receive a clear error message indicating Supabase connection failed
+
+**Prerequisites:** Supabase CLI v2.65.6 installed, local Supabase configuration, Epic 3 completed
+
+**Technical Notes:**
+
+- Uses existing Supabase CLI `gen types` command with `--local` flag
+- Shell output redirection to `apps/web/types/supabase.ts`
+- No new dependencies required
+- Follows existing `generate:*` script pattern
+
+**Estimated Effort:** 1 story point (20-30 minutes)
+
+**Implementation Steps:**
+
+1. Modify `/package.json` - Add `db:types` script (2 min)
+2. Test script execution - Verify types generated (5 min)
+3. Update `/README.md` - Document usage and prerequisites (10 min)
+4. Verify build succeeds - Run `npm run build` (3 min)
 
 ---
 
@@ -773,11 +883,12 @@
 1. **Epic 1** (Foundation) - Stories 1.1 → 1.4
 2. **Epic 2** (Auth) - Stories 2.1 → 2.3
 3. **Epic 3** (Inventory) - Stories 3.1 → 3.4
-4. **Epic 4** (Crosslisting) - Stories 4.1 → 4.5
-5. **Epic 5** (Optimizer) - Stories 5.1 → 5.2
-6. **Epic 6** (Analytics) - Stories 6.1 → 6.2
+4. **Epic 7** (Database Types Automation) - Story 7.1 ⚡ **Quick win before Epic 4**
+5. **Epic 4** (Crosslisting) - Stories 4.1 → 4.5
+6. **Epic 5** (Optimizer) - Stories 5.1 → 5.2
+7. **Epic 6** (Analytics) - Stories 6.1 → 6.2
 
-**Total Stories:** 20 MVP stories
+**Total Stories:** 21 MVP stories (20 original + 1 retrospective improvement)
 
 ---
 

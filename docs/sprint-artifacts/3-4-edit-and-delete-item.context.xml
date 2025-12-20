@@ -1,0 +1,159 @@
+<story-context id="3.4" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3.4</storyId>
+    <title>Edit &amp; Delete Item</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-13</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>/home/optiks/dev/crosslist/docs/sprint-artifacts/3-4-edit-and-delete-item.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to edit or delete items</iWant>
+    <soThat>I can keep my inventory accurate.</soThat>
+    <tasks>
+*   **Task 1: Implement Item Editing Functionality**
+    *   Subtask 1.1: Create API endpoint or Supabase function for updating item details.
+    *   Subtask 1.2: Integrate API/Supabase function into web app for editing.
+    *   Subtask 1.3: Pre-fill "Add Item Form" (`/inventory/new`) with existing item data when in edit mode.
+    *   Subtask 1.4: Enable adding/removing photos during edit.
+    *   Subtask 1.5: Implement optimistic UI updates for item saving.
+    *   Subtask 1.6: Write unit/integration tests for item update API/function.
+    *   Subtask 1.7: Write Playwright E2E test for the edit item flow.
+
+*   **Task 2: Implement Item Deletion Functionality**
+    *   Subtask 2.1: Create API endpoint or Supabase function for soft-deleting an item (update `deleted_at` column).
+    *   Subtask 2.2: Integrate API/Supabase function into web app for deletion.
+    *   Subtask 2.3: Implement confirmation modal using `shadcn/ui` Dialog component.
+    *   Subtask 2.4: Implement optimistic UI updates for item deletion.
+    *   Subtask 2.5: Write unit/integration tests for item delete API/function.
+    *   Subtask 2.6: Write Playwright E2E test for the delete item flow.
+
+*   **Task 3: Update Inventory Dashboard UI**
+    *   Subtask 3.1: Add "Edit" action button/menu item to each row in the inventory table.
+    *   Subtask 3.2: Add "Delete" action button/menu item to each row in the inventory table.
+    *   Subtask 3.3: Ensure dashboard reflects soft-deleted items by filtering them out of the default view.
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+*   **AC 1: Edit Item**
+    *   **Given** I am viewing the inventory dashboard
+    *   **When** I click "Edit" on an item
+    *   **Then** the Add Item form opens pre-filled with the item's data
+    *   **And** I can modify any field
+    *   **And** I can add or remove photos
+    *   **And** when I save, the item is updated in the database
+    *   **And** the dashboard reflects the changes immediately (optimistic update)
+
+*   **AC 2: Delete Item**
+    *   **Given** I want to delete an item
+    *   **When** I click "Delete"
+    *   **Then** a confirmation modal appears
+    *   **And** when I confirm, the item is soft-deleted (status = 'deleted')
+    *   **And** the item is removed from the dashboard view
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/prd.md" title="Product Requirements Document" section="Functional Requirements" snippet="FR8: Users can edit item details (e.g., description, photos, price, condition) within Crosslist. FR9: Users can mark items as sold or unsold. Non-Functional Requirements / Security: RLS: Row Level Security enabled on ALL Supabase tables. Users can ONLY see their own inventory."></doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Database &amp; Auth" snippet="Supabase (PostgreSQL), RLS."></doc>
+      <doc path="docs/architecture.md" title="Architecture" section="State Management" snippet="TanStack Query + Zustand."></doc>
+      <doc path="docs/architecture.md" title="Architecture" section="UI Components" snippet="shadcn/ui."></doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Implementation Patterns / Error Handling" snippet="All API routes return standard { success: boolean, data?: any, error?: string } format."></doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Security Architecture" snippet="RLS: Row Level Security enabled on ALL Supabase tables. Users can ONLY see their own inventory."></doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="Core User Experience / Key Interactions" snippet="Intuitive Inventory Management: Clear dashboards for viewing, searching, and managing entire inventory, with quick access to item details and performance metrics."></doc>
+      <doc path="docs/epics.md" title="Epics and User Stories" section="Epic 3: Central Inventory Hub" snippet="Goal: Create the central dashboard where users can add, view, search, edit, and organize their inventory items."></doc>
+    </docs>
+    <code>
+      <artifact path="apps/web/app/(dashboard)/inventory/page.tsx" kind="page" reason="Dashboard view where edit/delete actions are initiated."></artifact>
+      <artifact path="apps/web/app/(dashboard)/inventory/new/page.tsx" kind="page" reason="Form used for adding/editing items."></artifact>
+      <artifact path="apps/web/components/inventory/columns.tsx" kind="component" reason="Defines table columns, including action buttons for edit/delete."></artifact>
+      <artifact path="apps/web/components/inventory/data-table.tsx" kind="component" reason="Inventory table component displaying items."></artifact>
+      <artifact path="apps/web/components/inventory/inventory-form.tsx" kind="component" reason="Form component used for both adding and editing items."></artifact>
+      <artifact path="apps/web/components/ui/dialog.tsx" kind="component" reason="Reusable UI component for confirmation modals, essential for delete functionality."></artifact>
+      <artifact path="apps/web/lib/hooks/use-inventory.ts" kind="hook" reason="Custom hook for fetching inventory data and will likely include mutations for update/delete."></artifact>
+      <artifact path="apps/web/lib/schemas/inventory.ts" kind="schema" reason="Zod schema for validating inventory item data, critical for form validation during edits."></artifact>
+      <artifact path="supabase/migrations/20251213224236_inventory_schema.sql" kind="database_migration" reason="Defines the 'items' table structure, requires modification for soft delete (`deleted_at` column)."></artifact>
+    </code>
+    <dependencies>
+      <dependency name="next" version="^15.0.0" type="framework"></dependency>
+      <dependency name="react" version="19.2.0" type="framework"></dependency>
+      <dependency name="react-dom" version="19.2.0" type="framework"></dependency>
+      <dependency name="@supabase/ssr" version="^0.8.0" type="library"></dependency>
+      <dependency name="supabase" version="^2.65.6" type="dev-tool"></dependency>
+      <dependency name="@tanstack/react-query" version="^5.90.12" type="library"></dependency>
+      <dependency name="react-hook-form" version="^7.68.0" type="library"></dependency>
+      <dependency name="@hookform/resolvers" version="^5.2.2" type="library"></dependency>
+      <dependency name="zod" version="^4.1.13" type="library"></dependency>
+      <dependency name="class-variance-authority" version="^0.7.1" type="library"></dependency>
+      <dependency name="clsx" version="^2.1.1" type="library"></dependency>
+      <dependency name="lucide-react" version="^0.555.0" type="library"></dependency>
+      <dependency name="tailwind-merge" version="^3.4.0" type="library"></dependency>
+      <dependency name="@radix-ui/react-dropdown-menu" version="^2.1.16" type="library"></dependency>
+      <dependency name="@radix-ui/react-label" version="^2.1.8" type="library"></dependency>
+      <dependency name="@radix-ui/react-select" version="^2.2.6" type="library"></dependency>
+      <dependency name="@radix-ui/react-slot" version="^1.2.4" type="library"></dependency>
+      <dependency name="tailwindcss" version="^4" type="framework"></dependency>
+      <dependency name="@playwright/test" version="^1.57.0" type="dev-tool"></dependency>
+      <dependency name="@axe-core/playwright" version="^4.11.0" type="dev-tool"></dependency>
+      <dependency name="vitest" version="^2.1.8" type="dev-tool"></dependency>
+      <dependency name="@testing-library/react" version="^16.1.0" type="dev-tool"></dependency>
+      <dependency name="@testing-library/dom" version="^10.4.0" type="dev-tool"></dependency>
+      <dependency name="jsdom" version="^25.0.1" type="dev-tool"></dependency>
+      <dependency name="@crosslist/shared" version="^0.0.0" type="library"></dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>RLS policies on Supabase tables must prevent users from editing or deleting items they do not own.</constraint>
+    <constraint>Soft delete mechanism must be implemented for items (add `deleted_at` column in database).</constraint>
+    <constraint>UI components must adhere to shadcn/ui library standards for forms, modals, and buttons.</constraint>
+    <constraint>All API routes must return standard `{ success: boolean, data?: any, error?: string }` format for error handling.</constraint>
+    <constraint>Optimistic UI updates are required for item save/delete actions to enhance perceived performance.</constraint>
+    <constraint>Critical user interactions for edit/delete should respond within 200ms.</constraint>
+  </constraints>
+  <interfaces>
+    <interface name="Update Item API" kind="REST endpoint" signature="PUT /api/inventory/items/{id}" path="apps/web/app/api/inventory/items/[id]/route.ts"></interface>
+    <interface name="Delete Item API" kind="REST endpoint" signature="DELETE /api/inventory/items/{id}" path="apps/web/app/api/inventory/items/[id]/route.ts"></interface>
+    <interface name="useInventory Hook" kind="React Hook" signature="function useInventory(): {..., updateItem: (id: string, data: Partial<Item>) => Promise<any>, deleteItem: (id: string) => Promise<any> }" path="apps/web/lib/hooks/use-inventory.ts"></interface>
+    <interface name="InventoryForm Component" kind="React Component" signature="<InventoryForm initialData?: Item, onSubmit: (data: Item) => void />" path="apps/web/components/inventory/inventory-form.tsx"></interface>
+    <interface name="DataTable Component Actions" kind="React Component" signature="DataTable actions column exposes Edit/Delete functionality" path="apps/web/components/inventory/data-table.tsx"></interface>
+    <interface name="Dialog Component" kind="React Component" signature="<Dialog open={boolean} onOpenChange={function}>...</Dialog>" path="apps/web/components/ui/dialog.tsx"></interface>
+  </interfaces>
+  <tests>
+    <standards>The project uses a hybrid testing strategy: Vitest for fast unit/logic testing and Playwright for critical browser automation and End-to-End (E2E) testing. All tests are run via GitHub Actions on every Pull Request.</standards>
+    <locations>
+      <location>apps/web/tests/unit/</location>
+      <location>apps/web/playwright/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac="AC 1: Edit Item">
+        <description>Unit test `useInventory` hook mutations for update functionality, ensuring correct data transformation and API calls.</description>
+      </idea>
+      <idea ac="AC 1: Edit Item">
+        <description>Integration test `InventoryForm` submission flow, including validation and successful update API call.</description>
+      </idea>
+      <idea ac="AC 1: Edit Item">
+        <description>E2E Playwright test: Navigate to an item's edit form, modify fields, save changes, and verify the updated information on the inventory dashboard.</description>
+      </idea>
+      <idea ac="AC 1: Edit Item">
+        <description>E2E Playwright test: Attempt to edit an item belonging to another user, asserting that the operation fails due to Row Level Security (RLS).</description>
+      </idea>
+      <idea ac="AC 2: Delete Item">
+        <description>Unit test `useInventory` hook mutations for delete functionality, verifying the soft-delete logic (setting `deleted_at`).</description>
+      </idea>
+      <idea ac="AC 2: Delete Item">
+        <description>Integration test for the delete confirmation dialog, ensuring user interaction correctly triggers the delete API call.</description>
+      </idea>
+      <idea ac="AC 2: Delete Item">
+        <description>E2E Playwright test: Click delete for an item, confirm in the modal, and verify the item is no longer displayed on the inventory dashboard.</description>
+      </idea>
+      <idea ac="AC 2: Delete Item">
+        <description>E2E Playwright test: Attempt to delete an item belonging to another user, asserting that the operation fails due to Row Level Security (RLS).</description>
+      </idea>
+    </ideas>
+  </tests>
+</story-context>

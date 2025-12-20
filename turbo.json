@@ -24,7 +24,8 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": ["PORT", "BASE_URL", "TEST_ENV"]
     },
     "version-packages": {
       "outputs": ["packages/*/package.json", "apps/*/package.json"]

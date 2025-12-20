@@ -1,5 +1,5 @@
-import { defineConfig } from '@playwright/test';
-import { baseConfig } from './base.config';
+import { defineConfig } from "@playwright/test";
+import { baseConfig } from "./base.config";
 
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
@@ -9,12 +9,14 @@ export default defineConfig({
   use: {
     ...baseConfig.use,
     baseURL: BASE_URL,
-    video: 'off', // No video locally for speed
+    video: "off", // No video locally for speed
+    ignoreHTTPSErrors: true, // Ignore HTTPS errors for local testing
   },
   webServer: {
-    command: `PORT=${PORT} npm run dev`,
+    command: `npm run build --workspace=apps/web && PORT=${PORT} npm run start --workspace=apps/web`,
     url: BASE_URL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    reuseExistingServer: false, // Explicitly set to false
+    launchTimeout: 300000, // 5 minutes (additional timeout for server launch)
+    timeout: 240000,
   },
 });

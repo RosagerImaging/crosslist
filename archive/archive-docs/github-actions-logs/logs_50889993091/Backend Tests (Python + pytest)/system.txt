@@ -1,5 +1,0 @@
-2025-11-27T03:54:07.9350000Z Requested labels: ubuntu-latest
-2025-11-27T03:54:07.9350000Z Job defined at: RosagerImaging/crosslist/.github/workflows/ci.yml@refs/pull/11/merge
-2025-11-27T03:54:07.9350000Z Waiting for a runner to pick up this job...
-2025-11-27T03:54:07.9450000Z Job is about to start running on the hosted runner: GitHub Actions 1000001720
-2025-11-27T03:54:07.9460000Z Job is waiting for a hosted runner to come online.

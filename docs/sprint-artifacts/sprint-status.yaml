@@ -61,7 +61,7 @@ development_status:
   3-1-inventory-database-schema: done
   3-2-add-item-form: done
   3-3-inventory-dashboard: done
-  3-4-edit-&-delete-item: backlog
+  3-4-edit-&-delete-item: ready-for-dev
   epic-3-retrospective: optional
   epic-4: backlog
   4-1-marketplace-adapter-interface: backlog

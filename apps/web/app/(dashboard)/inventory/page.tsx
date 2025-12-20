@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useInventory } from "@/lib/hooks/use-inventory";
+import { InventoryItem, useInventory } from "@/lib/hooks/use-inventory";
 import { columns } from "@/components/inventory/columns";
 import { DataTable } from "@/components/inventory/data-table";
 import { Button } from "@/components/ui/button";
@@ -35,13 +35,18 @@ export default function InventoryPage() {
         />
       </div>
       <div className="rounded-md border p-4 min-h-[400px]">
-         {isLoading ? (
-            <div className="flex items-center justify-center h-full">Loading...</div>
-          ) : isError ? (
-            <div className="text-destructive">Failed to load inventory</div>
-          ) : (
-            <DataTable columns={columns} data={data?.data || []} />
-          )}
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            Loading...
+          </div>
+        ) : isError ? (
+          <div className="text-destructive">Failed to load inventory</div>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={(data?.data as InventoryItem[]) || []}
+          />
+        )}
       </div>
     </div>
   );

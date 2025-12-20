@@ -144,6 +144,42 @@ This command loads the necessary configurations and memories for Serena to inter
 
 Archon is a critical component for knowledge management, task tracking, and project organization. It is essential to **ALWAYS** start with Archon MCP server task management.
 
+### Database Type Generation
+
+After applying database migrations, regenerate TypeScript types from your Supabase database schema:
+
+```bash
+npm run db:types
+```
+
+This command generates TypeScript type definitions from your Supabase database schema and outputs them to `apps/web/types/supabase.ts`.
+
+#### When to use:
+
+- After creating or applying database migrations
+- After modifying database schema (adding/removing tables, columns, etc.)
+- When types seem out of sync with database
+
+#### Requirements:
+
+- Local Supabase must be running (`supabase start`)
+- Database migrations must be applied
+
+#### Alternative for remote Supabase:
+
+```bash
+supabase gen types typescript --project-id <project-id> --schema public > apps/web/types/supabase.ts
+```
+
+#### Developer Workflow:
+
+1. Create migration: `supabase migration new <name>`
+2. Edit migration file in `supabase/migrations/`
+3. Apply migration: `supabase db push`
+4. **Regenerate types: `npm run db:types`**
+5. Verify build: `npm run build` (from apps/web)
+6. Commit migration + types: `git add supabase/migrations/ apps/web/types/supabase.ts`
+
 ## 5. Coding Best Practices
 
 This section documents important conventions and solutions to issues encountered during development to ensure consistency and prevent recurring errors.
