@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 
 import { chromium, FullConfig } from "@playwright/test";
 import path from "path";
-import fs from "fs"; // Import fs module
 import { config as dotenvConfig } from "dotenv"; // Import dotenvConfig
 // import { signUpWithEmail } from "../../lib/supabase/auth"; // Temporarily disable signup for debugging login
 // import { createClient } from "../../lib/supabase/client"; // Temporarily disable createClient for debugging login

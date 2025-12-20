@@ -24,35 +24,188 @@ jobs:
     - run: npm run lint
     - run: npm run check-types
 
-  test-e2e:
-    needs: build # Depends on the build job
-    runs-on: ubuntu-latest
+    test-e2e:
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
-    - name: Restore node_modules
-      run: npm ci # This will restore from cache or install
-    - name: Run Playwright tests
-      run: npm run test
-      working-directory: apps/web # Run tests from apps/web directory
-      env:
-        PLAYWRIGHT_BASE_URL: ${{ github.event.pull_request.head.sha }} # Use Vercel preview deployment URL if available
-        TEST_ENV: staging # Run against staging by default in CI
-    - name: Upload Playwright Report
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: playwright-report
-        path: apps/web/playwright-report/
-        retention-days: 30
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: apps/web/test-results/
-        retention-days: 30
+      needs: build # Depends on the build job
+
+      runs-on: ubuntu-latest
+
+  
+
+      steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+
+        uses: actions/setup-node@v3
+
+        with:
+
+          node-version: '20.x'
+
+      - name: Restore node_modules
+
+        run: npm ci # This will restore from cache or install
+
+      - name: Run Playwright tests
+
+        run: npm run test
+
+        working-directory: apps/web # Run tests from apps/web directory
+
+        env:
+
+          PLAYWRIGHT_BASE_URL: ${{ github.event.pull_request.head.sha }} # Use Vercel preview deployment URL if available
+
+          TEST_ENV: staging # Run against staging by default in CI
+
+      - name: Upload Playwright Report
+
+        if: always()
+
+        uses: actions/upload-artifact@v3
+
+        with:
+
+          name: playwright-report
+
+          path: apps/web/playwright-report/
+
+          retention-days: 30
+
+      - name: Upload Test Results
+
+        if: always()
+
+        uses: actions/upload-artifact@v3
+
+        with:
+
+          name: test-results
+
+          path: apps/web/test-results/
+
+          retention-days: 30
+
+  
+
+    test-integration:
+
+      needs: build
+
+      runs-on: ubuntu-latest
+
+  
+
+      steps:
+
+        - uses: actions/checkout@v3
+
+  
+
+        - name: Use Node.js
+
+          uses: actions/setup-node@v3
+
+          with:
+
+            node-version: '20.x'
+
+            cache: 'npm'
+
+  
+
+                - name: Install dependencies
+
+  
+
+                  run: npm ci
+
+  
+
+        
+
+  
+
+                - name: Cache Supabase branch
+
+  
+
+                  uses: actions/cache@v3
+
+  
+
+                  with:
+
+  
+
+                    path: supabase/.branches
+
+  
+
+                    key: ${{ runner.os }}-supabase-${{ hashFiles('supabase/config.toml') }}
+
+  
+
+                    restore-keys: |
+
+  
+
+                      ${{ runner.os }}-supabase-
+
+  
+
+        
+
+  
+
+                - name: Setup Supabase
+
+  
+
+                  uses: supabase/setup-cli@v1
+
+  
+
+        - name: Start Supabase
+
+          run: supabase start
+
+  
+
+        - name: Wait for Supabase to be healthy
+
+          run: |
+
+            timeout 60s bash -c '
+
+              until curl -s "http://127.0.0.1:54323/v1/health" | grep -q "\\"healthy\\":true"; do
+
+                echo "Waiting for Supabase to be healthy..."
+
+                sleep 2
+
+              done
+
+            '
+
+  
+
+        - name: Run integration tests
+
+          run: |
+
+            echo "TODO: Add integration test command"
+
+            # Example: npm run test:integration
+
+  
+
+        - name: Stop Supabase
+
+          if: always()
+
+          run: supabase stop
+
+  

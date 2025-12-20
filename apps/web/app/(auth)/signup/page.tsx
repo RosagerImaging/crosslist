@@ -1,11 +1,11 @@
-import { type Metadata } from "next"
+import { type Metadata } from "next";
 
-import { SignupForm } from "@/components/auth/signup-form"
+import { SignupForm } from "@/components/auth/signup-form";
 
 export const metadata: Metadata = {
   title: "Sign Up - Crosslist",
   description: "Create an account to get started",
-}
+};
 
 export default function SignupPage() {
   return (
@@ -18,5 +18,5 @@ export default function SignupPage() {
       </div>
       <SignupForm />
     </div>
-  )
+  );
 }

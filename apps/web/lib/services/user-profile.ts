@@ -1,40 +1,40 @@
-import { createClient } from "@/lib/supabase/client"
-import { type Database } from "@/types/supabase"
+import { createClient } from "@/lib/supabase/client";
+import { type Database } from "@/types/supabase";
 
-export type Profile = Database['public']['Tables']['users']['Row']
-export type ProfileUpdate = Database['public']['Tables']['users']['Update']
+export type Profile = Database["public"]["Tables"]["users"]["Row"];
+export type ProfileUpdate = Database["public"]["Tables"]["users"]["Update"];
 
 export const UserProfileService = {
   async getProfile(userId: string) {
-    const supabase = createClient()
+    const supabase = createClient();
     const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', userId)
-      .single()
+      .from("users")
+      .select("*")
+      .eq("id", userId)
+      .single();
 
     if (error) {
-      console.error('Error fetching profile:', error)
-      return null
+      console.error("Error fetching profile:", error);
+      return null;
     }
 
-    return data
+    return data;
   },
 
   async updateProfile(userId: string, updates: ProfileUpdate) {
-    const supabase = createClient()
+    const supabase = createClient();
     const { data, error } = await supabase
-      .from('users')
+      .from("users")
       .update(updates)
-      .eq('id', userId)
+      .eq("id", userId)
       .select()
-      .single()
+      .single();
 
     if (error) {
-      console.error('Error updating profile:', error)
-      return { success: false, error: error.message }
+      console.error("Error updating profile:", error);
+      return { success: false, error: error.message };
     }
 
-    return { success: true, data }
+    return { success: true, data };
   },
-}
+};

@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
+import * as React from "react";
+import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button"
-import { signOut } from "@/lib/supabase/auth"
-import { Icons } from "@/components/ui/icons"
+import { Button } from "@/components/ui/button";
+import { signOut } from "@/lib/supabase/auth";
+import { Icons } from "@/components/ui/icons";
 
 export function SignOutButton() {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function handleSignOut() {
-    setIsLoading(true)
-    await signOut()
-    setIsLoading(false)
-    router.push("/login")
-    router.refresh()
+    setIsLoading(true);
+    await signOut();
+    setIsLoading(false);
+    router.push("/login");
+    router.refresh();
   }
 
   return (
@@ -24,5 +24,5 @@ export function SignOutButton() {
       {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
       Sign Out
     </Button>
-  )
+  );
 }

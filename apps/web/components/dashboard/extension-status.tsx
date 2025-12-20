@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useExtensionBridge } from '@/hooks/use-extension-bridge';
+import { useExtensionBridge } from "@/hooks/use-extension-bridge";
 
 export function ExtensionStatus() {
   const { isExtensionAvailable, extensionVersion } = useExtensionBridge();

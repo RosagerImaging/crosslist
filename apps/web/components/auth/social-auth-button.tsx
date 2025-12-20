@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useState } from "react"
+import * as React from "react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { signInWithGoogle } from "@/lib/supabase/auth"
-import { Icons } from "@/components/ui/icons"
+import { Button } from "@/components/ui/button";
+import { signInWithGoogle } from "@/lib/supabase/auth";
+import { Icons } from "@/components/ui/icons";
 
 export function SocialAuthButton() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const loginWithGoogle = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      await signInWithGoogle()
+      await signInWithGoogle();
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <Button variant="outline" type="button" disabled={isLoading} onClick={loginWithGoogle}>
+    <Button
+      variant="outline"
+      type="button"
+      disabled={isLoading}
+      onClick={loginWithGoogle}
+    >
       {isLoading ? (
         <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
       ) : (
@@ -30,5 +35,5 @@ export function SocialAuthButton() {
       )}{" "}
       Google
     </Button>
-  )
+  );
 }

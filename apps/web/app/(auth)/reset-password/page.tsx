@@ -1,11 +1,11 @@
-import { type Metadata } from "next"
+import { type Metadata } from "next";
 
-import { ForgotPasswordForm } from "@/components/auth/forgot-password-form"
+import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 
 export const metadata: Metadata = {
   title: "Reset Password - Crosslist",
   description: "Reset your password",
-}
+};
 
 export default function ResetPasswordPage() {
   return (
@@ -18,5 +18,5 @@ export default function ResetPasswordPage() {
       </div>
       <ForgotPasswordForm />
     </div>
-  )
+  );
 }

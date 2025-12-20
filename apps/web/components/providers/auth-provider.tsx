@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { Session } from '@supabase/supabase-js';
-import { createClient } from '@/lib/supabase/client';
-import { useExtensionBridge } from '@/hooks/use-extension-bridge';
-import { AuthStateSyncMessage } from '@crosslist/shared';
+import { createContext, useContext, useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
+import { useExtensionBridge } from "@/hooks/use-extension-bridge";
+import { AuthStateSyncMessage } from "@crosslist/shared";
 
 type AuthContextType = {
   session: Session | null;
@@ -16,7 +16,11 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
 });
 
-export function SupabaseAuthProvider({ children }: { children: React.ReactNode }) {
+export function SupabaseAuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { sendMessage } = useExtensionBridge();
@@ -30,7 +34,7 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
       // Sync initial state if logged in
       if (session) {
         sendMessage({
-          type: 'AUTH_STATE_SYNC',
+          type: "AUTH_STATE_SYNC",
           payload: { session },
         } as AuthStateSyncMessage);
       }
@@ -45,7 +49,7 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
 
       // Sync state to extension
       sendMessage({
-        type: 'AUTH_STATE_SYNC',
+        type: "AUTH_STATE_SYNC",
         payload: { session },
       } as AuthStateSyncMessage);
     });

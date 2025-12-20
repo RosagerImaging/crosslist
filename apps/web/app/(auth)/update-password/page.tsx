@@ -1,11 +1,11 @@
-import { type Metadata } from "next"
+import { type Metadata } from "next";
 
-import { UpdatePasswordForm } from "@/components/auth/update-password-form"
+import { UpdatePasswordForm } from "@/components/auth/update-password-form";
 
 export const metadata: Metadata = {
   title: "Update Password - Crosslist",
   description: "Update your password",
-}
+};
 
 export default function UpdatePasswordPage() {
   return (
@@ -18,5 +18,5 @@ export default function UpdatePasswordPage() {
       </div>
       <UpdatePasswordForm />
     </div>
-  )
+  );
 }

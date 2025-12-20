@@ -1,0 +1,34 @@
+# BMAD Method v6 Project Configuration
+# Generated: 2025-12-18
+
+project_name: "Crosslist"
+project_type: "web-app"
+project_level: 3
+output_folder: "docs"
+
+# BMM (BMAD Method Manager) Configuration
+bmm:
+  workflow_status_file: "docs/bmm-workflow-status.yaml"
+  sprint_status_file: "docs/sprint-artifacts/sprint-status.yaml"
+
+# Project Paths
+paths:
+  docs: "docs"
+  stories: "docs/stories"
+  tests: "tests"
+  architecture: "docs/architecture"
+  epics: "docs/epics"
+
+# Agent Overrides
+# Place agent-specific configuration in bmad/agent-overrides/
+agent_overrides_path: "bmad/agent-overrides"
+
+# Project Metadata
+metadata:
+  description: "AI Native e-commerce reseller's inventory management system - SaaS web app with mobile counterpart, Supabase backend, and Chrome extension for marketplace integration"
+  tech_stack:
+    - "Next.js"
+    - "Supabase"
+    - "React Native (mobile)"
+    - "Chrome Extension"
+  initialized: "2025-12-18"
