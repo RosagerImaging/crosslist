@@ -4,7 +4,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, "../../"),
-  /* config options here */
 };
 
 export default withSentryConfig(nextConfig, {

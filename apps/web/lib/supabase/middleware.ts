@@ -30,6 +30,14 @@ export async function updateSession(request: NextRequest) {
           });
         },
       },
+      auth: {
+        flowType: "pkce",
+      },
+      global: {
+        headers: {},
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      realtime: undefined as any, // Disable realtime for Edge runtime compatibility
     },
   );
 
