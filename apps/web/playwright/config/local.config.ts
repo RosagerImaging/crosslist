@@ -16,7 +16,6 @@ export default defineConfig({
     command: `npm run build --workspace=apps/web && PORT=${PORT} npm run start --workspace=apps/web`,
     url: BASE_URL,
     reuseExistingServer: false, // Explicitly set to false
-    launchTimeout: 300000, // 5 minutes (additional timeout for server launch)
-    timeout: 240000,
+    timeout: 300000, // 5 minutes timeout for server launch
   },
 });
