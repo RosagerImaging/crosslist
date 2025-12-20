@@ -49,9 +49,11 @@ export default [
       "apps/web/app/api/**/route.ts",
       "apps/web/app/auth/**/route.ts",
       "apps/web/lib/supabase/**/*.ts",
+      "apps/web/lib/hooks/**/*.ts",
       "apps/web/middleware.ts",
       "apps/web/playwright.config.ts",
-      "apps/web/playwright/**/*.{ts,js}"
+      "apps/web/playwright/**/*.{ts,js}",
+      "apps/web/src/app/api/**/route.ts"
     ],
     languageOptions: {
       globals: {
@@ -61,6 +63,8 @@ export default [
     rules: {
       "@typescript-eslint/no-require-imports": "off",
       "no-undef": "off", // Often needed for process.env
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
     },
   },
 ];

@@ -15,9 +15,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // eslint-disable-next-line no-undef
   const verificationToken = process.env.EBAY_VERIFICATION_TOKEN;
-  // eslint-disable-next-line no-undef
+
   const endpoint = process.env.EBAY_ENDPOINT_URL;
 
   if (!verificationToken || !endpoint) {

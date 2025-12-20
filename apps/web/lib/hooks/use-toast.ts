@@ -123,7 +123,7 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
-const listeners: Array<(state: State) => void> = [];
+const listeners: Array<(_: State) => void> = [];
 
 let memoryState: State = { toasts: [] };
 
@@ -166,22 +166,25 @@ function toast({ ...props }: Toast) {
   };
 }
 
-function useToast() {
-  // eslint-disable-next-line no-unused-vars
-  const [state, setState] = React.useState<State>(memoryState);
+import { useSyncExternalStore } from "react";
+// ... (keep the rest of the file as is)
 
-  React.useEffect(() => {
-    listeners.push(setState);
-    return () => {
-      const index = listeners.indexOf(setState);
-      if (index > -1) {
-        listeners.splice(index, 1);
-      }
-    };
-  }, []);
+function useToast() {
+  const state = useSyncExternalStore(
+    (onStoreChange) => {
+      listeners.push(onStoreChange);
+      return () => {
+        const index = listeners.indexOf(onStoreChange);
+        if (index > -1) {
+          listeners.splice(index, 1);
+        }
+      };
+    },
+    () => memoryState,
+  );
 
   return {
-    toasts: state.toasts,
+    ...state,
     toast,
     dismiss: (toastId?: string) =>
       dispatch({ type: actionTypes.DISMISS_TOAST, toastId }),

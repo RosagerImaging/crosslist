@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { chromium, FullConfig } from "@playwright/test";
 import path from "path";
 import { config as dotenvConfig } from "dotenv"; // Import dotenvConfig

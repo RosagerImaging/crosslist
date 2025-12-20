@@ -13,6 +13,8 @@ const eslintConfig = defineConfig([
       parser: typescriptParser,
       globals: {
         React: "readonly",
+        process: "readonly",
+        NodeJS: "readonly",
       },
     },
     plugins: {
@@ -28,7 +30,9 @@ const eslintConfig = defineConfig([
       ...nextPlugin.configs["core-web-vitals"].rules,
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
-      "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+      "no-undef": "off",
       "unicorn/filename-case": [
         "error",
         {
