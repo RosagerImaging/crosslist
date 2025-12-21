@@ -7,9 +7,6 @@ Sentry.init({
   tracesSampleRate: 1.0,
   debug: false,
 
-  // Disable features that require Node.js APIs
-  enableTracing: true,
-
   // Only send in production
   beforeSend(event) {
     if (process.env.NODE_ENV !== "production") {
