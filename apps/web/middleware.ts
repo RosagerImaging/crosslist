@@ -1,16 +1,16 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   // Simple cookie-based auth check for Edge Runtime compatibility
   // Full session validation happens in Server Components
-  const hasAuthCookie =
-    request.cookies.has("sb-access-token") ||
-    request.cookies.has("sb-refresh-token") ||
-    // Check for newer Supabase cookie format
-    Array.from(request.cookies.getAll()).some(
-      (cookie) =>
-        cookie.name.startsWith("sb-") && cookie.name.includes("-auth-token"),
-    );
+  const cookies = request.cookies.getAll();
+  const hasAuthCookie = cookies.some(
+    (cookie) =>
+      cookie.name.startsWith("sb-") &&
+      (cookie.name.includes("-auth-token") ||
+        cookie.name === "sb-access-token" ||
+        cookie.name === "sb-refresh-token"),
+  );
 
   // Redirect unauthenticated users from protected routes
   if (request.nextUrl.pathname.startsWith("/inventory") && !hasAuthCookie) {
@@ -18,12 +18,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect authenticated users from auth pages
-  if (
-    ["/login", "/signup", "/reset-password"].includes(
-      request.nextUrl.pathname,
-    ) &&
-    hasAuthCookie
-  ) {
+  const authPages = ["/login", "/signup", "/reset-password"];
+  if (authPages.includes(request.nextUrl.pathname) && hasAuthCookie) {
     return NextResponse.redirect(new URL("/inventory", request.url));
   }
 
