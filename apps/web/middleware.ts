@@ -1,28 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  // Simple cookie-based auth check for Edge Runtime compatibility
-  // Full session validation happens in Server Components
-  const cookies = request.cookies.getAll();
-  const hasAuthCookie = cookies.some(
-    (cookie) =>
-      cookie.name.startsWith("sb-") &&
-      (cookie.name.includes("-auth-token") ||
-        cookie.name === "sb-access-token" ||
-        cookie.name === "sb-refresh-token"),
-  );
-
-  // Redirect unauthenticated users from protected routes
-  if (request.nextUrl.pathname.startsWith("/inventory") && !hasAuthCookie) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  // Redirect authenticated users from auth pages
-  const authPages = ["/login", "/signup", "/reset-password"];
-  if (authPages.includes(request.nextUrl.pathname) && hasAuthCookie) {
-    return NextResponse.redirect(new URL("/inventory", request.url));
-  }
-
+export function middleware(_request: NextRequest) {
+  // Temporarily disable all auth logic to test Edge Runtime
   return NextResponse.next();
 }
 
