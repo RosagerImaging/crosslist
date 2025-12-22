@@ -1,50 +1,18 @@
 import type { NextConfig } from "next";
-import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
-  // Minimal configuration - Sentry is configured via withSentryConfig wrapper
+  // IMPORTANT: Sentry withSentryConfig wrapper removed to prevent __dirname errors
+  // The wrapper injects code that uses __dirname which is incompatible with Edge Runtime
+  //
+  // Sentry is still active:
+  // - Client-side: via instrumentation-client.ts and sentry.client.config.ts
+  // - Server-side: via instrumentation.ts -> sentry.server.config.ts
+  // - Edge Runtime: Intentionally disabled (middleware runs without Sentry)
+  //
+  // Trade-offs:
+  // - ✓ No __dirname errors in middleware
+  // - ✗ No automatic source map uploads (can be added via CLI/CI)
+  // - ✗ No tunnelRoute for ad-blocker bypass (can add manual rewrite if needed)
 };
 
-// Wrap Next.js config with Sentry configuration
-// This enables automatic source map upload and request tunneling
-export default withSentryConfig(nextConfig, {
-  // Sentry SDK and Webpack Plugin Options
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-  // Organization and project for source map uploads (optional)
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT,
-
-  // Suppress logging during build
-  silent: true,
-
-  // Route browser requests to Sentry through a Next.js rewrite
-  // Helps avoid ad-blockers blocking Sentry requests
-  tunnelRoute: "/monitoring",
-
-  // Webpack-specific options (new API in v10+)
-  webpack: {
-    // Remove debug logging in production builds
-    treeshake: {
-      removeDebugLogging: true,
-    },
-
-    // Disables automatic instrumentation of Vercel Cron Monitors
-    automaticVercelMonitors: false,
-  },
-
-  // CRITICAL: Disable automatic middleware instrumentation
-  // This prevents Sentry from automatically wrapping middleware.ts
-  // which causes __dirname errors in Edge Runtime
-  autoInstrumentMiddleware: false,
-
-  // Source map configuration
-  sourcemaps: {
-    // Hide source maps from public access
-    disable: false,
-
-    // Enable wider client file upload for better error tracking
-    assets: ["**/*.js", "**/*.map"],
-  },
-});
+export default nextConfig;
