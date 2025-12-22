@@ -34,6 +34,11 @@ export default withSentryConfig(nextConfig, {
     automaticVercelMonitors: false,
   },
 
+  // CRITICAL: Disable automatic middleware instrumentation
+  // This prevents Sentry from automatically wrapping middleware.ts
+  // which causes __dirname errors in Edge Runtime
+  autoInstrumentMiddleware: false,
+
   // Source map configuration
   sourcemaps: {
     // Hide source maps from public access
