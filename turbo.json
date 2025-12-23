@@ -22,7 +22,9 @@
         "SENTRY_ORG",
         "SENTRY_PROJECT",
         "NEXT_PUBLIC_VERCEL_URL",
-        "VERCEL_URL"
+        "VERCEL_URL",
+        "EBAY_VERIFICATION_TOKEN",
+        "EBAY_ENDPOINT_URL"
       ]
     },
     "lint": {
