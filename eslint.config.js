@@ -51,6 +51,8 @@ export default [
       "apps/web/lib/supabase/**/*.ts",
       "apps/web/lib/hooks/**/*.ts",
       "apps/web/middleware.ts",
+      "apps/web/instrumentation*.ts",
+      "apps/web/sentry.*.config.ts",
       "apps/web/playwright.config.ts",
       "apps/web/playwright/**/*.{ts,js}",
       "apps/web/src/app/api/**/route.ts"

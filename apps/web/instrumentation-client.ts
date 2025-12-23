@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-  // eslint-disable-next-line no-undef -- process.env is available in Next.js runtime
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
   integrations: [
@@ -18,7 +17,6 @@ Sentry.init({
 
   beforeSend(event) {
     // Only send errors in production
-    // eslint-disable-next-line no-undef -- process.env is available in Next.js runtime
     if (process.env.NODE_ENV !== "production") {
       console.log("Sentry event (dev mode):", event);
       return null;

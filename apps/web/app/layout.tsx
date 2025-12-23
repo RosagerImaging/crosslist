@@ -4,9 +4,9 @@ import "./globals.css";
 import { SupabaseAuthProvider } from "@/components/providers/auth-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 
-// Initialize Sentry for server-side only
-// This import only runs in Node.js server context, not in Edge Runtime or browser
-import "../sentry.server.config";
+// REMOVED: Direct Sentry import from layout.tsx
+// Sentry is now initialized via instrumentation.ts which properly isolates
+// Node.js runtime code from Edge Runtime bundles, preventing __dirname errors
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
