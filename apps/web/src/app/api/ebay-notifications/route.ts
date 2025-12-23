@@ -58,3 +58,46 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export async function POST(request: NextRequest) {
+  console.log("Received eBay marketplace account deletion notification");
+
+  try {
+    // Get the signature header for verification
+    const signature = request.headers.get("x-ebay-signature");
+
+    if (!signature) {
+      console.warn(
+        "eBay notification received without x-ebay-signature header",
+      );
+    }
+
+    // Parse the notification payload
+    const notification = await request.json();
+
+    // Log notification details
+    console.log("Notification ID:", notification.notification?.notificationId);
+    console.log("Event Date:", notification.notification?.eventDate);
+    console.log("User ID:", notification.notification?.data?.userId);
+    console.log("Username:", notification.notification?.data?.username);
+    console.log("EIAS Token:", notification.notification?.data?.eiasToken);
+
+    // TODO: Verify signature using eBay's public key
+    // See: https://developer.ebay.com/api-docs/commerce/notification/overview.html
+
+    // TODO: Delete user data from database
+    // const userId = notification.notification?.data?.userId;
+    // await deleteUserData(userId);
+
+    // Immediately acknowledge receipt per eBay requirements
+    // Acceptable status codes: 200, 201, 202, 204
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error("Error processing eBay notification:", error);
+
+    // Still return 200 OK to acknowledge receipt even if processing fails
+    // This prevents eBay from resending the notification
+    // Log the error for manual review/retry
+    return new NextResponse(null, { status: 200 });
+  }
+}
