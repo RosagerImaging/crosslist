@@ -6,7 +6,7 @@ MCP's and other servers and services to start before beginning work on the codeb
 
 **From /home/optiks/dev/mcp/serena**:
 
-```uv run serena start-mcp-server --project crosslist --context /home/optiks/dev/mcp/serena/src/serena/resources/config/contexts/gemini-archon.yml --mode /home/optiks/dev/mcp/serena/src/serena/resources/config/modes/bmad.yml --mode interactive --mode editing --project /home/optiks/dev/crosslist --transport streamable-http --port 9121
+```uv run serena start-mcp-server --project crosslist --context claude-code --mode interactive --mode editing --project /home/optiks/dev/crosslist --transport streamable-http --port 9121
 
 ```
 

@@ -4,6 +4,10 @@ import "./globals.css";
 import { SupabaseAuthProvider } from "@/components/providers/auth-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 
+// Initialize Sentry for server-side only
+// This import only runs in Node.js server context, not in Edge Runtime or browser
+import "../sentry.server.config";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
