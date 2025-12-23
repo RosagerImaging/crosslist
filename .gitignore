@@ -58,3 +58,6 @@ worktrees
 # Frameworks & Languages
 .Python
 
+
+# Sentry Config File
+.sentryclirc

@@ -8,6 +8,10 @@ export async function PUT(
   const { id } = await context.params;
   const itemData = await request.json();
 
+  if (itemData.sku === "") {
+    itemData.sku = null;
+  }
+
   const supabase = await createClient(); // This line should be here
 
   try {

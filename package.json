@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build && npm run sentry:sourcemaps",
     "dev": "turbo run dev",
     "lint": "eslint \"apps/**/*.{ts,tsx}\" --max-warnings 0",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -19,7 +19,8 @@
     "dev:api": "cd apps/api && poetry run uvicorn main:app --reload",
     "generate:api-client": "openapi-typescript-codegen --input http://localhost:8000/openapi.json --output packages/api-client/src --client axios",
     "db:types": "supabase gen types typescript --local > apps/web/types/supabase.ts",
-    "build:chrome": "cd apps/chrome-extension && vite build && cp -r icons dist/"
+    "build:chrome": "cd apps/chrome-extension && vite build && cp -r icons dist/",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org netpost --project crosslist-frontend apps/web/.next/ && sentry-cli sourcemaps upload --org netpost --project crosslist-frontend apps/web/.next/"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
@@ -62,7 +63,9 @@
     "*.{ts,tsx,md}": "prettier --write"
   },
   "dependencies": {
-    "@sentry/nextjs": "^10.30.0",
+    "@sentry/cli": "^2.58.4",
+    "@sentry/nextjs": "^10.32.1",
+    "@sentry/vite-plugin": "^4.6.1",
     "uuid": "^13.0.0"
   }
 }

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  productionBrowserSourceMaps: true,
   // IMPORTANT: Sentry withSentryConfig wrapper removed to prevent __dirname errors
   // The wrapper injects code that uses __dirname which is incompatible with Edge Runtime
   //
