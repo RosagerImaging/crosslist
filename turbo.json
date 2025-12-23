@@ -24,7 +24,11 @@
         "NEXT_PUBLIC_VERCEL_URL",
         "VERCEL_URL",
         "EBAY_VERIFICATION_TOKEN",
-        "EBAY_ENDPOINT_URL"
+        "EBAY_ENDPOINT_URL",
+        "EBAY_CLIENT_ID",
+        "EBAY_CLIENT_SECRET",
+        "EBAY_REDIRECT_URI",
+        "EBAY_RU_NAME"
       ]
     },
     "lint": {
