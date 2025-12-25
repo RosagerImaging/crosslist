@@ -1,0 +1,470 @@
+<html lang="en" class="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flux AI Reseller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    
+    <style>
+        /* Typography Override */
+        body, h1, h2, h3, p, span, div, a, button, input { 
+            font-family: 'Orbitron', sans-serif !important; 
+            font-style: italic;
+            font-weight: 700; /* Bold as requested */
+        }
+        
+        /* Grid Texture - Light Mode Version */
+        .bg-grid {
+            background-size: 60px 60px;
+            background-image: linear-gradient(to right, rgba(28, 25, 23, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(28, 25, 23, 0.05) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+        }
+
+        /* Beam Animation */
+        @keyframes beam-h {
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+        @keyframes beam-v {
+            0% { top: -100%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        .beam-h {
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.8), transparent);
+            animation: beam-h 7s infinite linear;
+        }
+        .beam-v {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(13, 148, 136, 0.8), transparent);
+            animation: beam-v 7s infinite linear;
+            animation-delay: 3.5s;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased overflow-x-hidden min-h-screen selection:bg-teal-500 selection:text-white">
+
+    <!-- Background Layers -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        
+        <!-- Canvas for Noodles -->
+        <canvas id="noodle-canvas" class="absolute inset-0 w-full h-full opacity-60"></canvas>
+
+        <!-- Grid Texture Overlay -->
+        <div class="absolute inset-0 bg-grid z-10 pointer-events-none"></div>
+
+        <!-- Scanning Beams -->
+        <div class="absolute top-[30%] w-full h-px z-20 beam-h"></div>
+        <div class="absolute left-[20%] h-full w-px z-20 beam-v"></div>
+        <div class="absolute top-[70%] w-full h-px z-20 beam-h" style="animation-delay: 2s; opacity: 0.5;"></div>
+        
+        <!-- Bottom Fade -->
+        <div class="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-stone-50 via-stone-50/80 to-transparent z-20"></div>
+    </div>
+
+    <!-- Vertical Lines Container (Subtle structure) -->
+    <div class="fixed inset-0 z-0 mx-auto max-w-7xl w-full h-full pointer-events-none flex justify-between px-6 lg:px-8 border-x border-stone-200/50">
+        <div class="hidden md:block w-px h-full bg-stone-200/50"></div>
+        <div class="hidden md:block w-px h-full bg-stone-200/50"></div>
+        <div class="hidden md:block w-px h-full bg-stone-200/50"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="relative z-50 w-full border-b border-stone-200 bg-stone-50/80 backdrop-blur-md">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="flex h-20 items-center justify-between">
+                <!-- Left Nav -->
+                <div class="flex items-center gap-10">
+                    <a href="#" class="flex items-center gap-2 group">
+                        <span class="iconify text-3xl text-teal-600 group-hover:rotate-180 transition-transform duration-700" data-icon="lucide:layers"></span>
+                        <span class="text-xl tracking-tighter text-stone-900">SYNC<span class="text-teal-600">.AI</span></span>
+                    </a>
+                    <div class="hidden md:flex gap-8 text-sm tracking-wide text-stone-600">
+                        <a href="#" class="hover:text-teal-700 transition-colors">Inventory</a>
+                        <a href="#" class="hover:text-teal-700 transition-colors">Marketplaces</a>
+                        <a href="#" class="hover:text-teal-700 transition-colors">Analytics</a>
+                    </div>
+                </div>
+
+                <!-- Right Nav -->
+                <div class="flex items-center gap-6">
+                    <a href="#" class="hidden md:block text-sm text-stone-600 hover:text-stone-900 transition-colors">Documentation</a>
+                    <a href="#" class="bg-stone-900 text-stone-50 hover:bg-teal-700 transition-all duration-300 px-5 py-2.5 text-xs sm:text-sm rounded-none shadow-lg flex items-center gap-2">
+                        <span class="iconify text-lg" data-icon="lucide:zap"></span>
+                        Connect Store
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 pt-20 lg:pt-32 pb-24">
+        
+        <!-- Hero Text -->
+        <div class="text-center max-w-4xl mx-auto mb-24">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-teal-50 border border-teal-200 text-teal-800 text-xs mb-6 uppercase tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                AI V2.0 Now Live
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl tracking-tighter text-stone-900 mb-8 leading-none drop-shadow-sm">
+                MULTICHANNEL <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-stone-800 to-teal-800">DOMINATION</span>
+            </h1>
+            <p class="text-lg md:text-xl text-stone-500 max-w-2xl mx-auto leading-relaxed mb-10">
+                The world's first AI-powered crosslisting engine. <br class="hidden md:block">
+                Draft once, sell everywhere. Sync inventory in real-time.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button class="w-full sm:w-auto bg-teal-700 text-white hover:bg-stone-900 hover:scale-[1.02] transition-all px-8 py-4 text-sm rounded-none shadow-xl flex items-center justify-center gap-3">
+                    <span class="iconify text-lg" data-icon="lucide:rocket"></span>
+                    <span>Start Crosslisting</span>
+                </button>
+                <button class="w-full sm:w-auto border border-stone-300 bg-white/50 hover:bg-white text-stone-800 backdrop-blur-sm px-8 py-4 text-sm rounded-none transition-all flex items-center justify-center gap-3">
+                    <span class="iconify text-lg" data-icon="lucide:play-circle"></span>
+                    <span>Watch Demo</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+            
+            <!-- Card 01: Active Sync -->
+            <div class="relative group">
+                <div class="absolute -top-10 left-0 text-teal-200 text-4xl">01</div>
+                <div class="relative overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 hover:border-teal-500/50 transition-colors duration-500 shadow-xl">
+                    <!-- Header -->
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-stone-100 rounded-none text-stone-600">
+                                <span class="iconify text-xl" data-icon="lucide:refresh-cw"></span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm text-stone-900 leading-tight uppercase tracking-wide">Sync Active</h3>
+                                <div class="text-xs text-stone-400 mt-1 flex items-center gap-2">
+                                    <span class="iconify" data-icon="lucide:clock"></span>
+                                    Est. 2m remaining
+                                </div>
+                            </div>
+                        </div>
+                        <button class="text-stone-400 hover:text-stone-800 transition-colors">
+                            <span class="iconify" data-icon="lucide:more-horizontal"></span>
+                        </button>
+                    </div>
+
+                    <!-- Marketplaces -->
+                    <div class="flex items-center justify-between gap-2 mb-6 px-2">
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-10 h-10 rounded-none bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
+                                <span class="iconify text-xl" data-icon="simple-icons:ebay"></span>
+                            </div>
+                            <span class="text-[10px] text-stone-400">Source</span>
+                        </div>
+                        
+                        <div class="flex-1 h-px bg-stone-200 relative">
+                            <div class="absolute inset-0 bg-teal-500 w-1/2 animate-pulse"></div>
+                        </div>
+
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-none bg-stone-100 border border-stone-200 flex items-center justify-center z-20 text-stone-700">
+                                <span class="iconify text-lg" data-icon="simple-icons:poshmark"></span>
+                            </div>
+                            <div class="w-10 h-10 rounded-none bg-stone-100 border border-stone-200 flex items-center justify-center z-10 text-stone-700">
+                                <span class="iconify text-lg" data-icon="simple-icons:mercari"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Item -->
+                    <div class="p-3 rounded-none bg-teal-50 border border-teal-100 flex items-start gap-3">
+                         <div class="mt-0.5 text-teal-600 animate-spin">
+                             <span class="iconify" data-icon="lucide:loader-2"></span>
+                         </div>
+                         <div class="space-y-1 w-full">
+                             <div class="flex justify-between items-center">
+                                 <p class="text-xs text-teal-900 leading-snug">Crosslisting 4 Items</p>
+                                 <span class="text-[10px] text-teal-700">75%</span>
+                             </div>
+                             <div class="w-full h-1 bg-stone-200 rounded-none overflow-hidden">
+                                 <div class="h-full bg-teal-600 w-3/4"></div>
+                             </div>
+                             <p class="text-[10px] text-teal-600/80 pt-1">
+                                 Resizing images...
+                             </p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 02: AI Optimization -->
+            <div class="relative group mt-12 lg:mt-0">
+                <div class="absolute -top-10 left-0 text-teal-200 text-4xl">02</div>
+                <div class="relative h-full overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 hover:border-teal-500/50 transition-colors duration-500 shadow-xl flex flex-col">
+                    
+                    <!-- Header -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2 bg-teal-50 rounded-none text-teal-600">
+                            <span class="iconify text-xl" data-icon="lucide:sparkles"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-sm text-stone-900 uppercase tracking-wide">AI Optimizer</h3>
+                            <span class="text-[10px] text-teal-600">Auto-Enhance On</span>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-stone-400 mb-4 border-b border-stone-200 pb-4">
+                        Product: <span class="text-stone-700">Vintage 90s Windbreaker</span>
+                    </div>
+
+                    <!-- AI Suggestions -->
+                    <div class="space-y-3 mb-auto">
+                        <!-- Price Suggestion -->
+                        <div class="flex gap-3 items-start">
+                            <span class="text-teal-600 mt-0.5"><span class="iconify" data-icon="lucide:trending-up"></span></span>
+                            <div>
+                                <p class="text-xs text-stone-700">Price Suggestion</p>
+                                <p class="text-[10px] text-stone-500">Market avg is higher. Bump to <span class="text-teal-700">$45.00</span></p>
+                            </div>
+                            <button class="ml-auto text-[10px] bg-teal-50 text-teal-700 px-2 py-1 rounded-none hover:bg-teal-100">Apply</button>
+                        </div>
+
+                        <!-- Keyword Suggestion -->
+                        <div class="flex gap-3 items-start">
+                            <span class="text-stone-400 mt-0.5"><span class="iconify" data-icon="lucide:tags"></span></span>
+                            <div>
+                                <p class="text-xs text-stone-700">SEO Keywords</p>
+                                <p class="text-[10px] text-stone-500">Added: #streetwear, #retro</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Action -->
+                    <div class="mt-6 pt-4 border-t border-stone-200">
+                        <button class="w-full py-2 bg-stone-100 hover:bg-stone-200 text-xs text-stone-600 rounded-none flex items-center justify-center gap-2 transition-colors">
+                            <span class="iconify" data-icon="lucide:wand-2"></span>
+                            Regenerate Description
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 03: Sales Metrics -->
+            <div class="relative group mt-12 lg:mt-0">
+                <div class="absolute -top-10 left-0 text-teal-200 text-4xl">03</div>
+                <div class="relative h-full overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 hover:border-teal-500/50 transition-colors duration-500 shadow-xl">
+                    
+                    <div class="flex justify-between items-center mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-stone-100 rounded-none text-stone-600">
+                                <span class="iconify text-xl" data-icon="lucide:bar-chart-3"></span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm text-stone-900 uppercase tracking-wide">Velocity</h3>
+                                <span class="text-[10px] text-stone-500">Last 30 Days</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-teal-600 flex items-center gap-1">
+                            <span class="iconify" data-icon="lucide:arrow-up-right"></span> +24%
+                        </span>
+                    </div>
+
+                    <!-- Chart Layout -->
+                    <div class="flex items-center gap-6 mb-8">
+                        <!-- CSS Donut Chart -->
+                        <div class="relative w-24 h-24 rounded-full flex items-center justify-center" style="background: conic-gradient(#0d9488 65%, #a8a29e 65% 90%, #e7e5e4 0);">
+                            <div class="absolute inset-2 bg-white rounded-full flex flex-col items-center justify-center border border-stone-100">
+                                <span class="text-lg text-stone-900">$4.2k</span>
+                                <span class="text-[8px] text-stone-400 uppercase">GMV</span>
+                            </div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="space-y-2 flex-1">
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 bg-teal-600"></div>
+                                    <span class="text-stone-600">eBay</span>
+                                </div>
+                                <span class="text-teal-700">65%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 bg-stone-400"></div>
+                                    <span class="text-stone-600">Poshmark</span>
+                                </div>
+                                <span class="text-stone-500">25%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-stone-200 flex items-center justify-between text-xs text-stone-400">
+                        <span>Items: <span class="text-stone-800">142</span></span>
+                        <span>ASP: <span class="text-stone-800">$29.50</span></span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Logos -->
+        <div class="mt-24 pt-10 border-t border-stone-200">
+             <p class="text-center text-xs text-stone-400 mb-8 uppercase tracking-[0.2em]">Supported Marketplaces</p>
+             <div class="flex flex-wrap justify-center gap-12 lg:gap-20 opacity-30 grayscale hover:grayscale-0 transition-all duration-500">
+                 <!-- Using Iconify Market Icons -->
+                 <div class="group flex flex-col items-center gap-2">
+                     <span class="iconify text-4xl hover:scale-110 transition-transform" data-icon="simple-icons:ebay"></span>
+                 </div>
+                 <div class="group flex flex-col items-center gap-2">
+                     <span class="iconify text-4xl hover:scale-110 transition-transform" data-icon="simple-icons:poshmark"></span>
+                 </div>
+                 <div class="group flex flex-col items-center gap-2">
+                     <span class="iconify text-4xl hover:scale-110 transition-transform" data-icon="simple-icons:etsy"></span>
+                 </div>
+                 <div class="group flex flex-col items-center gap-2">
+                     <span class="iconify text-4xl hover:scale-110 transition-transform" data-icon="simple-icons:mercari"></span>
+                 </div>
+                 <div class="group flex flex-col items-center gap-2">
+                     <span class="iconify text-4xl hover:scale-110 transition-transform" data-icon="simple-icons:shopify"></span>
+                 </div>
+             </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Noodle Animation Script
+        // Draws curved lines connecting random grid points that move
+        const canvas = document.getElementById('noodle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Noodle Agent Class
+        class Noodle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                // Snap to grid of approx 60px
+                const gridSize = 60;
+                this.x = Math.floor(Math.random() * (width / gridSize)) * gridSize;
+                this.y = Math.floor(Math.random() * (height / gridSize)) * gridSize;
+                this.targetX = this.x;
+                this.targetY = this.y;
+                this.path = [];
+                this.maxPathLen = 20 + Math.random() * 30; // Length of tail
+                this.speed = 0.02 + Math.random() * 0.03; // Movement speed
+                this.timer = 0;
+                this.moveTimer = 0;
+                this.color = `rgba(13, 148, 136, ${0.1 + Math.random() * 0.2})`; // Teal transparent
+            }
+
+            update() {
+                // Move towards target
+                const dx = this.targetX - this.x;
+                const dy = this.targetY - this.y;
+                
+                this.x += dx * this.speed;
+                this.y += dy * this.speed;
+
+                // Add position to path history
+                this.path.push({x: this.x, y: this.y});
+                if (this.path.length > this.maxPathLen) {
+                    this.path.shift();
+                }
+
+                // Pick new target if close
+                if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
+                    this.x = this.targetX;
+                    this.y = this.targetY;
+                    this.pickNewTarget();
+                }
+            }
+
+            pickNewTarget() {
+                const gridSize = 60;
+                const directions = [
+                    {x: gridSize, y: 0}, {x: -gridSize, y: 0}, 
+                    {x: 0, y: gridSize}, {x: 0, y: -gridSize}
+                ];
+                const dir = directions[Math.floor(Math.random() * directions.length)];
+                
+                // 30% chance to just wait a bit or change direction
+                this.targetX = this.x + dir.x;
+                this.targetY = this.y + dir.y;
+
+                // Bounce off edges
+                if (this.targetX < 0 || this.targetX > width) this.targetX = this.x - dir.x;
+                if (this.targetY < 0 || this.targetY > height) this.targetY = this.y - dir.y;
+            }
+
+            draw() {
+                if (this.path.length < 2) return;
+                
+                ctx.beginPath();
+                ctx.moveTo(this.path[0].x, this.path[0].y);
+                
+                // Smooth curve through points
+                for (let i = 1; i < this.path.length - 1; i++) {
+                    const xc = (this.path[i].x + this.path[i + 1].x) / 2;
+                    const yc = (this.path[i].y + this.path[i + 1].y) / 2;
+                    ctx.quadraticCurveTo(this.path[i].x, this.path[i].y, xc, yc);
+                }
+                
+                // Connect to current head
+                ctx.lineTo(this.x, this.y);
+                
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+                
+                // Head Dot
+                ctx.fillStyle = 'rgba(13, 148, 136, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const noodles = Array.from({length: 15}, () => new Noodle());
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            noodles.forEach(noodle => {
+                noodle.update();
+                noodle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body></html>
