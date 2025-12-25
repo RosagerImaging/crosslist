@@ -275,5 +275,4 @@ initial_prompt: |
 project_name: "crosslist"
 languages:
 - typescript
-- python
 included_optional_tools: []

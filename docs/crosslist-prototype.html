@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crosslist - AI-Native Inventory Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Neo-Brute-Teal Design System */
+        :root {
+            /* Colors */
+            --background: oklch(0.9612 0 0);
+            --foreground: oklch(0.2178 0 0);
+            --card: oklch(0.9249 0 0);
+            --card-foreground: oklch(0.2178 0 0);
+            --primary: oklch(0.4447 0.0768 209.6869);
+            --primary-foreground: oklch(1 0 0);
+            --secondary: oklch(0.8853 0 0);
+            --secondary-foreground: oklch(0.2178 0 0);
+            --muted: oklch(0.9067 0 0);
+            --muted-foreground: oklch(0.4386 0 0);
+            --accent: oklch(0.4447 0.0768 209.6869);
+            --destructive: oklch(0.462 0.1471 25.0184);
+            --destructive-foreground: oklch(1 0 0);
+            --border: oklch(0.8047 0 0);
+            --input: oklch(0.8452 0 0);
+            --ring: oklch(0.4447 0.0768 209.6869);
+
+            /* Typography */
+            --font-display: "Orbitron", sans-serif;
+            --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+            /* Brutalist Shadows */
+            --shadow: 3px 3px 0px 0px hsl(0 0% 0% / 0.2);
+            --shadow-lg: 3px 3px 0px 0px hsl(0 0% 0% / 0.4);
+
+            /* Spacing */
+            --spacing: 0.25rem;
+            --radius: 0rem;
+            --tracking-normal: 0.02em;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: var(--background);
+            color: var(--foreground);
+            letter-spacing: var(--tracking-normal);
+            line-height: 1.6;
+        }
+
+        /* Display font for headings, buttons, and UI chrome */
+        h1, h2, h3, h4, h5, h6,
+        .btn,
+        .header,
+        .nav,
+        .nav a,
+        .logo,
+        .user-menu,
+        .sidebar,
+        .page-title,
+        .section-title,
+        .marketplace-name,
+        .marketplace-card h3,
+        .progress-card h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        /* Header */
+        .header {
+            background: var(--card);
+            border-bottom: 2px solid var(--foreground);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: var(--foreground);
+            text-decoration: none;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav a:hover {
+            border: 2px solid var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .nav a.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: 2px solid var(--foreground);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            border: 2px solid var(--foreground);
+            cursor: pointer;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        .sidebar {
+            width: 240px;
+            background: var(--secondary);
+            border-right: 2px solid var(--foreground);
+            padding: 1.5rem 1rem;
+        }
+
+        .sidebar h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: var(--foreground);
+            border: 2px solid transparent;
+            background: var(--background);
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            border: 2px solid var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: 2px solid var(--foreground);
+        }
+
+        .badge {
+            background: var(--muted);
+            padding: 0.125rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 2px solid var(--foreground);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0px 0px hsl(0 0% 0% / 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+        }
+
+        /* Search and Filters */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 240px;
+            padding: 0.75rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            border: 2px solid var(--border);
+            background: var(--background);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .dropdown {
+            padding: 0.75rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            border: 2px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--card);
+            border: 2px solid var(--foreground);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .table-info {
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--border);
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--foreground);
+            background: var(--secondary);
+        }
+
+        .table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .table tr:hover {
+            background: var(--muted);
+        }
+
+        .table-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid var(--foreground);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 2px solid var(--foreground);
+        }
+
+        .status-active {
+            background: oklch(0.7 0.15 150);
+            color: var(--foreground);
+        }
+
+        .status-sold {
+            background: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            background: var(--secondary);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        /* Crosslisting */
+        .crosslist-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .item-preview {
+            background: var(--card);
+            border: 2px solid var(--foreground);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .item-preview img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border: 2px solid var(--foreground);
+            margin-bottom: 1rem;
+        }
+
+        .item-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .marketplaces {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .marketplace-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .marketplace-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .marketplace-card.selected {
+            border-color: var(--primary);
+            border-width: 3px;
+            background: oklch(0.95 0.01 209);
+        }
+
+        .marketplace-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .marketplace-logo {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .marketplace-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .marketplace-status {
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        .status-connected {
+            color: oklch(0.5 0.15 150);
+        }
+
+        .marketplace-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Progress */
+        .progress-card {
+            background: var(--card);
+            border: 2px solid var(--foreground);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-container {
+            background: var(--muted);
+            height: 12px;
+            border: 2px solid var(--foreground);
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            background: var(--primary);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--muted);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-icon {
+            color: oklch(0.5 0.15 150);
+            font-weight: 700;
+        }
+
+        /* Options */
+        .options {
+            margin: 2rem 0;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--card);
+            border: 2px solid var(--border);
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--foreground);
+            cursor: pointer;
+        }
+
+        /* Footer Actions */
+        .footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem 0;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .breadcrumb-link {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .breadcrumb-link:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            color: var(--muted-foreground);
+            user-select: none;
+        }
+
+        .breadcrumb-current {
+            color: var(--foreground);
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+
+            .crosslist-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo">CROSSLIST</a>
+        <nav class="nav">
+            <a href="#" onclick="showInventory(); return false;" class="active" id="nav-inventory">Inventory</a>
+            <a href="#" id="nav-crosslist">Crosslist</a>
+            <a href="#" id="nav-analytics">Analytics</a>
+        </nav>
+        <div class="user-menu">
+            <span>👤</span>
+            <span>Demo User</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Status</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active">All <span class="badge">45</span></a></li>
+                <li><a href="#">Active <span class="badge">32</span></a></li>
+                <li><a href="#">Sold <span class="badge">10</span></a></li>
+                <li><a href="#">Draft <span class="badge">3</span></a></li>
+            </ul>
+
+            <h3 style="margin-top: 2rem;">Markets</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#">eBay <span class="badge">12</span></a></li>
+                <li><a href="#">Poshmark <span class="badge">8</span></a></li>
+                <li><a href="#">Etsy <span class="badge">5</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Inventory Dashboard -->
+            <div id="inventory-view">
+                <div class="page-header">
+                    <h1 class="page-title">My Inventory</h1>
+                    <button class="btn btn-primary">+ Add Item</button>
+                </div>
+
+                <div class="controls">
+                    <input type="text" class="search-input" placeholder="🔍 Search items...">
+                    <select class="dropdown">
+                        <option>Filter ▼</option>
+                        <option>Active Only</option>
+                        <option>Sold Only</option>
+                        <option>By Category</option>
+                    </select>
+                    <select class="dropdown">
+                        <option>Sort ▼</option>
+                        <option>Price: High to Low</option>
+                        <option>Price: Low to High</option>
+                        <option>Date Added</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-info">Showing 32 active items</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>☑</th>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><img src="https://via.placeholder.com/60" alt="Product" class="table-image"></td>
+                                <td>Nike Air Max 90 - White/Teal</td>
+                                <td>$85.00</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn" onclick="showCrosslist(); return false;">📤 Crosslist</button>
+                                        <button class="action-btn">✏️</button>
+                                        <button class="action-btn">⋮</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><img src="https://via.placeholder.com/60" alt="Product" class="table-image"></td>
+                                <td>Vintage Levi's 501 Jeans</td>
+                                <td>$45.00</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn" onclick="showCrosslist(); return false;">📤 Crosslist</button>
+                                        <button class="action-btn">✏️</button>
+                                        <button class="action-btn">⋮</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><img src="https://via.placeholder.com/60" alt="Product" class="table-image"></td>
+                                <td>iPhone 13 Pro Case - Leather</td>
+                                <td>$15.00</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn" onclick="showCrosslist(); return false;">📤 Crosslist</button>
+                                        <button class="action-btn">✏️</button>
+                                        <button class="action-btn">⋮</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><img src="https://via.placeholder.com/60" alt="Product" class="table-image"></td>
+                                <td>Designer Handbag - Michael Kors</td>
+                                <td>$250.00</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn" onclick="showCrosslist(); return false;">📤 Crosslist</button>
+                                        <button class="action-btn">✏️</button>
+                                        <button class="action-btn">⋮</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><img src="https://via.placeholder.com/60" alt="Product" class="table-image"></td>
+                                <td>Sony WH-1000XM4 Headphones</td>
+                                <td>$180.00</td>
+                                <td><span class="status-badge status-sold">Sold</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn">👁️</button>
+                                        <button class="action-btn">⋮</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Crosslisting Configuration -->
+            <div id="crosslist-view" class="hidden">
+                <div class="breadcrumbs">
+                    <a class="breadcrumb-link" onclick="showInventory(); return false;">Inventory</a>
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-current">Crosslist Item</span>
+                </div>
+                <div class="page-header">
+                    <h1 class="page-title">Crosslist: Nike Air Max 90</h1>
+                </div>
+
+                <div class="crosslist-layout">
+                    <div>
+                        <div class="item-preview">
+                            <img src="https://via.placeholder.com/300" alt="Nike Air Max 90">
+                            <div class="item-title">Nike Air Max 90</div>
+                            <div class="item-price">$85.00</div>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">New with tags</p>
+                            <p style="font-size: 0.875rem; margin-top: 1rem;">Current markets:</p>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">• Source only</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 style="margin-bottom: 1.5rem;">Target Marketplaces</h2>
+
+                        <div class="marketplaces">
+                            <div class="marketplace-card selected" onclick="toggleMarketplace(this)">
+                                <div class="marketplace-header">
+                                    <div class="marketplace-logo">E</div>
+                                    <div class="marketplace-name">eBay</div>
+                                    <div class="marketplace-status status-connected">✓ Connected</div>
+                                </div>
+                                <p style="font-size: 0.875rem; color: var(--muted-foreground);">Auction & Buy It Now listings</p>
+                                <div class="marketplace-actions">
+                                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">Customize →</button>
+                                </div>
+                            </div>
+
+                            <div class="marketplace-card selected" onclick="toggleMarketplace(this)">
+                                <div class="marketplace-header">
+                                    <div class="marketplace-logo">P</div>
+                                    <div class="marketplace-name">Poshmark</div>
+                                    <div class="marketplace-status status-connected">✓ Connected</div>
+                                </div>
+                                <p style="font-size: 0.875rem; color: var(--muted-foreground);">Social commerce platform</p>
+                                <div class="marketplace-actions">
+                                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">Customize →</button>
+                                </div>
+                            </div>
+
+                            <div class="marketplace-card" onclick="toggleMarketplace(this)">
+                                <div class="marketplace-header">
+                                    <div class="marketplace-logo">M</div>
+                                    <div class="marketplace-name">Mercari</div>
+                                    <div class="marketplace-status">Not connected</div>
+                                </div>
+                                <p style="font-size: 0.875rem; color: var(--muted-foreground);">Simple selling marketplace</p>
+                                <div class="marketplace-actions">
+                                    <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">Connect →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="options">
+                            <div class="option">
+                                <input type="checkbox" class="checkbox" checked>
+                                <label>Use AI to optimize descriptions per marketplace</label>
+                            </div>
+                            <div class="option">
+                                <input type="checkbox" class="checkbox" checked>
+                                <label>Automatically adjust pricing for platform fees</label>
+                            </div>
+                            <div class="option">
+                                <input type="checkbox" class="checkbox">
+                                <label>Schedule listing (coming soon)</label>
+                            </div>
+                        </div>
+
+                        <div class="footer-actions">
+                            <button class="btn btn-secondary" onclick="showInventory(); return false;">Cancel</button>
+                            <button class="btn btn-secondary">Preview</button>
+                            <button class="btn btn-primary" onclick="showProgress(); return false;">Start Crosslisting</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crosslisting Progress -->
+            <div id="progress-view" class="hidden">
+                <div class="breadcrumbs">
+                    <a class="breadcrumb-link" onclick="showInventory(); return false;">Inventory</a>
+                    <span class="breadcrumb-separator">></span>
+                    <a class="breadcrumb-link" onclick="showCrosslist(); return false;">Crosslist Item</a>
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-current">Progress</span>
+                </div>
+                <div class="page-header">
+                    <h1 class="page-title">Crosslisting in Progress...</h1>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">Nike Air Max 90</h2>
+
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div>
+                            <div style="font-size: 1.125rem; font-weight: 600;">eBay</div>
+                            <div style="font-size: 0.875rem; color: var(--muted-foreground);">Creating listing...</div>
+                        </div>
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-ebay" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div>
+                            <div style="font-size: 1.125rem; font-weight: 600;">Poshmark</div>
+                            <div style="font-size: 0.875rem; color: var(--muted-foreground);">Queued...</div>
+                        </div>
+                        <div style="color: var(--muted-foreground);">Waiting</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-poshmark" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background: oklch(0.9 0.02 209); border: 2px solid var(--primary);">
+                    <p style="font-size: 0.875rem;">ℹ️ You can safely leave this page. We'll notify you when crosslisting is complete.</p>
+                </div>
+
+                <div class="footer-actions">
+                    <button class="btn btn-secondary" onclick="showInventory(); return false;">View Inventory</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        function showInventory() {
+            document.getElementById('inventory-view').classList.remove('hidden');
+            document.getElementById('crosslist-view').classList.add('hidden');
+            document.getElementById('progress-view').classList.add('hidden');
+            document.getElementById('nav-inventory').classList.add('active');
+        }
+
+        function showCrosslist() {
+            document.getElementById('inventory-view').classList.add('hidden');
+            document.getElementById('crosslist-view').classList.remove('hidden');
+            document.getElementById('progress-view').classList.add('hidden');
+        }
+
+        function showProgress() {
+            document.getElementById('inventory-view').classList.add('hidden');
+            document.getElementById('crosslist-view').classList.add('hidden');
+            document.getElementById('progress-view').classList.remove('hidden');
+            simulateProgress();
+        }
+
+        function toggleMarketplace(card) {
+            card.classList.toggle('selected');
+        }
+
+        // Simulate crosslisting progress
+        function simulateProgress() {
+            let ebayProgress = 0;
+            let poshmarkProgress = 0;
+
+            const ebayInterval = setInterval(() => {
+                ebayProgress += Math.random() * 15;
+                if (ebayProgress >= 100) {
+                    ebayProgress = 100;
+                    clearInterval(ebayInterval);
+                    // Start Poshmark after eBay completes
+                    setTimeout(() => {
+                        const poshmarkInterval = setInterval(() => {
+                            poshmarkProgress += Math.random() * 20;
+                            if (poshmarkProgress >= 100) {
+                                poshmarkProgress = 100;
+                                clearInterval(poshmarkInterval);
+                                showComplete();
+                            }
+                            document.getElementById('progress-poshmark').style.width = poshmarkProgress + '%';
+                        }, 500);
+                    }, 500);
+                }
+                document.getElementById('progress-ebay').style.width = ebayProgress + '%';
+            }, 500);
+        }
+
+        function showComplete() {
+            setTimeout(() => {
+                document.querySelector('#progress-view .page-title').textContent = 'Crosslisting Complete! ✓';
+                document.querySelector('#progress-view h2').innerHTML = 'Nike Air Max 90 <span style="color: var(--success); font-size: 1rem;">✓ Successfully listed on 2 marketplaces</span>';
+            }, 500);
+        }
+    </script>
+</body>
+</html>
