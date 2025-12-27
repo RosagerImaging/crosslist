@@ -14,7 +14,7 @@ export default async function SettingsPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/auth/login"); // Assuming login path
+    redirect("/login");
   }
 
   // Fetch initial connection status
