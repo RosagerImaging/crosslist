@@ -9,12 +9,12 @@
     
     <style>
         /* Typography Override */
-        body, h1, h2, h3, p, span, div, a, button, input {
-            font-family: 'Orbitron', sans-serif !important;
+        body, h1, h2, h3, p, span, div, a, button, input { 
+            font-family: 'Orbitron', sans-serif !important; 
             font-style: italic;
             font-weight: 700; /* Bold as requested */
         }
-
+        
         /* Grid Texture - Light Mode Version */
         .bg-grid {
             background-size: 60px 60px;
@@ -24,23 +24,24 @@
             -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
         }
 
-        /* Perspective Grid - Floor Effect with Vanishing Point on Right */
-        .perspective-grid {
+        /* NEW: 3D Perspective Grid Floor - Rotated 90° with Right-Side Vanishing Point */
+        .perspective-grid-floor {
             position: absolute;
-            inset: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
             overflow: hidden;
             pointer-events: none;
-            perspective: 600px;
-            transform-style: preserve-3d;
+            z-index: 5;
         }
-
-        .perspective-grid canvas {
+        
+        .perspective-grid-floor canvas {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.4;
         }
 
         /* Beam Animation */
@@ -71,29 +72,64 @@
             animation-delay: 3.5s;
         }
 
-        /* Mouse Follow Effect */
-        #mouse-glow {
+        /* NEW: Edge Animations - Sliding from Left and Right */
+        @keyframes slide-from-left {
+            0% { transform: translateX(-100%); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+
+        @keyframes slide-from-right {
+            0% { transform: translateX(100%); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(-100vw); opacity: 0; }
+        }
+
+        .edge-anim-left {
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(13, 148, 136, 0.9), rgba(13, 148, 136, 0.5), transparent);
+            box-shadow: 0 0 20px rgba(13, 148, 136, 0.6);
+            animation: slide-from-left 12s infinite ease-in-out;
+            left: 0;
+        }
+
+        .edge-anim-right {
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(270deg, rgba(13, 148, 136, 0.9), rgba(13, 148, 136, 0.5), transparent);
+            box-shadow: 0 0 20px rgba(13, 148, 136, 0.6);
+            animation: slide-from-right 12s infinite ease-in-out;
+            right: 0;
+        }
+
+        /* NEW: Mouse Follow Animation - Enhanced Visibility */
+        .mouse-follow {
             position: fixed;
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(13, 148, 136, 0.3) 0%, rgba(13, 148, 136, 0.1) 30%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(13, 148, 136, 0.65) 0%, rgba(13, 148, 136, 0.45) 20%, rgba(13, 148, 136, 0.25) 40%, rgba(13, 148, 136, 0.12) 60%, rgba(13, 148, 136, 0.05) 75%, rgba(13, 148, 136, 0.02) 85%, rgba(13, 148, 136, 0.01) 92%, transparent 100%);
             pointer-events: none;
-            z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease;
-            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1;
+            mix-blend-mode: multiply;
         }
 
-        /* Neo-Brutalist Card Styling */
-        .neo-card {
-            border: 3px solid #000 !important;
-            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.8) !important;
+        /* NEW: Neo-Brutalist Card Styling - Bold Black Outlines */
+        .neo-brutalist-card {
+            border: 4px solid #000000 !important;
+            box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1) !important;
         }
-
-        .neo-card:hover {
-            box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.9) !important;
+        
+        .neo-brutalist-card:hover {
             transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 1) !important;
         }
 
         /* Hide scrollbar */
@@ -102,28 +138,36 @@
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased overflow-x-hidden min-h-screen selection:bg-teal-500 selection:text-white">
 
-    <!-- Mouse Follow Glow Effect -->
-    <div id="mouse-glow"></div>
+    <!-- NEW: Mouse Follow Effect -->
+    <div class="mouse-follow" id="mouseFollow"></div>
 
     <!-- Background Layers -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-
-        <!-- Perspective Floor Grid -->
-        <div class="perspective-grid z-[5]">
-            <canvas id="perspective-canvas"></canvas>
-        </div>
-
+        
         <!-- Canvas for Noodles -->
         <canvas id="noodle-canvas" class="absolute inset-0 w-full h-full opacity-60"></canvas>
 
         <!-- Grid Texture Overlay -->
         <div class="absolute inset-0 bg-grid z-10 pointer-events-none"></div>
 
+        <!-- NEW: 3D Perspective Grid Floor -->
+        <div class="perspective-grid-floor">
+            <canvas id="perspective-grid-canvas"></canvas>
+        </div>
+
         <!-- Scanning Beams -->
         <div class="absolute top-[30%] w-full h-px z-20 beam-h"></div>
         <div class="absolute left-[20%] h-full w-px z-20 beam-v"></div>
         <div class="absolute top-[70%] w-full h-px z-20 beam-h" style="animation-delay: 2s; opacity: 0.5;"></div>
-        
+
+        <!-- NEW: Edge Animations from Left and Right -->
+        <div class="edge-anim-left z-20" style="top: 20%;"></div>
+        <div class="edge-anim-right z-20" style="top: 25%; animation-delay: 2s;"></div>
+        <div class="edge-anim-left z-20" style="top: 45%; animation-delay: 4s;"></div>
+        <div class="edge-anim-right z-20" style="top: 60%; animation-delay: 6s;"></div>
+        <div class="edge-anim-left z-20" style="top: 75%; animation-delay: 8s;"></div>
+        <div class="edge-anim-right z-20" style="top: 85%; animation-delay: 10s;"></div>
+
         <!-- Bottom Fade -->
         <div class="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-stone-50 via-stone-50/80 to-transparent z-20"></div>
     </div>
@@ -155,7 +199,7 @@
                 <!-- Right Nav -->
                 <div class="flex items-center gap-6">
                     <a href="#" class="hidden md:block text-sm text-stone-600 hover:text-stone-900 transition-colors">Documentation</a>
-                    <a href="#" class="bg-stone-900 text-stone-50 hover:bg-teal-700 transition-all duration-300 px-5 py-2.5 text-xs sm:text-sm rounded-none shadow-lg flex items-center gap-2">
+    <a href="#" class="bg-stone-900 text-stone-50 hover:bg-teal-700 transition-all duration-300 px-5 py-2.5 text-xs sm:text-sm rounded-none shadow-lg flex items-center gap-2">
                         <span class="iconify text-lg" data-icon="lucide:zap"></span>
                         Connect Store
                     </a>
@@ -173,9 +217,9 @@
                 <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
                 AI V2.0 Now Live
             </div>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl tracking-tighter text-stone-900 mb-8 leading-none drop-shadow-sm">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl tracking-tighter text-stone-900 mb-8 leading-none drop-shadow-sm overflow-visible px-2">
                 MULTICHANNEL <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-stone-800 to-teal-800">DOMINATION</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-stone-800 to-teal-800 inline-block pr-4">DOMINATION</span>
             </h1>
             <p class="text-lg md:text-xl text-stone-500 max-w-2xl mx-auto leading-relaxed mb-10">
                 The world's first AI-powered crosslisting engine. <br class="hidden md:block">
@@ -196,10 +240,10 @@
         <!-- Cards Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
             
-            <!-- Card 01: Active Sync -->
+            <!-- Card 01: Active Sync - WITH NEO-BRUTALIST STYLING -->
             <div class="relative group">
                 <div class="absolute -top-10 left-0 text-teal-200 text-4xl">01</div>
-                <div class="neo-card relative overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 hover:border-teal-500/50 transition-all duration-500 shadow-xl">
+                <div class="neo-brutalist-card relative overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 transition-all duration-300">
                     <!-- Header -->
                     <div class="flex justify-between items-start mb-6">
                         <div class="flex items-center gap-3">
@@ -263,10 +307,10 @@
                 </div>
             </div>
 
-            <!-- Card 02: AI Optimization -->
+            <!-- Card 02: AI Optimization - WITH NEO-BRUTALIST STYLING -->
             <div class="relative group mt-12 lg:mt-0">
                 <div class="absolute -top-10 left-0 text-teal-200 text-4xl">02</div>
-                <div class="neo-card relative h-full overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 hover:border-teal-500/50 transition-all duration-500 shadow-xl flex flex-col">
+                <div class="neo-brutalist-card relative h-full overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 transition-all duration-300 flex flex-col">
                     
                     <!-- Header -->
                     <div class="flex items-center gap-3 mb-4">
@@ -315,10 +359,10 @@
                 </div>
             </div>
 
-            <!-- Card 03: Sales Metrics -->
+            <!-- Card 03: Sales Metrics - WITH NEO-BRUTALIST STYLING -->
             <div class="relative group mt-12 lg:mt-0">
                 <div class="absolute -top-10 left-0 text-teal-200 text-4xl">03</div>
-                <div class="neo-card relative h-full overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 hover:border-teal-500/50 transition-all duration-500 shadow-xl">
+                <div class="neo-brutalist-card relative h-full overflow-hidden rounded-none border border-stone-200 bg-white/70 backdrop-blur-xl p-6 transition-all duration-300">
                     
                     <div class="flex justify-between items-center mb-8">
                         <div class="flex items-center gap-3">
@@ -400,8 +444,168 @@
     </main>
 
     <script>
-        // Noodle Animation Script
-        // Draws curved lines connecting random grid points that move
+        // ============================================
+        // NEW: Mouse Follow Animation
+        // ============================================
+        const mouseFollow = document.getElementById('mouseFollow');
+        let mouseX = 0, mouseY = 0;
+        let currentX = 0, currentY = 0;
+        const speed = 0.15; // Smoothing factor
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateMouseFollow() {
+            // Smooth easing
+            currentX += (mouseX - currentX) * speed;
+            currentY += (mouseY - currentY) * speed;
+            
+            mouseFollow.style.left = currentX + 'px';
+            mouseFollow.style.top = currentY + 'px';
+            
+            requestAnimationFrame(animateMouseFollow);
+        }
+        animateMouseFollow();
+
+        // ============================================
+        // NEW: 3D Perspective Grid Floor
+        // ============================================
+        const perspectiveCanvas = document.getElementById('perspective-grid-canvas');
+        const perspectiveCtx = perspectiveCanvas.getContext('2d');
+        
+        function resizePerspectiveCanvas() {
+            perspectiveCanvas.width = window.innerWidth;
+            perspectiveCanvas.height = window.innerHeight;
+            drawPerspectiveGrid();
+        }
+        
+        function drawPerspectiveGrid() {
+            const ctx = perspectiveCtx;
+            const width = perspectiveCanvas.width;
+            const height = perspectiveCanvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // CHANGE 1: Vanishing point moved off-screen to the RIGHT (same height: 35%)
+            const vanishingX = width * 2.0; // FAR OFF-SCREEN to the right
+            const vanishingY = height * 0.35; // 35% down - SAME height as before
+
+            // Grid parameters - MUST match the existing bg-grid (60px)
+            const gridSpacing = 60;
+
+            // The horizontal line where the wall meets the floor (THIS IS DIFFERENT FROM VANISHING POINT)
+            const cornerLineY = height * 0.78; // 78% down - where the floor starts (the 90-degree corner)
+
+            // Draw perspective lines from grid intersections to vanishing point
+            // These create the "floor" receding into the distance (now to the RIGHT)
+
+            // Calculate grid offset to align with existing bg-grid
+            // The bg-grid starts at 0,0 so we need to match that
+            const numVerticalGridLines = Math.ceil(width / gridSpacing) + 4;
+            const startOffset = 0; // Align with bg-grid which starts at 0
+
+            for (let i = -2; i <= numVerticalGridLines; i++) {
+                const x = startOffset + (i * gridSpacing);
+
+                // Skip if out of reasonable bounds
+                if (x < -gridSpacing || x > width + gridSpacing) continue;
+
+                // Each vertical line on the corner line connects to the vanishing point
+                // Creating the appearance of floor tiles receding into distance
+
+                const distFromCenter = Math.abs(x - vanishingX) / width;
+                // CHANGE 2: Increased opacity for darker, more visible lines
+                const opacity = Math.max(0.15, 0.35 * (1 - distFromCenter * 0.5));
+                ctx.strokeStyle = `rgba(28, 25, 23, ${opacity})`;
+                ctx.lineWidth = 1.5;
+
+                // Draw line from grid intersection at corner line TO vanishing point
+                ctx.beginPath();
+                ctx.moveTo(x, cornerLineY);
+                ctx.lineTo(vanishingX, vanishingY);
+                ctx.stroke();
+
+                // Also draw line from bottom of screen TO corner line (floor extends forward)
+                // CHANGE 2: Increased opacity
+                const bottomOpacity = Math.max(0.25, 0.40 * (1 - distFromCenter * 0.3));
+                ctx.strokeStyle = `rgba(28, 25, 23, ${bottomOpacity})`;
+
+                ctx.beginPath();
+                ctx.moveTo(x, height);
+                ctx.lineTo(x, cornerLineY);
+                ctx.stroke();
+            }
+
+            // CHANGE 3: Draw horizontal/cross lines on the floor (creating grid squares)
+            // These should align with the 60px spacing as they recede
+            const numHorizontalFloorLines = Math.floor((height - cornerLineY) / gridSpacing) + 5;
+
+            for (let i = 1; i <= numHorizontalFloorLines; i++) {
+                // Calculate y position - start from bottom and move up in grid spacing
+                const baseY = height - (i * gridSpacing);
+
+                // If we're above the corner line, apply perspective
+                let y = baseY;
+                if (baseY < cornerLineY) {
+                    // Apply perspective compression for lines above the corner
+                    const distAboveCorner = cornerLineY - baseY;
+                    const compressionFactor = Math.pow(0.7, i - Math.floor((height - cornerLineY) / gridSpacing));
+                    y = cornerLineY - (distAboveCorner * compressionFactor);
+                }
+
+                if (y < cornerLineY - 100) break; // Don't draw too far into distance
+
+                // Calculate the horizontal cross lines with RIGHT-SIDE perspective
+                // Lines should angle toward the vanishing point on the right
+                const yProgressAboveCorner = Math.max(0, (cornerLineY - y) / (cornerLineY - vanishingY));
+
+                // CHANGE 2: Increased opacity for horizontal lines
+                const opacity = y >= cornerLineY ?
+                    0.30 : // Below corner line - darker and more visible
+                    Math.max(0.12, 0.30 * (1 - yProgressAboveCorner)); // Above corner - fade with distance
+
+                ctx.strokeStyle = `rgba(28, 25, 23, ${opacity})`;
+                ctx.lineWidth = 1;
+
+                ctx.beginPath();
+
+                // Draw from left edge to right edge, angling toward vanishing point as we go into distance
+                if (y >= cornerLineY) {
+                    // Below corner line - straight horizontal lines
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                } else {
+                    // Above corner line - angled toward vanishing point
+                    // Left edge: starts lower
+                    // Right edge: angles up toward vanishing point
+                    const leftY = y;
+                    const rightY = y + (vanishingY - y) * 0.1; // Subtle angle toward vanishing point
+
+                    ctx.moveTo(0, leftY);
+                    ctx.lineTo(width, rightY);
+                }
+
+                ctx.stroke();
+            }
+
+            // Draw the corner line itself (where wall meets floor) - make it more visible
+            // CHANGE 2: Increased opacity
+            ctx.strokeStyle = 'rgba(28, 25, 23, 0.45)';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(0, cornerLineY);
+            ctx.lineTo(width, cornerLineY);
+            ctx.stroke();
+        }
+        
+        window.addEventListener('resize', resizePerspectiveCanvas);
+        resizePerspectiveCanvas();
+
+        // ============================================
+        // EXISTING: Noodle Animation Script
+        // ============================================
         const canvas = document.getElementById('noodle-canvas');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -413,7 +617,7 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Noodle Agent Class
+        // Noodle Agent Class - CHANGE 4: Extended to work on floor grid
         class Noodle {
             constructor() {
                 this.reset();
@@ -432,13 +636,16 @@
                 this.timer = 0;
                 this.moveTimer = 0;
                 this.color = `rgba(13, 148, 136, ${0.1 + Math.random() * 0.2})`; // Teal transparent
+
+                // CHANGE 4: Track if noodle is in floor area (below ~70% of screen)
+                this.isInFloorArea = this.y > height * 0.7;
             }
 
             update() {
                 // Move towards target
                 const dx = this.targetX - this.x;
                 const dy = this.targetY - this.y;
-                
+
                 this.x += dx * this.speed;
                 this.y += dy * this.speed;
 
@@ -447,6 +654,9 @@
                 if (this.path.length > this.maxPathLen) {
                     this.path.shift();
                 }
+
+                // CHANGE 4: Update floor area status
+                this.isInFloorArea = this.y > height * 0.7;
 
                 // Pick new target if close
                 if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
@@ -459,14 +669,32 @@
             pickNewTarget() {
                 const gridSize = 60;
                 const directions = [
-                    {x: gridSize, y: 0}, {x: -gridSize, y: 0}, 
+                    {x: gridSize, y: 0}, {x: -gridSize, y: 0},
                     {x: 0, y: gridSize}, {x: 0, y: -gridSize}
                 ];
                 const dir = directions[Math.floor(Math.random() * directions.length)];
-                
-                // 30% chance to just wait a bit or change direction
-                this.targetX = this.x + dir.x;
-                this.targetY = this.y + dir.y;
+
+                // CHANGE 4: When in floor area, bias movement toward horizontal and down
+                // This makes noodles feel more "floor-aware" and follow the floor grid perspective
+                if (this.isInFloorArea) {
+                    // 70% chance to move horizontally (left/right) when on floor
+                    if (Math.random() > 0.3) {
+                        const horizontalDirs = [
+                            {x: gridSize, y: 0}, {x: -gridSize, y: 0}
+                        ];
+                        const chosenDir = horizontalDirs[Math.floor(Math.random() * horizontalDirs.length)];
+                        this.targetX = this.x + chosenDir.x;
+                        this.targetY = this.y + chosenDir.y;
+                    } else {
+                        // 30% vertical movement
+                        this.targetX = this.x + dir.x;
+                        this.targetY = this.y + dir.y;
+                    }
+                } else {
+                    // Normal movement in wall area
+                    this.targetX = this.x + dir.x;
+                    this.targetY = this.y + dir.y;
+                }
 
                 // Bounce off edges
                 if (this.targetX < 0 || this.targetX > width) this.targetX = this.x - dir.x;
@@ -475,26 +703,26 @@
 
             draw() {
                 if (this.path.length < 2) return;
-                
+
                 ctx.beginPath();
                 ctx.moveTo(this.path[0].x, this.path[0].y);
-                
+
                 // Smooth curve through points
                 for (let i = 1; i < this.path.length - 1; i++) {
                     const xc = (this.path[i].x + this.path[i + 1].x) / 2;
                     const yc = (this.path[i].y + this.path[i + 1].y) / 2;
                     ctx.quadraticCurveTo(this.path[i].x, this.path[i].y, xc, yc);
                 }
-                
+
                 // Connect to current head
                 ctx.lineTo(this.x, this.y);
-                
+
                 ctx.strokeStyle = this.color;
                 ctx.lineWidth = 2;
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
                 ctx.stroke();
-                
+
                 // Head Dot
                 ctx.fillStyle = 'rgba(13, 148, 136, 0.8)';
                 ctx.beginPath();
@@ -503,7 +731,8 @@
             }
         }
 
-        const noodles = Array.from({length: 15}, () => new Noodle());
+        // CHANGE 4: Increased noodle count to populate floor area better
+        const noodles = Array.from({length: 20}, () => new Noodle());
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
@@ -517,109 +746,6 @@
         }
 
         animate();
-
-        // Perspective Floor Grid Script
-        // Creates a 3D floor grid with vanishing point on the right
-        const perspectiveCanvas = document.getElementById('perspective-canvas');
-        const perspectiveCtx = perspectiveCanvas.getContext('2d');
-
-        function resizePerspectiveCanvas() {
-            perspectiveCanvas.width = window.innerWidth;
-            perspectiveCanvas.height = window.innerHeight;
-            drawPerspectiveGrid();
-        }
-
-        function drawPerspectiveGrid() {
-            perspectiveCtx.clearRect(0, 0, perspectiveCanvas.width, perspectiveCanvas.height);
-
-            const vanishingPointX = perspectiveCanvas.width * 1.2; // Right side, off-canvas
-            const vanishingPointY = perspectiveCanvas.height * 0.5; // Middle height
-            const gridColor = 'rgba(13, 148, 136, 0.25)'; // Dark teal, more opaque
-            const gridColorFaded = 'rgba(13, 148, 136, 0.05)';
-
-            perspectiveCtx.strokeStyle = gridColor;
-            perspectiveCtx.lineWidth = 1.5;
-
-            // Draw horizontal lines (receding into distance)
-            const numHorizontalLines = 20;
-            for (let i = 0; i < numHorizontalLines; i++) {
-                const t = i / numHorizontalLines;
-                const y = perspectiveCanvas.height * 0.4 + (perspectiveCanvas.height * 0.6 * t);
-
-                // Calculate opacity fade (further = more transparent)
-                const opacity = 0.25 - (t * 0.2);
-                perspectiveCtx.strokeStyle = `rgba(13, 148, 136, ${opacity})`;
-
-                perspectiveCtx.beginPath();
-                perspectiveCtx.moveTo(0, y);
-                perspectiveCtx.lineTo(perspectiveCanvas.width, y);
-                perspectiveCtx.stroke();
-            }
-
-            // Draw vertical lines (converging to vanishing point on right)
-            const numVerticalLines = 25;
-            const startY = perspectiveCanvas.height * 0.4;
-            const bottomY = perspectiveCanvas.height;
-
-            for (let i = 0; i < numVerticalLines; i++) {
-                const t = i / numVerticalLines;
-
-                // Start points distributed across the width
-                const startX = perspectiveCanvas.width * t;
-
-                // Calculate opacity (center lines more visible)
-                const centerDistance = Math.abs(0.5 - t) * 2; // 0 at center, 1 at edges
-                const opacity = 0.25 - (centerDistance * 0.15);
-                perspectiveCtx.strokeStyle = `rgba(13, 148, 136, ${opacity})`;
-
-                perspectiveCtx.beginPath();
-                perspectiveCtx.moveTo(startX, startY);
-                perspectiveCtx.lineTo(vanishingPointX, vanishingPointY);
-                perspectiveCtx.stroke();
-            }
-        }
-
-        window.addEventListener('resize', resizePerspectiveCanvas);
-        resizePerspectiveCanvas();
-
-        // Mouse Follow Glow Effect
-        const mouseGlow = document.getElementById('mouse-glow');
-        let mouseX = 0, mouseY = 0;
-        let currentX = 0, currentY = 0;
-        let isMouseMoving = false;
-        let hideTimeout;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            if (!isMouseMoving) {
-                isMouseMoving = true;
-                mouseGlow.style.opacity = '1';
-            }
-
-            clearTimeout(hideTimeout);
-            hideTimeout = setTimeout(() => {
-                isMouseMoving = false;
-                mouseGlow.style.opacity = '0';
-            }, 2000);
-        });
-
-        // Smooth follow animation
-        function updateMouseGlow() {
-            const dx = mouseX - currentX;
-            const dy = mouseY - currentY;
-
-            currentX += dx * 0.15;
-            currentY += dy * 0.15;
-
-            mouseGlow.style.left = currentX + 'px';
-            mouseGlow.style.top = currentY + 'px';
-
-            requestAnimationFrame(updateMouseGlow);
-        }
-
-        updateMouseGlow();
     </script>
 
 </body></html>
