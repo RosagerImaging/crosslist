@@ -1,28 +1,36 @@
-// import * as Sentry from "@sentry/nextjs";
+import * as Sentry from "@sentry/nextjs";
 
-// Sentry.init({
-//   dsn: "https://ecf16cfa508a4ca22072f590909d1606@o4509919022546944.ingest.us.sentry.io/4510538093625344",
-//   integrations: [
-//     // send console.log, console.warn, and console.error calls as logs to Sentry
-//     Sentry.consoleLoggingIntegration({ levels: ["log", "warn", "error"] }),
-//     Sentry.replayIntegration({
-//       maskAllText: true,
-//       blockAllMedia: true,
-//     }),
-//   ],
-//   enableLogs: true,
+Sentry.init({
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-//   tracesSampleRate: 1.0,
-//   replaysSessionSampleRate: 0.1,
-//   replaysOnErrorSampleRate: 1.0,
-//   debug: false,
+  integrations: [
+    // Send console.log, console.warn, and console.error calls as logs to Sentry
+    Sentry.consoleLoggingIntegration({ levels: ["log", "warn", "error"] }),
+    Sentry.replayIntegration({
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
+  ],
 
-//   beforeSend(event) {
-//     // Only send errors in production
-//     if (process.env.NODE_ENV !== "production") {
-//       console.log("Sentry event (dev mode):", event);
-//       return null;
-//     }
-//     return event;
-//   },
-// });
+  // Enable structured logging
+  enableLogs: true,
+
+  // Capture 100% of transactions for performance monitoring
+  tracesSampleRate: 1.0,
+
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // 10% of sessions
+  replaysOnErrorSampleRate: 1.0, // 100% of sessions with errors
+
+  // Disable debug logs in production
+  debug: false,
+
+  beforeSend(event) {
+    // Only send errors in production
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Sentry event (dev mode):", event);
+      return null;
+    }
+    return event;
+  },
+});

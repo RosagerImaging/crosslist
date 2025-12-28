@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SentryProvider } from "@/components/providers/sentry-provider";
 import { ExtensionBridgeProvider } from "@/components/providers/extension-bridge-provider";
 import { SupabaseAuthProvider } from "@/components/providers/auth-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 
-// REMOVED: Direct Sentry import from layout.tsx
-// Sentry is now initialized via instrumentation.ts which properly isolates
-// Node.js runtime code from Edge Runtime bundles, preventing __dirname errors
+// Sentry initialization:
+// - Server-side: via instrumentation.ts -> sentry.server.config.ts
+// - Client-side: via SentryProvider -> sentry.client.config.ts
+// - Edge Runtime: via instrumentation.ts -> sentry.edge.config.ts
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +36,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ExtensionBridgeProvider>
-          <SupabaseAuthProvider>
-            <QueryProvider>{children}</QueryProvider>
-          </SupabaseAuthProvider>
-        </ExtensionBridgeProvider>
+        <SentryProvider>
+          <ExtensionBridgeProvider>
+            <SupabaseAuthProvider>
+              <QueryProvider>{children}</QueryProvider>
+            </SupabaseAuthProvider>
+          </ExtensionBridgeProvider>
+        </SentryProvider>
       </body>
     </html>
   );
