@@ -5,11 +5,23 @@ import { BridgeMessage, isBridgeMessage } from "@crosslist/shared";
 
 console.log("Crosslist Bridge Content Script Loaded");
 
-// Flag to indicate extension is ready
-document.body.setAttribute(
-  "data-crosslist-extension-installed",
-  chrome.runtime.getManifest().version,
-);
+// Flag to indicate extension is ready (wait for body to exist)
+if (document.body) {
+  document.body.setAttribute(
+    "data-crosslist-extension-installed",
+    chrome.runtime.getManifest().version,
+  );
+} else {
+  // Body doesn't exist yet, set it when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body?.setAttribute(
+        "data-crosslist-extension-installed",
+        chrome.runtime.getManifest().version,
+      );
+    });
+  }
+}
 
 // 1. Listen for messages from the Web App (window)
 window.addEventListener("message", async (event) => {

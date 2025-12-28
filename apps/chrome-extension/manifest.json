@@ -40,7 +40,7 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["*://localhost/*", "https://crosslist.app/*"],
+      "matches": ["*://localhost/*", "https://crosslist-xi.vercel.app/*"],
       "js": ["content/bridge.ts"],
       "run_at": "document_start"
     }

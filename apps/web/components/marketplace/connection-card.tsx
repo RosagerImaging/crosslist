@@ -76,8 +76,15 @@ export function MarketplaceConnectionCard({
     }
 
     setError(null);
-    const url =
-      marketplace === "ebay" ? "https://www.ebay.com" : "https://poshmark.com";
+
+    // eBay uses OAuth 2.0, redirect to authorization endpoint
+    if (marketplace === "ebay") {
+      window.location.href = "/api/auth/ebay/authorize";
+      return;
+    }
+
+    // Poshmark uses cookie/session capture
+    const url = "https://poshmark.com";
     // Open in new tab
     window.open(url, "_blank");
 
