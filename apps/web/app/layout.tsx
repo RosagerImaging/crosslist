@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ExtensionBridgeProvider } from "@/components/providers/extension-bridge-provider";
 import { SupabaseAuthProvider } from "@/components/providers/auth-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 
@@ -33,9 +34,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SupabaseAuthProvider>
-          <QueryProvider>{children}</QueryProvider>
-        </SupabaseAuthProvider>
+        <ExtensionBridgeProvider>
+          <SupabaseAuthProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </SupabaseAuthProvider>
+        </ExtensionBridgeProvider>
       </body>
     </html>
   );
