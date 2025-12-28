@@ -30,9 +30,9 @@ export async function GET(request: NextRequest) {
 
   const clientId = process.env.EBAY_CLIENT_ID;
   const clientSecret = process.env.EBAY_CLIENT_SECRET;
-  const redirectUri = process.env.EBAY_REDIRECT_URI;
+  const ruName = process.env.EBAY_RU_NAME;
 
-  if (!clientId || !clientSecret || !redirectUri) {
+  if (!clientId || !clientSecret || !ruName) {
     console.error("Missing eBay OAuth configuration");
     const returnUrl = state || "/settings";
     return NextResponse.redirect(
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         body: new URLSearchParams({
           grant_type: "authorization_code",
           code,
-          redirect_uri: redirectUri,
+          redirect_uri: ruName,
         }),
       },
     );

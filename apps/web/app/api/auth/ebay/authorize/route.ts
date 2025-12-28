@@ -5,10 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function GET(request: NextRequest) {
   const clientId = process.env.EBAY_CLIENT_ID;
-  const redirectUri = process.env.EBAY_REDIRECT_URI;
   const ruName = process.env.EBAY_RU_NAME;
 
-  if (!clientId || !redirectUri || !ruName) {
+  if (!clientId || !ruName) {
     console.error("Missing eBay OAuth configuration");
     return NextResponse.json(
       { error: "eBay OAuth is not configured" },
@@ -26,7 +25,7 @@ export async function GET(request: NextRequest) {
 
   authUrl.searchParams.set("client_id", clientId);
   authUrl.searchParams.set("response_type", "code");
-  authUrl.searchParams.set("redirect_uri", redirectUri);
+  authUrl.searchParams.set("redirect_uri", ruName);
   authUrl.searchParams.set(
     "scope",
     [
