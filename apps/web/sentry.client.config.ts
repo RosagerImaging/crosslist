@@ -1,7 +1,9 @@
 import * as Sentry from "@sentry/nextjs";
 
-// Only initialize in browser context
-if (typeof window !== "undefined") {
+// Only initialize in browser context and only once
+if (typeof window !== "undefined" && !window.__SENTRY_INITIALIZED__) {
+  window.__SENTRY_INITIALIZED__ = true;
+
   Sentry.init({
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
@@ -37,4 +39,11 @@ if (typeof window !== "undefined") {
       return event;
     },
   });
+}
+
+// TypeScript declaration for the flag
+declare global {
+  interface Window {
+    __SENTRY_INITIALIZED__?: boolean;
+  }
 }
