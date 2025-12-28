@@ -13,6 +13,7 @@ import { BridgeMessage, isBridgeMessage } from "@crosslist/shared";
 type ExtensionBridgeContextType = {
   isExtensionAvailable: boolean;
   extensionVersion: string | null;
+  // eslint-disable-next-line no-unused-vars
   sendMessage: (bridgeMessage: BridgeMessage) => void;
 };
 
