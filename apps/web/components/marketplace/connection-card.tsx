@@ -122,6 +122,14 @@ export function MarketplaceConnectionCard({
       if (!res.ok) throw new Error("Failed to disconnect");
 
       setIsConnected(false);
+
+      // Clear URL params to remove success/error messages
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("success");
+        url.searchParams.delete("error");
+        window.history.replaceState({}, "", url.pathname);
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
