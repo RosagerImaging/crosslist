@@ -42,10 +42,9 @@ export class MarketplaceCredentialsService {
   }
 
   /**
-   * Disconnects a marketplace by checking connection status to false (soft disconnect)
-   * OR deleting the row. AC says "deletes credentials", so we should probably Delete
-   * OR clear the credential_data and set is_connected=false.
-   * The AC-2.3.9 says "deletes credentials from database". So we will DELETE.
+   * Disconnects a marketplace by deleting OAuth tokens from marketplace_connections table.
+   * For OAuth marketplaces (eBay), tokens are stored in marketplace_connections.
+   * For session-based marketplaces (Poshmark), credentials are in marketplace_credentials.
    */
   static async disconnectCredential(
     userId: string,
@@ -53,10 +52,22 @@ export class MarketplaceCredentialsService {
   ) {
     const supabase = await createClient();
 
+    // eBay uses OAuth (marketplace_connections table)
+    // Poshmark uses session capture (marketplace_credentials table)
+    const tableName =
+      marketplace === "ebay"
+        ? "marketplace_connections"
+        : "marketplace_credentials";
+
+    const matchColumn =
+      marketplace === "ebay"
+        ? { user_id: userId, marketplace }
+        : { user_id: userId, marketplace_type: marketplace };
+
     const { error } = await supabase
-      .from("marketplace_credentials")
+      .from(tableName)
       .delete()
-      .match({ user_id: userId, marketplace_type: marketplace });
+      .match(matchColumn);
 
     if (error) {
       console.error("Error disconnecting marketplace credential:", error);
