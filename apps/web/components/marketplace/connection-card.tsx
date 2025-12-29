@@ -19,6 +19,11 @@ export function MarketplaceConnectionCard({
   // Use the bridge hook to listen for messages
   const { isExtensionAvailable } = useExtensionBridge();
 
+  // Sync state when initialStatus prop changes (e.g., after OAuth redirect)
+  useEffect(() => {
+    setIsConnected(initialStatus);
+  }, [initialStatus]);
+
   const handleConnect = useCallback(
     async (credentials: string) => {
       setIsLoading(true);
@@ -70,7 +75,14 @@ export function MarketplaceConnectionCard({
   }, [marketplace, handleConnect]);
 
   const startConnectFlow = () => {
+    console.log("[Connection Card] startConnectFlow called", {
+      marketplace,
+      isExtensionAvailable,
+      isConnected,
+    });
+
     if (!isExtensionAvailable) {
+      console.error("[Connection Card] Extension not available");
       setError("Extension not detected. Please install it first.");
       return;
     }
@@ -79,6 +91,7 @@ export function MarketplaceConnectionCard({
 
     // eBay uses OAuth 2.0, redirect to authorization endpoint
     if (marketplace === "ebay") {
+      console.log("[Connection Card] Redirecting to eBay OAuth...");
       window.location.href = "/api/auth/ebay/authorize";
       return;
     }

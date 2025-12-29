@@ -66,14 +66,14 @@ export class MarketplaceCredentialsService {
 
   /**
    * Returns validation status for marketplaces.
-   * DOES NOT return the actual credential data for security.
+   * Checks OAuth connections from marketplace_connections table.
    */
   static async getConnectionStatus(userId: string) {
     const supabase = await createClient();
 
     const { data, error } = await supabase
-      .from("marketplace_credentials")
-      .select("marketplace_type, is_connected")
+      .from("marketplace_connections")
+      .select("marketplace, is_active")
       .eq("user_id", userId);
 
     if (error) {
@@ -88,7 +88,7 @@ export class MarketplaceCredentialsService {
     };
 
     data?.forEach((row) => {
-      statusMap[row.marketplace_type] = row.is_connected;
+      statusMap[row.marketplace] = row.is_active;
     });
 
     return statusMap;
