@@ -31,6 +31,18 @@ export default async function SettingsPage({
   const successMessage = params.success;
   const errorMessage = params.error;
 
+  // Refetch status if we have a success parameter (OAuth redirect completed)
+  if (successMessage) {
+    // Wait a moment for the database write to complete, then refetch
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    try {
+      status = await MarketplaceCredentialsService.getConnectionStatus(user.id);
+    } catch (error) {
+      console.error("Failed to refetch marketplace status:", error);
+      // Non-blocking, keep existing status
+    }
+  }
+
   return (
     <div className="container mx-auto p-6 max-w-4xl">
       <h1 className="text-3xl font-bold mb-8">Settings</h1>
